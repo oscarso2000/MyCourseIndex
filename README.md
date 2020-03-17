@@ -1,7 +1,4 @@
 # Piazza
-<<<<<<< HEAD
-Improving the Piazza search algorithm 
-=======
 Improving the Piazza search algorithm
 
 [![Build Status](https://travis-ci.org/bayoumi17m/Piazza.svg?branch=master)](https://travis-ci.org/bayoumi17m/Piazza)
@@ -60,4 +57,3 @@ and management of containerized microservices.
 ## Author
 
 Names - NetIDs - [link to github]
->>>>>>> 48f1e81f151f10a4d998c204b3ab59e2493617b1
