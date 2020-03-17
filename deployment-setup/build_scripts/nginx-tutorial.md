@@ -16,7 +16,7 @@ helm install nginx stable/nginx-ingress \
     --namespace ingress-basic \
     --set controller.replicaCount=1 \
     --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux \
-    --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux \
+    --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux
 ```
 
 We can find this ip with the following command:
