@@ -1,0 +1,65 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeInstances",
+        "ec2:DescribeRegions"
+      ],
+      "Resource": [
+        "*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetBucketLocation",
+        "s3:GetEncryptionConfiguration",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::cs4300-kops-config"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:Get*"
+      ],
+      "Resource": [
+        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/addons/*",
+        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/cluster.spec",
+        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/config",
+        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/instancegroup/*",
+        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/pki/issued/*",
+        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/pki/private/kube-proxy/*",
+        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/pki/private/kubelet/*",
+        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/pki/ssh/*",
+        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/secrets/dockerconfig"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:Get*"
+      ],
+      "Resource": "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/pki/private/calico-client/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:GetRepositoryPolicy",
+        "ecr:DescribeRepositories",
+        "ecr:ListImages",
+        "ecr:BatchGetImage"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+  ]
+}
