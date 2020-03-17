@@ -18,6 +18,7 @@ jwt = "^0.6.1"
 flask-oidc = "^1.4.0"
 connexion = "^2.6.0"
 piazza-api = {file = "./piazza-api/dist/piazza_api-0.1.0-py3-none-any.whl"}
+gunicorn = "^20.0.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.3"
