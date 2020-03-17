@@ -32,7 +32,7 @@ git clone
 ### Prerequisites
 
 - Python v3.7.6
-- _____ Cloud account
+- AWS Cloud account
 - Poetry
 
 ### Project Structure

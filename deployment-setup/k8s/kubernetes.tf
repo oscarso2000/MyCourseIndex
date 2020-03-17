@@ -161,7 +161,7 @@ resource "aws_autoscaling_group" "master-us-east-1a-masters-cs4300-k8s-mycoursei
   min_size             = 1
   vpc_zone_identifier  = ["${aws_subnet.us-east-1a-cs4300-k8s-mycourseindex-vpc.id}"]
 
-  tags =[
+  tags = [
     {
         key                 = "KubernetesCluster"
         value               = "cs4300.k8s.mycourseindex.vpc"
@@ -487,7 +487,7 @@ resource "aws_route53_record" "api-cs4300-k8s-mycourseindex-vpc" {
     evaluate_target_health = false
   }
 
-  zone_id = "/hostedzone/Z05806161M6BJLM1JAUEM"
+  zone_id = "/hostedzone/Z06551073LATN2FDHAVMO"
 }
 
 resource "aws_route53_record" "bastion-cs4300-k8s-mycourseindex-vpc" {
@@ -500,7 +500,7 @@ resource "aws_route53_record" "bastion-cs4300-k8s-mycourseindex-vpc" {
     evaluate_target_health = false
   }
 
-  zone_id = "/hostedzone/Z05806161M6BJLM1JAUEM"
+  zone_id = "/hostedzone/Z06551073LATN2FDHAVMO"
 }
 
 resource "aws_route_table" "cs4300-k8s-mycourseindex-vpc" {
