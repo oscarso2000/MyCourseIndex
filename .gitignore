@@ -12,7 +12,7 @@ __pycache__/
 deployment-setup/build_scripts/kube-secrets.txt
 deployment-setup/build_scripts/setup-secrets.sh
 **/.terraform/*
-**/.terraform.tfstate
+**/terraform.tfstate
 **/terraform.tfstate.backup
 
 # C extensions
