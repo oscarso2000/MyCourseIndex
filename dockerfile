@@ -8,12 +8,15 @@ ENV PIP_DEFAULT_TIMEOUT=100 \
 RUN pip install -U pip
 RUN pip install "poetry==$POETRY_VERSION"
 
-COPY poetry.lock .
-COPY pyproject.toml .
-RUN poetry install --no-interaction --no-ansi --no-dev --no-root
-
 WORKDIR /app
 COPY . /app
+
+RUN cd piazza-api
+RUN poetry install
+RUN poetry build
+RUN cd ..
+
+RUN poetry install --no-interaction --no-ansi --no-dev --no-root
 
 EXPOSE 5000
 
