@@ -1,7 +1,8 @@
 branches:
   only:
   - master
-sudo: required
+# sudo: required
+os: linux
 dist: bionic
 language: generic
 services:
@@ -18,7 +19,7 @@ install:
 script:
 # - "./deployment-setup/build_scripts/deploy-terraform.sh"
 # - "./deployment-setup/build_scripts/build-docker.sh"
-- "“./deployment-setup/build_scripts/deploy-k8s.sh”"
+- "./deployment-setup/build_scripts/deploy-k8s.sh"
 env:
   global:
   - secure: FQ+f01Uv3tTth+3eIIJ7fgE3FpNT3G35vWHTDxKpL7eANokR3XPPr3IOMiKm643Ekal6BfBEuichDpi9PkG49RTViQgFspnzGMXSpuaQl2sqQcCvvRBgK9i5CHKLdGFagKLH0FYaneUUA98XYDT8np5PRlZy6FSYXmYR7l52nFx98l6ltYW8/BtlnJn96qMVE7P4leMvIVgDO/e0X9TOyb3XNuNNbDiTRS6FKoJwCJwCBKQBsAudDJ8fM8rOycT3Zz7c8T8Ivubv8nLgkzv2lWivdnRPGnpUilOSeVAVw00Lj8J5RV2xzws6u/Fx7cX27glphI0xLyI1azCec6saYDEcB7gsPSG+tWPzUdrTBjorM7dzlgbPfXG2LKcsc3F/FVx2uBy4USGEFU+63ukLjwYO6YVkC22oI2us4YVNt496WpdZrU2YiR9EYUUxye+gHmDbMVq6SNe/nC+fgOTOeYkp9y6vAOcszRaBPhT8NtDNv3mTKvqiALXWjzKIKzTRvkHQOSqXsGO+fav+UPSzeScdaxx2pZfwYvJ3ayXIpla0OxKpV9bYfSjMXh8PHxsoxQ4DsP5pWpaLwatY2EP+pwNcH6DWwzOM9ca82Mo1fmX9yLObx2iCEUl5Z89gMt3tsvYHbYGsC/hhkaLsRr4N5sIBpJxkWxizmIdUMxSw3QI=
