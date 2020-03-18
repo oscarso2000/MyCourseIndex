@@ -6,7 +6,7 @@ dist: bionic
 services:
 - docker
 before_install:
-# - chmod +x ./deployment-setup/build_scripts/install-dependencies.sh
+- chmod +x ./deployment-setup/build_scripts/install-dependencies.sh
 # - chmod +x ./deployment-setup/build_scripts/deploy-terraform.sh
 - chmod +x ./deployment-setup/build_scripts/inject-secrets.sh
 # - chmod +x ./deployment-setup/build_scripts/build-docker.sh
