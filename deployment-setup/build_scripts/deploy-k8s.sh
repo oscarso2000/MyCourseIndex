@@ -18,6 +18,7 @@ then
 else
     failure=false
     echo -e "${GREEN}====             SUCCESS             ====${NC}"
+    echo -e "${GREEN}====     NAMESERVER: $dummyempty     ====${NC}"
 fi
 echo -e "${YELLOW}==== DONE TESTING NAMESERVER RESOLUTION ====${NC}"
 
