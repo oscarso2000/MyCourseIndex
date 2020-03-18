@@ -10,7 +10,7 @@ echo "nameserver 172.31.36.87" | sudo tee -a /etc/resolv.conf
 # echo -e "${GREEN}==== Done deploying RBAC role ====${NC}"
 # echo ''
 
-docker build -t dummytest ./deployment-setup/dockerfile-kube-deploy \
+docker build -t dummytest ./deployment-setup/dockerfile \
     --build-arg KUBE_PASSWORD=$KUBE_PASSWORD \
     --build-arg AWS_KEY=$AWS_KEY \
     --build-arg AWS_SECRET_KEY=$AWS_SECRET_KEY \
