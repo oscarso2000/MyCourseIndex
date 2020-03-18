@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-RUN echo "nameserver 208.67.222.222" | sudo tee /etc/resolvconf/resolv.conf.d/base > /dev/null
+RUN echo "nameserver 208.67.222.222" | tee /etc/resolvconf/resolv.conf.d/base > /dev/null
 RUN apt-get update -y
 RUN apt-get install -y git openssl curl unzip zip
 
