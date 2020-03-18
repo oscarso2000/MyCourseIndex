@@ -19,6 +19,9 @@ failure=true
 if [ -z "$dummyempty" ];
 then
     echo -e "${RED}====             FAILURE             ====${NC}"
+elif [ "$dummyempty" = ";; connection timed out; no servers could be reached" ];
+then
+    echo -e "${RED}====             FAILURE             ====${NC}"
 else
     failure=false
     echo -e "${GREEN}====             SUCCESS             ====${NC}"
