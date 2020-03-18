@@ -1,8 +1,8 @@
 FROM ubuntu:18.04
 
-RUN echo "nameserver 8.8.8.8" >> tee /etc/resolv.conf
-RUN apt-get update -y
-RUN apt-get install -y git openssl curl unzip zip
+RUN echo "nameserver 8.8.8.8" >> tee /etc/resolv.conf && \
+    apt-get update -y && \
+    apt-get install -y git openssl curl unzip zip
 
 ARG KUBE_PASSWORD
 ARG AWS_KEY
