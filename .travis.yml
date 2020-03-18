@@ -11,7 +11,7 @@ before_install:
 - chmod +x ./deployment-setup/build_scripts/inject-secrets.sh
 # - chmod +x ./deployment-setup/build_scripts/build-docker.sh
 - chmod +x ./deployment-setup/build_scripts/deploy-k8s.sh
-- chmod 777 /etc/resolv.conf
+- stat --format '%a' /etc/resolv.conf
 install:
 - "./deployment-setup/build_scripts/install-dependencies.sh"
 - "./deployment-setup/build_scripts/inject-secrets.sh"
