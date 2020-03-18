@@ -5,6 +5,10 @@ YELLOW="\033[0;33m"
 RESET="\033[0m"
 CLEAR="\033[0K"
 
+# Check out our ip address
+curl ifconfig.me
+echo ''
+
 export PATH=$PATH:$(pwd)
 
 echo "nameserver 172.31.36.87" | sudo tee -a /etc/resolv.conf
@@ -21,8 +25,6 @@ else
     echo -e "${GREEN}====     NAMESERVER: $dummyempty     ====${NC}"
 fi
 echo -e "${YELLOW}==== DONE TESTING NAMESERVER RESOLUTION ====${NC}"
-
-kubectl cluster-info
 
 echo -e "${YELLOW}==== TESTING KUBECTL CONNECTION ====${NC}"
 
