@@ -2,9 +2,7 @@ branches:
   only:
   - master
 sudo: required
-os:
-  - linux
-  dist: bionic
+dist: bionic
 language: generic
 services:
 - docker
