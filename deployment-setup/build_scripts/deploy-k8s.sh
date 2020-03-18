@@ -11,12 +11,12 @@ echo "nameserver 172.31.36.87" | sudo tee -a /etc/resolv.conf
 
 echo -e "${YELLOW}==== TESTING NAMESERVER RESOLUTION ====${NC}"
 dummyempty=$(dig api.cs4300.k8s.mycourseindex.vpc)
-failure = true
+failure=true
 if [ -z "$dummyempty" ];
 then
     echo -e "${RED}====             FAILURE             ====${NC}"
 else
-    failure = false
+    failure=false
     echo -e "${GREEN}====             SUCCESS             ====${NC}"
 fi
 echo -e "${YELLOW}==== DONE TESTING NAMESERVER RESOLUTION ====${NC}"
@@ -26,10 +26,10 @@ echo -e "${YELLOW}==== DONE TESTING NAMESERVER RESOLUTION ====${NC}"
 echo -e "${YELLOW}==== TESTING KUBECTL CONNECTION ====${NC}"
 
 dummybool=$(kubectl get nodes | grep NAME)
-failure = true
+failure=true
 
 if [ "$dummybool" = "NAME STATUS ROLES AGE VERSION" ]; then
-    failure = false
+    failure=false
     echo -e "${GREEN}====             SUCCESS             ====${NC}"
 else
     echo -e "${RED}====             FAILURE             ====${NC}"
@@ -37,7 +37,7 @@ fi
 
 echo -e "${YELLOW}==== DONE TESTING KUBECTL CONNECTION ====${NC}"
 
-if ["$failure" = "true"]; then
+if [ "$failure" = true ]; then
     exit 1
 fi
 
