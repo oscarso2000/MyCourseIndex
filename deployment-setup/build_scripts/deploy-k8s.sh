@@ -2,7 +2,7 @@ GREEN='\033[0;32m'
 NC='\033[0;0m'
 export PATH=$PATH:$(pwd)
 
-echo "nameserver 172.31.36.87" >> /etc/resolv.conf
+echo "nameserver 172.31.36.87" | sudo tee -a /etc/resolv.conf
 
 echo -e "${GREEN}==== Deploying RBAC role ====${NC}"
 cd deployment-setup/rbac/
