@@ -6,15 +6,15 @@ RESET="\033[0m"
 CLEAR="\033[0K"
 
 # Check out our ip address
-curl ifconfig.me
-echo ''
+# curl ifconfig.me
+# echo ''
 
 export PATH=$PATH:$(pwd)
 
-echo "nameserver 172.31.36.87" | sudo tee -a /etc/resolv.conf
+# echo "nameserver 172.31.83.236" | sudo tee -a /etc/resolv.conf
 
 echo -e "${YELLOW}==== TESTING NAMESERVER RESOLUTION ====${NC}"
-dummyempty=$(dig +short api.cs4300.k8s.mycourseindex.vpc)
+dummyempty=$(dig +short api-cs4300-k8s-mycoursein-i9kj13-1386252163.us-east-1.elb.amazonaws.com)
 failure=true
 if [ -z "$dummyempty" ];
 then
