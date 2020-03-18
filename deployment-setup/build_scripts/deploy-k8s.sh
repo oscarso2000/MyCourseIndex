@@ -1,8 +1,26 @@
 GREEN='\033[0;32m'
 NC='\033[0;0m'
+RED="\033[0;31m"
+YELLOW="\033[0;33m"
+RESET="\033[0m"
+CLEAR="\033[0K"
+
 export PATH=$PATH:$(pwd)
 
-echo "nameserver 172.31.36.87" | sudo tee -a /etc/resolv.conf
+echo "nameserver 172.31.36.87" | sudo tee -a /etc/resolv.conf > /dev/null
+
+echo -e "${RED}==== TESTING KUBECTL CONNECTION ====${NC}"
+
+dummybool=$(kubectl get nodes | grep NAME)
+
+if ["$dummybool" = "NAME STATUS ROLES AGE VERSION"]
+then
+    echo -e "${YELLOW}==== SUCCESS ====${NC}"
+else
+    echo -e "${YELLOW}==== FAILURE ====${NC}"
+fi
+
+echo -e "${RED}==== DONE TESTING KUBECTL CONNECTION ====${NC}"
 
 # echo -e "${GREEN}==== Deploying RBAC role ====${NC}"
 # cd deployment-setup/rbac/
@@ -10,15 +28,15 @@ echo "nameserver 172.31.36.87" | sudo tee -a /etc/resolv.conf
 # echo -e "${GREEN}==== Done deploying RBAC role ====${NC}"
 # echo ''
 
-docker build -t dummytest ./deployment-setup/ \
-    --build-arg KUBE_PASSWORD=$KUBE_PASSWORD \
-    --build-arg AWS_KEY=$AWS_KEY \
-    --build-arg AWS_SECRET_KEY=$AWS_SECRET_KEY \
-    --build-arg DOCKER_USERNAME=$DOCKER_USERNAME \
-    --build-arg DOCKER_PASSWORD=$DOCKER_PASSWORD \
-    --build-arg CERTIFICATE_AUTHORITY_DATA=$CERTIFICATE_AUTHORITY_DATA \
-    --build-arg CLIENT_CERTIFICATE_DATA=$CLIENT_CERTIFICATE_DATA \
-    --build-arg CLIENT_KEY_DATA=$CLIENT_KEY_DATA
+# docker build -t dummytest ./deployment-setup/ \
+#     --build-arg KUBE_PASSWORD=$KUBE_PASSWORD \
+#     --build-arg AWS_KEY=$AWS_KEY \
+#     --build-arg AWS_SECRET_KEY=$AWS_SECRET_KEY \
+#     --build-arg DOCKER_USERNAME=$DOCKER_USERNAME \
+#     --build-arg DOCKER_PASSWORD=$DOCKER_PASSWORD \
+#     --build-arg CERTIFICATE_AUTHORITY_DATA=$CERTIFICATE_AUTHORITY_DATA \
+#     --build-arg CLIENT_CERTIFICATE_DATA=$CLIENT_CERTIFICATE_DATA \
+#     --build-arg CLIENT_KEY_DATA=$CLIENT_KEY_DATA
 
 # docker run -it dummytest /bin/bash &
 # export TEMPID=docker ps | grep dummytest | awk '{print $1;}'
