@@ -21,7 +21,7 @@ else
 fi
 echo -e "${YELLOW}==== DONE TESTING NAMESERVER RESOLUTION ====${NC}"
 
-
+kubectl cluster-info
 
 echo -e "${YELLOW}==== TESTING KUBECTL CONNECTION ====${NC}"
 
