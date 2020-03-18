@@ -14,7 +14,7 @@ export PATH=$PATH:$(pwd)
 echo "nameserver 172.31.36.87" | sudo tee -a /etc/resolv.conf
 
 echo -e "${YELLOW}==== TESTING NAMESERVER RESOLUTION ====${NC}"
-dummyempty=$(dig api.cs4300.k8s.mycourseindex.vpc)
+dummyempty=$(dig +short api.cs4300.k8s.mycourseindex.vpc)
 failure=true
 if [ -z "$dummyempty" ];
 then
