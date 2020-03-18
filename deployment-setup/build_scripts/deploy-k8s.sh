@@ -7,20 +7,39 @@ CLEAR="\033[0K"
 
 export PATH=$PATH:$(pwd)
 
-echo "nameserver 172.31.36.87" | sudo tee -a /etc/resolv.conf > /dev/null
+echo "nameserver 172.31.36.87" | sudo tee -a /etc/resolv.conf
 
-echo -e "${RED}==== TESTING KUBECTL CONNECTION ====${NC}"
+echo -e "${YELLOW}==== TESTING NAMESERVER RESOLUTION ====${NC}"
+dummyempty=$(dig api.cs4300.k8s.mycourseindex.vpc)
+failure = true
+if [ -z "$dummyempty" ];
+then
+    echo -e "${RED}====             FAILURE             ====${NC}"
+else
+    failure = false
+    echo -e "${GREEN}====             SUCCESS             ====${NC}"
+fi
+echo -e "${YELLOW}==== DONE TESTING NAMESERVER RESOLUTION ====${NC}"
+
+
+
+echo -e "${YELLOW}==== TESTING KUBECTL CONNECTION ====${NC}"
 
 dummybool=$(kubectl get nodes | grep NAME)
+failure = true
 
-if ["$dummybool" = "NAME STATUS ROLES AGE VERSION"]
-then
-    echo -e "${YELLOW}==== SUCCESS ====${NC}"
+if [ "$dummybool" = "NAME STATUS ROLES AGE VERSION" ]; then
+    failure = false
+    echo -e "${GREEN}====             SUCCESS             ====${NC}"
 else
-    echo -e "${YELLOW}==== FAILURE ====${NC}"
+    echo -e "${RED}====             FAILURE             ====${NC}"
 fi
 
-echo -e "${RED}==== DONE TESTING KUBECTL CONNECTION ====${NC}"
+echo -e "${YELLOW}==== DONE TESTING KUBECTL CONNECTION ====${NC}"
+
+if ["$failure" = "true"]; then
+    exit 1
+fi
 
 # echo -e "${GREEN}==== Deploying RBAC role ====${NC}"
 # cd deployment-setup/rbac/
