@@ -1,5 +1,9 @@
 FROM ubuntu:18.04
 
+RUN echo "nameserver 208.67.222.222" | sudo tee /etc/resolvconf/resolv.conf.d/base > /dev/null
+RUN apt-get update -y
+RUN apt-get install -y git openssl curl unzip zip
+
 ARG KUBE_PASSWORD
 ARG AWS_KEY
 ARG AWS_SECRET_KEY
@@ -8,9 +12,6 @@ ARG DOCKER_PASSWORD
 ARG CERTIFICATE_AUTHORITY_DATA
 ARG CLIENT_CERTIFICATE_DATA
 ARG CLIENT_KEY_DATA
-
-RUN apt-get update -y
-RUN apt-get install -y git openssl curl unzip zip
 
 RUN git clone https://github.com/bayoumi17m/Piazza.git
 
