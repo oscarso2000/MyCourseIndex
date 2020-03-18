@@ -10,7 +10,7 @@ echo "nameserver 172.31.36.87" | sudo tee -a /etc/resolv.conf
 # echo -e "${GREEN}==== Done deploying RBAC role ====${NC}"
 # echo ''
 
-docker build -t dummytest -f deployment-setup/dockerfile-kube-deploy \
+docker build -t dummytest ./deployment-setup/dockerfile-kube-deploy \
     --build-arg KUBE_PASSWORD=$KUBE_PASSWORD \
     --build-arg AWS_KEY=$AWS_KEY \
     --build-arg AWS_SECRET_KEY=$AWS_SECRET_KEY \
@@ -20,14 +20,14 @@ docker build -t dummytest -f deployment-setup/dockerfile-kube-deploy \
     --build-arg CLIENT_CERTIFICATE_DATA=$CLIENT_CERTIFICATE_DATA \
     --build-arg CLIENT_KEY_DATA=$CLIENT_KEY_DATA
 
-docker run -it dummytest /bin/bash &
-export TEMPID=docker ps | grep dummytest | awk '{print $1;}'
+# docker run -it dummytest /bin/bash &
+# export TEMPID=docker ps | grep dummytest | awk '{print $1;}'
 
-echo -e "${GREEN}==== Deploying RBAC role ====${NC}"
-cd deployment-setup/rbac/
-for f in $(find ./ -name '*.yaml' -or -name '*.yml'); do docker exec -it $TEMPID kubectl apply -f deployment-setup/rbac/$f; done
-echo -e "${GREEN}==== Done deploying RBAC role ====${NC}"
-echo ''
+# echo -e "${GREEN}==== Deploying RBAC role ====${NC}"
+# cd deployment-setup/rbac/
+# for f in $(find ./ -name '*.yaml' -or -name '*.yml'); do docker exec -it $TEMPID kubectl apply -f deployment-setup/rbac/$f; done
+# echo -e "${GREEN}==== Done deploying RBAC role ====${NC}"
+# echo ''
 
 # docker exec -it $TEMPID kubectl get nodes
 

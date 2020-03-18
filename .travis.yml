@@ -1,7 +1,7 @@
 branches:
   only:
   - master
-# sudo: required
+sudo: required
 os: linux
 dist: bionic
 language: generic
