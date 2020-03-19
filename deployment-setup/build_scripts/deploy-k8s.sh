@@ -29,19 +29,19 @@ else
 fi
 echo -e "${YELLOW}==== DONE TESTING NAMESERVER RESOLUTION ====${NC}"
 
-# echo -e "${YELLOW}==== TESTING KUBECTL CONNECTION ====${NC}"
+echo -e "${YELLOW}==== TESTING KUBECTL CONNECTION ====${NC}"
 
-# dummybool=$(kubectl get nodes | grep NAME)
-# failure=true
+dummybool=$(kubectl get nodes | grep NAME)
+failure=true
 
-# if [ "$dummybool" = "NAME STATUS ROLES AGE VERSION" ]; then
-#     failure=false
-#     echo -e "${GREEN}====             SUCCESS             ====${NC}"
-# else
-#     echo -e "${RED}====             FAILURE             ====${NC}"
-# fi
+if [ "$dummybool" = "NAME STATUS ROLES AGE VERSION" ]; then
+    failure=false
+    echo -e "${GREEN}====             SUCCESS             ====${NC}"
+else
+    echo -e "${RED}====             FAILURE             ====${NC}"
+fi
 
-# echo -e "${YELLOW}==== DONE TESTING KUBECTL CONNECTION ====${NC}"
+echo -e "${YELLOW}==== DONE TESTING KUBECTL CONNECTION ====${NC}"
 
 if [ "$failure" = true ]; then
     exit 1
