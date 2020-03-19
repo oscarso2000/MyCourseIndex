@@ -31,7 +31,7 @@ echo -e "${YELLOW}==== DONE TESTING NAMESERVER RESOLUTION ====${NC}"
 
 echo -e "${YELLOW}==== TESTING KUBECTL CONNECTION ====${NC}"
 
-dummybool=$(kubectl get nodes | grep NAME)
+dummybool=$(kubectl --insecure-skip-tls-verify get nodes | grep NAME)
 failure=true
 
 if [ "$dummybool" = "NAME STATUS ROLES AGE VERSION" ]; then
