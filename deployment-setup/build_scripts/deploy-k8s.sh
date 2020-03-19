@@ -36,7 +36,7 @@ failure=true
 
 kubectl get nodes
 
-if [ "$dummybool" = "NAME STATUS ROLES AGE VERSION" ]; then
+if [ "$dummybool" = "NAME                             STATUS   ROLES    AGE   VERSION" ]; then
     failure=false
     echo -e "${GREEN}====             SUCCESS             ====${NC}"
 else
