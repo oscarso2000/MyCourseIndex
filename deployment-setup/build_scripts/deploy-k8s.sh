@@ -11,10 +11,10 @@ CLEAR="\033[0K"
 
 export PATH=$PATH:$(pwd)
 
-# echo "nameserver 172.31.83.236" | sudo tee -a /etc/resolv.conf
+# echo "nameserver 34.230.68.125" | sudo tee -a /etc/resolv.conf
 
 echo -e "${YELLOW}==== TESTING NAMESERVER RESOLUTION ====${NC}"
-dummyempty=$(dig +short api-cs4300-k8s-mycoursein-i9kj13-1386252163.us-east-1.elb.amazonaws.com)
+dummyempty=$(dig +short api.cs4300.k8s.mycourseindex.com)
 failure=true
 if [ -z "$dummyempty" ];
 then
@@ -29,19 +29,19 @@ else
 fi
 echo -e "${YELLOW}==== DONE TESTING NAMESERVER RESOLUTION ====${NC}"
 
-echo -e "${YELLOW}==== TESTING KUBECTL CONNECTION ====${NC}"
+# echo -e "${YELLOW}==== TESTING KUBECTL CONNECTION ====${NC}"
 
-dummybool=$(kubectl get nodes | grep NAME)
-failure=true
+# dummybool=$(kubectl get nodes | grep NAME)
+# failure=true
 
-if [ "$dummybool" = "NAME STATUS ROLES AGE VERSION" ]; then
-    failure=false
-    echo -e "${GREEN}====             SUCCESS             ====${NC}"
-else
-    echo -e "${RED}====             FAILURE             ====${NC}"
-fi
+# if [ "$dummybool" = "NAME STATUS ROLES AGE VERSION" ]; then
+#     failure=false
+#     echo -e "${GREEN}====             SUCCESS             ====${NC}"
+# else
+#     echo -e "${RED}====             FAILURE             ====${NC}"
+# fi
 
-echo -e "${YELLOW}==== DONE TESTING KUBECTL CONNECTION ====${NC}"
+# echo -e "${YELLOW}==== DONE TESTING KUBECTL CONNECTION ====${NC}"
 
 if [ "$failure" = true ]; then
     exit 1
