@@ -198,7 +198,7 @@ kubeControllerManager:
   attachDetachReconcileSyncPeriod: 1m0s
   cloudProvider: aws
   clusterCIDR: 100.96.0.0/11
-  clusterName: cs4300.k8s.mycourseindex.vpc
+  clusterName: cs4300.k8s.mycourseindex.com
   configureCloudRoutes: false
   image: k8s.gcr.io/kube-controller-manager:v1.16.7
   leaderElection:
@@ -264,17 +264,17 @@ Assets:
 - c31ca51b526489cd929be71fc1dc9c3cc24b6df5641b3505b467bac51862047d@https://storage.googleapis.com/kubernetes-release/release/v1.16.7/bin/linux/amd64/kubectl
 - 3ca15c0a18ee830520cf3a95408be826cbd255a1535a38e0be9608b25ad8bf64@https://storage.googleapis.com/kubernetes-release/network-plugins/cni-plugins-amd64-v0.7.5.tgz
 - f0474049e5f5e98f60f83961827d5468f2f707a5f7446e77535e267b7312200e@https://artifacts.k8s.io/binaries/kops/1.16.0/linux/amd64/utils.tar.gz,https://github.com/kubernetes/kops/releases/download/v1.16.0/linux-amd64-utils.tar.gz,https://kubeupv2.s3.amazonaws.com/kops/1.16.0/linux/amd64/utils.tar.gz
-ClusterName: cs4300.k8s.mycourseindex.vpc
-ConfigBase: s3://cs4300-kops-config/cs4300.k8s.mycourseindex.vpc
+ClusterName: cs4300.k8s.mycourseindex.com
+ConfigBase: s3://cs4300-kops-config/cs4300.k8s.mycourseindex.com
 InstanceGroupName: master-us-east-1a
 Tags:
 - _automatic_upgrades
 - _aws
 channels:
-- s3://cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/addons/bootstrap-channel.yaml
+- s3://cs4300-kops-config/cs4300.k8s.mycourseindex.com/addons/bootstrap-channel.yaml
 etcdManifests:
-- s3://cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/manifests/etcd/main.yaml
-- s3://cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/manifests/etcd/events.yaml
+- s3://cs4300-kops-config/cs4300.k8s.mycourseindex.com/manifests/etcd/main.yaml
+- s3://cs4300-kops-config/cs4300.k8s.mycourseindex.com/manifests/etcd/events.yaml
 protokubeImage:
   hash: e473a232468db76a63663055ea6ed1e12f5d7e0357285cef080a78cb0361dee0
   name: protokube:1.16.0

@@ -84,13 +84,13 @@ $ kops create cluster --cloud aws \
  --master-size t2.medium \
  --zones us-east-1a \
  --master-zones us-east-1a \
- --dns-zone k8s.mycourseindex.vpc \
+ --dns-zone mycourseindex.com \
  --vpc vpc-3adeed40 \
- --dns private \
+ --dns public \
  --topology private \
  --networking calico \
  --authorization RBAC \
- --name cs4300.k8s.mycourseindex.vpc \
+ --name cs4300.k8s.mycourseindex.com \
  --out=k8s \
  --target=terraform --yes
 ```
