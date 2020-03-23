@@ -14,12 +14,14 @@ before_install:
 - chmod +x ./deployment-setup/build_scripts/install-dependencies.sh
 # - chmod +x ./deployment-setup/build_scripts/deploy-terraform.sh
 - chmod +x ./deployment-setup/build_scripts/inject-secrets.sh
+- chmod +x ./deployment-setup/build_scripts/build-docker.sh
 - chmod +x ./deployment-setup/build_scripts/deploy-k8s.sh
 install:
 - "./deployment-setup/build_scripts/install-dependencies.sh"
 - "./deployment-setup/build_scripts/inject-secrets.sh"
 script:
 # - "./deployment-setup/build_scripts/deploy-terraform.sh"
+- "./deployment-setup/build_scripts/build-docker.sh"
 - "./deployment-setup/build_scripts/deploy-k8s.sh"
 env:
   global:
