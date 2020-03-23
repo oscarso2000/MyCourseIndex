@@ -46,11 +46,11 @@ if [ "$failure" = true ]; then
     exit 1
 fi
 
-echo -e "${GREEN}==== Deploying RBAC role ====${NC}"
-cd deployment-setup/rbac/
-for f in $(find ./ -name '*.yaml' -or -name '*.yml'); do kubectl apply -f $f; done
-echo -e "${GREEN}==== Done deploying RBAC role ====${NC}"
-echo ''
+# echo -e "${GREEN}==== Deploying RBAC role ====${NC}"
+# cd deployment-setup/rbac/
+# for f in $(find ./ -name '*.yaml' -or -name '*.yml'); do kubectl apply -f $f; done
+# echo -e "${GREEN}==== Done deploying RBAC role ====${NC}"
+# echo ''
 
 # echo -e "${GREEN}==== Deploying iam role ====${NC}"
 # cd ../kube2iam/
@@ -63,3 +63,8 @@ echo ''
 # for f in $(find ./ -name '*.yaml' -or -name '*.yml'); do kubectl apply -f $f --validate=false; done
 # echo -e "${GREEN}==== Done deploying external dns ====${NC}"
 # echo ''
+
+echo -e "${GREEN}==== Deploying Updated Application ====${NC}"
+kubectl apply -f deployment.yaml
+echo -e "${GREEN}==== Done deploying external dns ====${NC}"
+echo ''
