@@ -33,7 +33,7 @@ echo -e "${YELLOW}==== TESTING KUBECTL CONNECTION ====${NC}"
 dummybool=$(kubectl get nodes | grep NAME)
 failure=true
 
-if [ "$dummybool" = "NAME                             STATUS   ROLES    AGE   VERSION" ]; then
+if [ "$dummybool" = "NAME                             STATUS   ROLES    AGE    VERSION" ]; then
     failure=false
     echo -e "${GREEN}====             SUCCESS             ====${NC}"
 else
@@ -43,9 +43,9 @@ fi
 
 echo -e "${YELLOW}==== DONE TESTING KUBECTL CONNECTION ====${NC}"
 
-if [ "$failure" = true ]; then
-    exit 1
-fi
+# if [ "$failure" = true ]; then
+#     exit 1
+# fi
 
 # echo -e "${GREEN}==== Deploying RBAC role ====${NC}"
 # cd deployment-setup/rbac/
