@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: cs4300piazza
-        image: mb2363/cs4300piazza:18
+        image: mb2363/cs4300piazza:
         imagePullPolicy: Always
         ports:
         - name: https

@@ -64,6 +64,9 @@ fi
 # for f in $(find ./ -name '*.yaml' -or -name '*.yml'); do kubectl apply -f $f --validate=false; done
 # echo -e "${GREEN}==== Done deploying external dns ====${NC}"
 # echo ''
+echo -e "${GREEN}==== Updating deployment to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
+sed -i 's|mb2363/cs4300piazza:|mb2363/cs4300piazza:'$TRAVIS_BUILD_NUMBER'|g' deployment.yaml
+echo -e "${GREEN}==== Updated deployment to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
 
 echo -e "${GREEN}==== Deploying Updated Application ====${NC}"
 kubectl apply -f deployment.yaml
