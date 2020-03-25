@@ -38,6 +38,7 @@ if [ "$dummybool" = "NAME                             STATUS   ROLES    AGE   VE
     echo -e "${GREEN}====             SUCCESS             ====${NC}"
 else
     echo -e "${RED}====             FAILURE             ====${NC}"
+    kubectl get nodes
 fi
 
 echo -e "${YELLOW}==== DONE TESTING KUBECTL CONNECTION ====${NC}"
