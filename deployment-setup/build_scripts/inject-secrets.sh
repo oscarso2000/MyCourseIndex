@@ -1,13 +1,13 @@
 #!/bin/bash
 mkdir ~/.kube
-mv ./build-scripts/kubeconfig ~/.kube/config
+mv ./deployment-setup/build_scripts/kubeconfig ~/.kube/config
  
 #decrypt the large secrets
-openssl aes-256-cbc -K $encrypted_430356ab93ce_key -iv $encrypted_430356ab93ce_iv -in kube-secrets.txt.enc -out build_scripts/kube-secrets.txt -d
+openssl aes-256-cbc -K $encrypted_430356ab93ce_key -iv $encrypted_430356ab93ce_iv -in deployment-setup/build_scripts/kube-secrets.txt.enc -out deployment-setup/build_scripts/kube-secrets.txt -d
  
 # run the script to get the secrets as environment variables
-source ./build-scripts/kube-secrets.txt
-export $(cut -d= -f1 ./build-scripts/kube-secrets.txt)
+source ./deployment-setup/build_scripts/kube-secrets.txt
+export $(cut -d= -f1 ./deployment-setup/build_scripts/kube-secrets.txt)
  
  
 # Set kubernetes secrets

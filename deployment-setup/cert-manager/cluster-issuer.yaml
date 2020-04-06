@@ -1,0 +1,23 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+  namespace: cert-manager
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: mb2363@cornell.edu
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+      selector: {}
+    # - selector:
+    #     dnsZones:
+    #       - www.mycourseindex.com
+    #   dns01:
+    #     route53:
+    #       region: us-east-1
+    #       role: arn:aws:iam::290365077634:role/cert_manager_pod_role

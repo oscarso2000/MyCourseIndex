@@ -28,15 +28,15 @@
         "s3:Get*"
       ],
       "Resource": [
-        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/addons/*",
-        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/cluster.spec",
-        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/config",
-        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/instancegroup/*",
-        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/pki/issued/*",
-        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/pki/private/kube-proxy/*",
-        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/pki/private/kubelet/*",
-        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/pki/ssh/*",
-        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/secrets/dockerconfig"
+        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.com/addons/*",
+        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.com/cluster.spec",
+        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.com/config",
+        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.com/instancegroup/*",
+        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.com/pki/issued/*",
+        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.com/pki/private/kube-proxy/*",
+        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.com/pki/private/kubelet/*",
+        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.com/pki/ssh/*",
+        "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.com/secrets/dockerconfig"
       ]
     },
     {
@@ -44,7 +44,7 @@
       "Action": [
         "s3:Get*"
       ],
-      "Resource": "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/pki/private/calico-client/*"
+      "Resource": "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.com/pki/private/calico-client/*"
     },
     {
       "Effect": "Allow",
