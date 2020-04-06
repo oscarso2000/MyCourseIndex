@@ -57,7 +57,7 @@ and management of containerized microservices.
 ## Author
 
 Authors: 
-Magd Bayoumi (mb2363) [Github] (https://github.com/bayoumi17m)
+Magd Bayoumi (mb2363) [Github] (https://github.com/bayoumi17m) \n
 Jenna Kressin (jek343) [https://github.com/jek343]
 Souleiman Benhida (sb2342) [https://github.com/soule]
 Sheetal Athrey (spa42) [https://github.com/sheetal-athrey]
