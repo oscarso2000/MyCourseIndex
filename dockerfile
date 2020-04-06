@@ -8,12 +8,13 @@ ENV PIP_DEFAULT_TIMEOUT=100 \
 RUN pip install -U pip
 RUN pip install "poetry==$POETRY_VERSION"
 
-COPY poetry.lock .
-COPY pyproject.toml .
-RUN poetry install --no-interaction --no-ansi --no-dev --no-root
+# COPY poetry.lock .
+# COPY pyproject.toml .
 
 WORKDIR /app
 COPY . /app
+RUN poetry config virtualenvs.create false
+RUN poetry install --no-interaction --no-ansi --no-dev --no-root
 
 EXPOSE 5000
 

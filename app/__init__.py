@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, flash
 #from db_setup import init_db, db_session
-from forms import SearchForm
+from app.forms import SearchForm
 
 app = Flask(__name__)
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))

@@ -48,7 +48,7 @@
       ],
       "Condition": {
         "StringEquals": {
-          "ec2:ResourceTag/KubernetesCluster": "cs4300.k8s.mycourseindex.vpc"
+          "ec2:ResourceTag/KubernetesCluster": "cs4300.k8s.mycourseindex.com"
         }
       }
     },
@@ -76,7 +76,7 @@
       ],
       "Condition": {
         "StringEquals": {
-          "autoscaling:ResourceTag/KubernetesCluster": "cs4300.k8s.mycourseindex.vpc"
+          "autoscaling:ResourceTag/KubernetesCluster": "cs4300.k8s.mycourseindex.com"
         }
       }
     },
@@ -153,7 +153,7 @@
       "Action": [
         "s3:Get*"
       ],
-      "Resource": "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/*"
+      "Resource": "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.com/*"
     },
     {
       "Effect": "Allow",
@@ -162,7 +162,7 @@
         "s3:DeleteObject",
         "s3:PutObject"
       ],
-      "Resource": "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/backups/etcd/main/*"
+      "Resource": "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.com/backups/etcd/main/*"
     },
     {
       "Effect": "Allow",
@@ -171,7 +171,7 @@
         "s3:DeleteObject",
         "s3:PutObject"
       ],
-      "Resource": "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.vpc/backups/etcd/events/*"
+      "Resource": "arn:aws:s3:::cs4300-kops-config/cs4300.k8s.mycourseindex.com/backups/etcd/events/*"
     },
     {
       "Effect": "Allow",
@@ -181,7 +181,7 @@
         "route53:GetHostedZone"
       ],
       "Resource": [
-        "arn:aws:route53:::hostedzone/Z05806161M6BJLM1JAUEM"
+        "arn:aws:route53:::hostedzone/ZXNZ3MUU52AOY"
       ]
     },
     {
