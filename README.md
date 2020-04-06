@@ -55,10 +55,8 @@ and management of containerized microservices.
 **TODO**: Image of the Kubernetes structure
 
 ## Author
-
-Authors: 
-Magd Bayoumi (mb2363) [Github] (https://github.com/bayoumi17m) \n
-Jenna Kressin (jek343) [https://github.com/jek343]
-Souleiman Benhida (sb2342) [https://github.com/soule]
-Sheetal Athrey (spa42) [https://github.com/sheetal-athrey]
-Oscar So (ons4) [https://github.com/oscarso2000]
+1. Magd Bayoumi (mb2363) [Github] (https://github.com/bayoumi17m)
+1. Jenna Kressin (jek343) [https://github.com/jek343]
+1. Souleiman Benhida (sb2342) [https://github.com/soule]
+1. Sheetal Athrey (spa42) [https://github.com/sheetal-athrey]
+1. Oscar So (ons4) [https://github.com/oscarso2000]
