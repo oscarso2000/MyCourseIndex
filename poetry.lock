@@ -400,6 +400,19 @@ six = "*"
 
 [[package]]
 category = "main"
+description = "Simple integration of Flask and WTForms."
+name = "flask-wtf"
+optional = false
+python-versions = "*"
+version = "0.14.3"
+
+[package.dependencies]
+Flask = "*"
+WTForms = "*"
+itsdangerous = "*"
+
+[[package]]
+category = "main"
 description = "WSGI HTTP Server for UNIX"
 name = "gunicorn"
 optional = false
@@ -1388,6 +1401,17 @@ dev = ["pytest", "coverage", "tox", "sphinx", "pallets-sphinx-themes", "sphinx-i
 watchdog = ["watchdog"]
 
 [[package]]
+category = "main"
+description = "A flexible forms validation and rendering library for Python web development."
+name = "wtforms"
+optional = false
+python-versions = "*"
+version = "2.2.1"
+
+[package.extras]
+locale = ["Babel (>=1.3)"]
+
+[[package]]
 category = "dev"
 description = "A rewrite of the builtin doctest module"
 name = "xdoctest"
@@ -1420,7 +1444,7 @@ testing = ["jaraco.itertools", "func-timeout"]
 doc = []
 
 [metadata]
-content-hash = "219ad8c7a2db5d6beb1109c141b4d365eeecda8cd914ff70fb9809aa2076ffe3"
+content-hash = "04bdcdac6f94e33779e115f18e1230a3875fbd38d7244d9dd1cd681b4894e65a"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -1638,6 +1662,10 @@ flask = [
 ]
 flask-oidc = [
     {file = "flask-oidc-1.4.0.tar.gz", hash = "sha256:0c12151139d47a562e1c5ae203fb9dbc759fe7474cc01e0238bef828ece58f4e"},
+]
+flask-wtf = [
+    {file = "Flask-WTF-0.14.3.tar.gz", hash = "sha256:d417e3a0008b5ba583da1763e4db0f55a1269d9dd91dcc3eb3c026d3c5dbd720"},
+    {file = "Flask_WTF-0.14.3-py2.py3-none-any.whl", hash = "sha256:57b3faf6fe5d6168bda0c36b0df1d05770f8e205e18332d0376ddb954d17aef2"},
 ]
 gunicorn = [
     {file = "gunicorn-20.0.4-py2.py3-none-any.whl", hash = "sha256:cd4a810dd51bf497552cf3f863b575dabd73d6ad6a91075b65936b151cbf4f9c"},
@@ -2163,6 +2191,10 @@ wcwidth = [
 werkzeug = [
     {file = "Werkzeug-1.0.0-py2.py3-none-any.whl", hash = "sha256:6dc65cf9091cf750012f56f2cad759fa9e879f511b5ff8685e456b4e3bf90d16"},
     {file = "Werkzeug-1.0.0.tar.gz", hash = "sha256:169ba8a33788476292d04186ab33b01d6add475033dfc07215e6d219cc077096"},
+]
+wtforms = [
+    {file = "WTForms-2.2.1-py2.py3-none-any.whl", hash = "sha256:e3ee092c827582c50877cdbd49e9ce6d2c5c1f6561f849b3b068c1b8029626f1"},
+    {file = "WTForms-2.2.1.tar.gz", hash = "sha256:0cdbac3e7f6878086c334aa25dc5a33869a3954e9d1e015130d65a69309b3b61"},
 ]
 xdoctest = [
     {file = "xdoctest-0.10.3-py2.py3-none-any.whl", hash = "sha256:8e96068a02f2394bd56415444d1a31fad908e01522df03695b876a73b8d500c4"},
