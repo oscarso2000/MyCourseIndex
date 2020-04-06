@@ -56,4 +56,9 @@ and management of containerized microservices.
 
 ## Author
 
-Names - NetIDs - [link to github]
+Authors: 
+Magd Bayoumi (mb2363) [Github] (https://github.com/bayoumi17m)
+Jenna Kressin (jek343) [https://github.com/jek343]
+Souleiman Benhida (sb2342) [https://github.com/soule]
+Sheetal Athrey (spa42) [https://github.com/sheetal-athrey]
+Oscar So (ons4) [https://github.com/oscarso2000]
