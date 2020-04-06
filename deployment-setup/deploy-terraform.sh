@@ -34,12 +34,12 @@ done
 GREEN='\033[0;32m'
 NC='\033[0;0m'
 export PATH=$PATH:$(pwd)
-export AWS_DEFAULT_REGION="eu-west-1"
+export AWS_DEFAULT_REGION="us-east-1"
 
 echo -e "${GREEN}==== Deploying terraform ====${NC}"
 
 
-cd deployment-setup/build_scripts
+cd build-scripts
 traverse ../
 
 echo -e "${GREEN}==== Done deploying terraform  ====${NC}"
