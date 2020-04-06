@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Piazza: An Improved Algorithm</title>
+    <title>MyCourseIndex</title>
 </head>
 <body>
-<h1>Piazza</h1>
+<h1>My Course Index: An Improved Piazza Algorithm</h1>
 <div class = "Authors">
 <p>
 Authors: 
@@ -18,4 +18,24 @@ Oscar So (ons4)
 </div>
 <a href="https://github.com/oscarso2000/Piazza">GitHub Repository</a>
 </body>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flashes">
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+{% from "_formhelpers.html" import render_field %}
+<form method="post">
+  <dl>
+    {{ render_field(form.select) }}
+    <p>
+    {{ render_field(form.search) }}
+  </p></dl>
+  <p><input type="submit" value="Search">
+</p></form>
 </html>
