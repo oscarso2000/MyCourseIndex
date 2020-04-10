@@ -3,7 +3,7 @@
   display: inline-block;
 }
 .home-1 {
-  background-image: linear-gradient(to right, #ff5c1c 0%, #ffc04b 100%);
+  background-image: linear-gradient(to right, #00688B 0%, #00CDCD 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-left: 23px;
@@ -21,7 +21,7 @@
   width: 45vw;
 }
 .center a {
-  color: #ffc04b;
+  color: #00CDCD;
 }
 .center a:hover {
   text-decoration: underline;
