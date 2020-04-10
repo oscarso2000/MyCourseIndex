@@ -15,6 +15,7 @@ deployment-setup/build_scripts/setup-secrets.sh
 **/terraform.tfstate
 **/terraform.tfstate.backup
 **/kube_secrets/**
+secrets/**
 
 # C extensions
 *.so
