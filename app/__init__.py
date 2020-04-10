@@ -16,6 +16,11 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 app.secret_key = 'insert AWS key'
 
+if __name__ != gunicorn:
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
+
 # oidc = OpenIDConnect(app)
 
 @app.route('/', methods=['GET', 'POST'])
