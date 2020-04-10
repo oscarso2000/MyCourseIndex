@@ -10,8 +10,8 @@ import os
 
 app = Flask(__name__, template_folder="../client/build", static_folder="../client/build/static")
 app.logger.setLevel(logging.DEBUG)
-# app.config.from_pyfile('/etc/cs4300-volume-cfg/cs4300app.cfg')
-app.config.from_pyfile(os.path.join(os.path.join(os.getcwd(), "secrets"), "cs4300app.cfg"))
+app.config.from_pyfile('/etc/cs4300-volume-cfg/cs4300app.cfg')
+# app.config.from_pyfile(os.path.join(os.path.join(os.getcwd(), "secrets"), "cs4300app.cfg"))
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 app.secret_key = 'insert AWS key'
