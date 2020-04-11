@@ -23,24 +23,6 @@ if __name__ != '__main__':
 
 # oidc = OpenIDConnect(app)
 
-@app.route('/', methods=['GET', 'POST'])
-# @oidc.require_login
-def index():
-    return render_template("index.html")
-    # access_token = oidc.get_access_token()
-    # app.logger.debug(access_token)
-    # if not user_jwt_required(access_token, app.config["APP_ID"], app.logger):
-    #     return render_template("404.html")
-    # search = SearchForm(request.form)
-    # if request.method == 'POST':
-    #     return search_results(search)
-    # return render_template('main.html', form=search)
-
-@app.route('/oidc/callback')
-def oidc_callback():
-    return redirect(url_for("index"))
-
-
 @app.route("/auth", methods=["POST"])
 def auth():
     # app.logger.debug("Starting Auth")
@@ -69,6 +51,27 @@ def search_results(search):
     else:
         # display results
         return render_template('results.html', results=results)
+
+
+@app.route("/manifest.json")
+def manifest():
+    return send_from_directory('./build', 'manifest.json')
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory('./build', 'favicon.ico')
+
+
+@app.route('/oidc/callback')
+def oidc_callback():
+    return redirect(url_for("index"))
+
+
+@app.route('/', methods=['GET'])
+@app.route('/<path:path>')
+def index():
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
