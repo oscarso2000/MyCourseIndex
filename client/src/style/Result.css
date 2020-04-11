@@ -1,13 +1,13 @@
 h4 a {
   text-decoration: none;
-  color: #ffa500;
+  color: #00CDCD;
 }
 
 h4 a:hover {
   text-decoration: underline;
 }
 h4 a:visited {
-  color: #962a00;
+  color:#00688B;
 }
 .card {
   display: flex;
@@ -34,13 +34,13 @@ h4 a:visited {
   overflow: hidden;
 }
 .title {
-  color: #ffa500;
+  color: #00CDCD;
   max-width: 22vw;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 .title:visited{
-  color: #962a00;
+  color: #00688B;
 }
 h4 {
   display: inline-block;
