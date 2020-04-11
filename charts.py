@@ -66,6 +66,7 @@ def compute_idf(inv_idx, n_docs, min_df=1, max_df_ratio=1.0):
 inv_idx, folders = build_inverted_index(sample_dict)
 n_docs = len(folders)
 idf = compute_idf(inv_idx, n_docs)
+# when plotting the historm, sorted by value (decrease of idfs sorting)
 idf = {k: v for k, v in sorted(idf.items(), key=lambda item: item[1], reverse=True)}
 x = np.arange(len(idf.keys()))
 plt.bar(x, list(idf.values()))
