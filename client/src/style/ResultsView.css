@@ -41,13 +41,16 @@
 .about-bar {
   float: right;
   padding: 15px;
+  color: #ffffff;
   /* position: relative;
   left: 40px;
   top: 15px; */
 }
 .about-bar:hover {
   text-decoration: underline;
+  font-weight: bold;
 }
+
 .load-wrap {
   position: absolute;
   top: 50%;
