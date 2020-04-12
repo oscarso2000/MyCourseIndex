@@ -7,7 +7,6 @@ COPY client /app/
 RUN yarn install && yarn build
 
 ###############################################################################
-# FROM python:3.7.7-alpine3.11
 FROM python:3.7.7-slim-buster
 
 ENV PIP_DEFAULT_TIMEOUT=100 \
@@ -22,14 +21,12 @@ COPY poetry.lock pyproject.toml /app/
 copy piazza-api/dist/piazza_api-0.1.0-py3-none-any.whl /app/piazza-api/dist/
 RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi --no-dev --no-root
 
-###############################################################################
-# FROM python:3.7.7-alpine3.11
-# FROM gcr.io/distroless/python3-debian10:latest
-# COPY --from=installer /usr/local/lib/python3.7/site-packages /usr/local/lib/python3/site-packages
 COPY --from=builder /app/build /app/client/build
 
 COPY app.py /app
 COPY app /app/app
+
+# DEV ONLY
 # copy secrets /app/secrets
 
 EXPOSE 5000
