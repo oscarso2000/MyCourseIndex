@@ -9,7 +9,7 @@
   margin-left: 23px;
 }
 .home-2 {
-  color: #545454;
+  color: #ffffff;
   padding-left: 5.5px;
 }
 .center {
@@ -19,6 +19,7 @@
   margin-right: -50%;
   transform: translate(-50%, -50%);
   width: 45vw;
+  color: #ffffff;
 }
 .center a {
   color: #00CDCD;

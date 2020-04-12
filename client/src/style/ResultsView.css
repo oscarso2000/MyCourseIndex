@@ -9,7 +9,7 @@
   position: sticky;
   top: 0px;
   z-index: 500;
-  background: #fff;
+  background: #282c34;
   height: 60px;
   width: 100%;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.10);
@@ -19,7 +19,7 @@
   height: 5.5vh;
   margin-top: 7px;
   box-shadow: none;
-  border: 1px solid lightgrey;
+  border: 1px solid #ffffff;
   display: inline-flex;
 }
 .top-bar h3 {
@@ -36,18 +36,21 @@
   -webkit-text-fill-color: transparent;
 }
 .heading-2 {
-  color: #545454;
+  color: #ffffff;
 }
 .about-bar {
   float: right;
   padding: 15px;
+  color: #ffffff;
   /* position: relative;
   left: 40px;
   top: 15px; */
 }
 .about-bar:hover {
   text-decoration: underline;
+  font-weight: bold;
 }
+
 .load-wrap {
   position: absolute;
   top: 50%;
