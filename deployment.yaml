@@ -30,6 +30,9 @@ spec:
             cpu: 250m
           limits:
             cpu: 500m
+        env:
+        - name: deployment
+          value: "True" 
         volumeMounts:
           - mountPath: /etc/cs4300-volume-json
             name: cs4300-volume-json

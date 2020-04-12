@@ -1,7 +1,7 @@
 # MyCourseIndex
 Improving the Piazza search algorithm
 
-[![Build Status](https://travis-ci.org/bayoumi17m/Piazza.svg?branch=master)](https://travis-ci.org/bayoumi17m/Piazza)
+[![Build Status](https://travis-ci.org/oscarso2000/MyCourseIndex.svg?branch=master)](https://travis-ci.org/oscarso2000/MyCourseIndex)
 
 ## Preview 
 **TODO:** Demo Gif
