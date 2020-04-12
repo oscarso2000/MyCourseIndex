@@ -29,11 +29,9 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                           'myfavicon.ico',mimetype='image/vnd.microsoft.icon')
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
 @app.route('/', methods=['GET', 'POST'])
 # @oidc.require_login
-def index(path):
+def index():
     return render_template("index.html")
     # access_token = oidc.get_access_token()
     # app.logger.debug(access_token)
