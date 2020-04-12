@@ -46,9 +46,10 @@ def index():
 def oidc_callback():
     return redirect(url_for("index"))
 
-
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
 @app.route("/auth", methods=["POST"])
-def auth():
+def auth(path):
     # app.logger.debug("Starting Auth")
     access_token = request.get_json()["token"]
     # app.logger.debug("My Token is: {}".format(access_token))
