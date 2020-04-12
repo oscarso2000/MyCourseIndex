@@ -61,7 +61,7 @@ def manifest():
 
 
 @app.route('/MCIfavicon.ico')
-def favicon():
+def MCIfavicon():
     return send_from_directory(os.path.join(app.root_path, "static"),"MCIfavicon.ico")
 
 
