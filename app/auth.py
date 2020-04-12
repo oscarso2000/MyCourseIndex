@@ -8,6 +8,7 @@ from cryptography.hazmat.backends import default_backend
 import jwt
 import requests
 import typing
+import logging
 
 
 res = requests.get(
@@ -98,6 +99,54 @@ def verify_token(
         else:
             auth_claims["scope"] = list(scopes)
     return auth_claims
+
+
+def get_name(token: str, app_id: str, logger: logging.Logger) -> str:
+    """Get the name from the JWT.
+
+    :param access_token: Access token
+    """
+    if token == "null" or not token:
+        return {"scope": "Unauthorized"}  # Don't accept empty tokens
+    token_header = jwt.get_unverified_header(str(token))
+    # logger.info(token_header)
+
+    x5c = None
+
+    for key in JWK_KEYS["keys"]:
+        if (
+            key["kid"] == token_header["kid"]
+        ):  # Get the certificate specified in the JWT
+            x5c = key["x5c"]  # We will use it to verify the signature
+    cert = "".join(
+        ["-----BEGIN CERTIFICATE-----\n", x5c[0], "\n-----END CERTIFICATE-----\n"]
+    )
+    public_key = load_pem_x509_certificate(
+        cert.encode(), default_backend()
+    ).public_key()
+    # logger.info(public_key.public_bytes(cryptography.hazmat.primitives.serialization.Encoding.PEM, cryptography.hazmat.primitives.serialization.PublicFormat.SubjectPublicKeyInfo))
+    try:
+        claims = jwt.decode(  # This will return the claims only if the signature is valid.
+            token, public_key, algorithms="RS256", audience=app_id
+        )
+        # {
+        #  upn: user identity,
+        #  roles: ["role a", "role b"],
+        #  firstname: "foo",
+        #  lastname: "bar"
+        # }
+    except jwt.ExpiredSignatureError:
+
+        # Signature Has Expired, return Unknown.
+        return "Unknown User"
+    except jwt.InvalidSignatureError:
+        return "Unknown User"
+    
+    # logger.info("Claims: {}".format(claims))
+    
+    name = claims.get("name", "user")
+    # logger.info(name)
+    return name
 
 
 def user_jwt_required(access_token, app_id, logger):
