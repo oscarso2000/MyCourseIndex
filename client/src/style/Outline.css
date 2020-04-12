@@ -5,7 +5,7 @@
   position: -webkit-sticky;
   top: 75px;
   display: inline-block;
-  background: #fff;
+  background: #282c34;
   border: .009px solid #f2f2f2;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
   width: 41vw;
@@ -23,7 +23,7 @@
   font-style: italic;
 }
 .outline p {
-  color: #545454;
+  color: #ffffff;
 }
 .placeholder {
   opacity: 0.4;
