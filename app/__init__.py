@@ -24,10 +24,10 @@ if __name__ != '__main__':
 
 # oidc = OpenIDConnect(app)
 
-@app.route('/favicon.ico')
+@app.route('/myfavicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
-                          'favicon.ico',mimetype='image/vnd.microsoft.icon')
+                          'myfavicon.ico',mimetype='image/vnd.microsoft.icon')
 
 @app.route('/', methods=['GET', 'POST'])
 # @oidc.require_login
