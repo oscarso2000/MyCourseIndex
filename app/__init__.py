@@ -62,7 +62,7 @@ def manifest():
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, "../client/build"),"favicon.ico")
+    return send_from_directory(os.path.join(app.root_path, "static"),"myfavicon.ico")
 
 
 @app.route('/oidc/callback')
