@@ -49,7 +49,7 @@ export const App = () => {
         return (
             <div>
                 <p>
-                    ERROR!
+                    Not Authorized!
                 </p>
             </div>
         )
