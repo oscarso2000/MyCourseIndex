@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import './reset.min.css';
 import './index.css';
-import { App } from './App';
+import { Application } from './App';
 import { Provider } from 'react-redux';
 import { store } from './reducers/index';
 // import registerServiceWorker from './registerServiceWorker';
@@ -13,7 +13,7 @@ import { store } from './reducers/index';
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
-            <App />
+            <Application />
         </BrowserRouter>
     </Provider>,
     document.getElementById('root')
