@@ -12,17 +12,8 @@ import ReactTimeout from 'react-timeout'
 
 import * as legoData from "./images/legoloading.json";
 import * as doneData from "./images/doneloading.json";
+import * as errorData from "./images/errorloading.json";
 
-// export const App: React.StatelessComponent = (): JSX.Element => {
-//     return (
-//         <div>
-//             <Switch>
-//                 <Route exact={true} path="/" component={Home} />
-//                 <Route path="/about" component={About} />
-//             </Switch>
-//         </div>
-//     )
-// }
 
 const defaultOptions = {
     loop: true,
@@ -42,10 +33,19 @@ const defaultOptions2 = {
     }
 };
 
+const defaultOptions3 = {
+    loop: false,
+    autoplay: true,
+    animationData: errorData.default,
+    rendererSettings: {
+        preserveAspectRatio: "xMidYMid slice"
+    }
+};
+
 const getAuth = (token) => {
     return axios.post(`https://www.mycourseindex.com/auth`, { "token": token }).then(
         (response) => {
-            // console.log(response.data);
+            console.log(response.data);
             // console.log(typeof response.data)
             return (response.data === "OK")
         }
@@ -61,7 +61,12 @@ const App = (props) => {
     const [allowRefresh, setAllowRefresh] = React.useState(false)
 
     React.useEffect(() => {
+        // TODO: Figure out how to remove autoRefresh on close
+        // window.addEventListener('unload', function (event) {
+        //     sessionStorage.removeItem("allowRefresh");
+        // });
         setAllowRefresh(sessionStorage.getItem("allowRefresh") === "True");
+        console.log(allowRefresh);
         if (allowRefresh) {
             const auth = getAuth(getToken());
             auth.then((value) => {
@@ -84,20 +89,11 @@ const App = (props) => {
                 });
             }, 3000);
         }
-
-        // auth.then((value) => {
-        //     setAuthorized(value);
-        //     setLoaded(true);
-        //     props.setTimeout(() => {
-        //         setTimedOut(true);
-
-        //     }, 3000);
-        // });
     });
 
     console.log('done is ' + done + '\nloaded is ' + loaded + '\ntimedOut is ' + timedOut + '\nauthorized is ' + authorized);
 
-    if (loaded && done && timedOut && authorized) {
+    if (loaded && done && timedOut) {
         if (authorized) {
             return (
                 <div>
@@ -109,11 +105,15 @@ const App = (props) => {
             )
         } else {
             return (
-                <div>
-                    <p>
-                        Not Authorized!
-                    </p>
-                </div>
+                <div className="App">
+                    <header className="App-header">
+                        <FadeIn>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <h1 style={{ color: "white" }}>Not Authorized!</h1>
+                            </div>
+                        </FadeIn>
+                    </header >
+                </div >
             )
         }
     } else if (allowRefresh) {
@@ -126,8 +126,12 @@ const App = (props) => {
                         <div class="d-flex justify-content-center align-items-center">
                             <h1>Fetching Authorization</h1>
                             {done ?
-                                <Lottie options={defaultOptions2} height={480} width={480} />
-                                : (<Lottie options={defaultOptions} height={480} width={480} />)}
+                                (authorized ?
+                                    <Lottie options={defaultOptions2} height={480} width={480} /> :
+                                    <Lottie options={defaultOptions3} height={480} width={480} />
+                                )
+                                : (<Lottie options={defaultOptions} height={480} width={480} />
+                                )}
                         </div>
                     </FadeIn>
                 </header >
@@ -137,23 +141,3 @@ const App = (props) => {
 }
 
 export const Application = ReactTimeout(App);
-
-// export const App = () => {
-//     if (true) {
-//         return (
-//             <div >
-//                 <Switch>
-//                     <Route exact={true} path="/" component={Home} />
-//                     <Route path="/about" component={About} />
-//                 </Switch>
-//             </div >
-//         );
-//     }
-//     return (
-//         <div>
-//             <p>
-//                 Error
-//             </p>
-//         </div>
-//     );
-// }
