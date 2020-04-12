@@ -22,6 +22,7 @@
         "react-adal": "^0.5.0",
         "react-dom": "^16.4.2",
         "react-infinite-scroll-component": "^4.2.0",
+        "react-loadingg": "^1.7.2",
         "react-redux": "^5.0.7",
         "react-router-dom": "^4.3.1",
         "react-scripts": "3.4.0",
