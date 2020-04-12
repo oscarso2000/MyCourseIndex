@@ -7,6 +7,7 @@ from flask_oidc import OpenIDConnect
 
 import logging
 import os
+from flask import send_from_directory
 
 app = Flask(__name__, template_folder="../client/build", static_folder="../client/build/static")
 app.logger.setLevel(logging.DEBUG)
@@ -55,12 +56,12 @@ def search_results(search):
 
 @app.route("/manifest.json")
 def manifest():
-    return send_from_directory('./build', 'manifest.json')
+    return send_from_directory('manifest.json')
 
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory('./build', 'favicon.ico')
+    return send_from_directory('myfavicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 @app.route('/oidc/callback')
