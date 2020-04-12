@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, request, redirect, flash, url_for, send_from_directory
 #from db_setup import init_db, db_session
 from app.forms import SearchForm
-from app.auth import user_jwt_required
+from app.auth import user_jwt_required, get_name
 from flask_oidc import OpenIDConnect
 
 import logging
@@ -35,6 +35,14 @@ def auth():
         return "OK"
     else:
         return "NO"
+
+
+@app.route("/whoami", methods=["POST"])
+def whoami():
+    access_token = request.get_json()["token"]
+    # app.logger.debug("My Token is: {}".format(access_token))
+    name = get_name(access_token, app.config["APP_ID"], app.logger)
+    return name
 
 
 @app.route('/results')

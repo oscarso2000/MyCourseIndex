@@ -52,19 +52,38 @@ const getAuth = (token) => {
     )
 }
 
+const getName = (token) => {
+    return axios.post(`https://www.mycourseindex.com/whoami`, { "token": token }).then(
+        (response) => {
+            console.log(response.data);
+            // console.log(typeof response.data)
+            return response.data;
+        }
+    )
+}
+
 const App = (props) => {
 
     const [authorized, setAuthorized] = React.useState(false);
     const [loaded, setLoaded] = React.useState(false);
     const [timedOut, setTimedOut] = React.useState(false);
     const [done, setDone] = React.useState(false);
-    const [allowRefresh, setAllowRefresh] = React.useState(false)
+    const [allowRefresh, setAllowRefresh] = React.useState(false);
+
+    const [name, setName] = React.useState("");
+
+    // console.log('Name is ' + name);
 
     React.useEffect(() => {
         // TODO: Figure out how to remove autoRefresh on close
         // window.addEventListener('unload', function (event) {
         //     sessionStorage.removeItem("allowRefresh");
         // });
+        const namePromise = getName(getToken());
+        namePromise.then((value) => {
+            setName(value);
+        })
+
         setAllowRefresh(sessionStorage.getItem("allowRefresh") === "True");
         console.log(allowRefresh);
         if (allowRefresh) {
@@ -91,7 +110,7 @@ const App = (props) => {
         }
     });
 
-    console.log('done is ' + done + '\nloaded is ' + loaded + '\ntimedOut is ' + timedOut + '\nauthorized is ' + authorized);
+    // console.log('done is ' + done + '\nloaded is ' + loaded + '\ntimedOut is ' + timedOut + '\nauthorized is ' + authorized);
 
     if (loaded && done && timedOut) {
         if (authorized) {
@@ -124,7 +143,7 @@ const App = (props) => {
                 <header className="App-header">
                     <FadeIn>
                         <div class="d-flex justify-content-center align-items-center">
-                            <h1>Fetching Authorization</h1>
+                            <h1>One moment, {name}</h1>
                             {done ?
                                 (authorized ?
                                     <Lottie options={defaultOptions2} height={480} width={480} /> :
