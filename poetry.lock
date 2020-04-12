@@ -222,6 +222,10 @@ jsonschema = ">=2.5.1"
 openapi-spec-validator = ">=0.2.4"
 requests = ">=2.9.1"
 
+[package.dependencies.swagger-ui-bundle]
+optional = true
+version = ">=0.0.2"
+
 [package.extras]
 aiohttp = ["aiohttp (>=2.3.10)", "aiohttp-jinja2 (>=0.14.0)"]
 flask = ["flask (>=1.0.4)"]
@@ -1287,6 +1291,17 @@ test = ["pytest"]
 
 [[package]]
 category = "dev"
+description = "swagger_ui_bundle - swagger-ui files in a pip package"
+name = "swagger-ui-bundle"
+optional = false
+python-versions = "*"
+version = "0.0.6"
+
+[package.dependencies]
+Jinja2 = ">=2.0"
+
+[[package]]
+category = "dev"
 description = "Python Library for Tom's Obvious, Minimal Language"
 name = "toml"
 optional = false
@@ -1454,7 +1469,7 @@ testing = ["jaraco.itertools", "func-timeout"]
 doc = []
 
 [metadata]
-content-hash = "f9e8e5cf0612d61d00d2e7f9d4acf66a23b651160ba8b94963b73126b3f630db"
+content-hash = "866564e1009be7d63927d66daf90ff95fe2950bde1a7018fcda7620c0f25cefb"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -2125,6 +2140,11 @@ sphinxcontrib-qthelp = [
 sphinxcontrib-serializinghtml = [
     {file = "sphinxcontrib-serializinghtml-1.1.4.tar.gz", hash = "sha256:eaa0eccc86e982a9b939b2b82d12cc5d013385ba5eadcc7e4fed23f4405f77bc"},
     {file = "sphinxcontrib_serializinghtml-1.1.4-py2.py3-none-any.whl", hash = "sha256:f242a81d423f59617a8e5cf16f5d4d74e28ee9a66f9e5b637a18082991db5a9a"},
+]
+swagger-ui-bundle = [
+    {file = "swagger_ui_bundle-0.0.6-py2-none-any.whl", hash = "sha256:49d2e12d60a6499e9d37ea37953b5d700f4e114edc7520fe918bae5eb693a20e"},
+    {file = "swagger_ui_bundle-0.0.6-py3-none-any.whl", hash = "sha256:f776811855092c086dbb08216c8810a84accef8c76c796a135caa13645c5cc68"},
+    {file = "swagger_ui_bundle-0.0.6.tar.gz", hash = "sha256:c5373b683487b1b914dccd23bcd9a3016afa2c2d1cda10f8713c0a9af0f91dd3"},
 ]
 toml = [
     {file = "toml-0.10.0-py2.7.egg", hash = "sha256:f1db651f9657708513243e61e6cc67d101a39bad662eaa9b5546f789338e07a3"},
