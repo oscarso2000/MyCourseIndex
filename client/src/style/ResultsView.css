@@ -24,9 +24,11 @@
 }
 .top-bar h3 {
   display: inline;
+  font-size: 1rem;
 }
 .top-bar h3:hover {
   cursor: pointer;
+  text-decoration: none;
 }
 .heading-1 {
   margin-left: 23px;
