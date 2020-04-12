@@ -109,7 +109,7 @@ const App = (props) => {
                     <header className="App-header">
                         <FadeIn>
                             <div class="d-flex justify-content-center align-items-center">
-                                <h1 style={{ color: "white" }}>Not Authorized!</h1>
+                                <h1 style={{ color: "#FFFFFF" }}>Not Authorized!</h1>
                             </div>
                         </FadeIn>
                     </header >
