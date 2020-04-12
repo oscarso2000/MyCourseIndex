@@ -56,12 +56,12 @@ def search_results(search):
 
 @app.route("/manifest.json")
 def manifest():
-    return send_from_directory('manifest.json')
+    return send_from_directory(os.path.join(app.root_path, "../client/build"),'manifest.json')
 
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory('myfavicon.ico', mimetype='image/vnd.microsoft.icon')
+    return send_from_directory(os.path.join(app.root_path, "../client/build"),"favicon.ico")
 
 
 @app.route('/oidc/callback')
@@ -72,7 +72,6 @@ def oidc_callback():
 @app.route('/', methods=['GET'], defaults={'path': ''})
 @app.route('/<path:path>')
 def index(path):
-    app.logger.critical("TEST")
     return render_template("index.html")
 
 
