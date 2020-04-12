@@ -29,9 +29,11 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                           'myfavicon.ico',mimetype='image/vnd.microsoft.icon')
 
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
 @app.route('/', methods=['GET', 'POST'])
 # @oidc.require_login
-def index():
+def index(path):
     return render_template("index.html")
     # access_token = oidc.get_access_token()
     # app.logger.debug(access_token)
@@ -46,10 +48,9 @@ def index():
 def oidc_callback():
     return redirect(url_for("index"))
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
+
 @app.route("/auth", methods=["POST"])
-def auth(path):
+def auth():
     # app.logger.debug("Starting Auth")
     access_token = request.get_json()["token"]
     # app.logger.debug("My Token is: {}".format(access_token))
