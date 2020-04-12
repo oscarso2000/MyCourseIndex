@@ -8,6 +8,18 @@
   font-family: europa;
   font-size: 16px;
 }
+.about-bar {
+  float: right;
+  padding: 15px;
+  color: #ffffff;
+  /* position: relative;
+  left: 40px;
+  top: 15px; */
+}
+.about-bar:hover {
+  text-decoration: underline;
+  font-weight: bold;
+}
 body {
   background: #282c34;
   /*color: #ffffff;*/

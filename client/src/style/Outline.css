@@ -5,8 +5,9 @@
   position: -webkit-sticky;
   top: 75px;
   display: inline-block;
-  background: #282c34;
+  background: #ffffff; /*282c34*/
   border: .009px solid #323741;
+  /*color: #ffffff*/
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
   width: 41vw;
   height: 84vh;
