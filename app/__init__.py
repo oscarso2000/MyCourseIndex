@@ -60,7 +60,7 @@ def manifest():
     return send_from_directory(os.path.join(app.root_path, "../client/build"),'manifest.json')
 
 
-@app.route('/favicon.ico')
+@app.route('/MCIfavicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, "static"),"MCIfavicon.ico")
 
