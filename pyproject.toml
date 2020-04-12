@@ -48,6 +48,7 @@ tox = "^3.14.3"
 pytorch_sphinx_theme = "^0.0.19"
 sphinxcontrib-katex = "^0.6.0"
 tqdm = "^4.43.0"
+connexion = {extras = ["swagger-ui"], version = "^2.6.0"}
 
 [tool.poetry.extras]
 doc = ["sphinx", "sphinx_rtd_theme"]

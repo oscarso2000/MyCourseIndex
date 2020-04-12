@@ -33,7 +33,7 @@ echo -e "${YELLOW}==== TESTING KUBECTL CONNECTION ====${NC}"
 dummybool=$(kubectl get nodes | grep NAME)
 failure=true
 
-if [ "$dummybool" = "NAME                             STATUS   ROLES    AGE    VERSION" ]; then
+if [ "$dummybool" = "NAME                             STATUS   ROLES    AGE   VERSION" ]; then
     failure=false
     echo -e "${GREEN}====             SUCCESS             ====${NC}"
 else
