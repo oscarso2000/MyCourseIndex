@@ -17,9 +17,9 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 app.secret_key = 'insert AWS key'
 
 gunicorn_logger = logging.getLogger('gunicorn.error')
-app.logger.handlers.extend(gunicorn_logger.handlers)
-# app.logger.handlers = gunicorn_logger.handlers
-# app.logger.setLevel(gunicorn_logger.level)
+# app.logger.handlers.extend(gunicorn_logger.handlers)
+app.logger.handlers = gunicorn_logger.handlers
+app.logger.setLevel(gunicorn_logger.level)
 
 # oidc = OpenIDConnect(app)
 
