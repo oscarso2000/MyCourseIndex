@@ -1,34 +1,36 @@
-FROM node:12.16.1 as builder
+FROM node:12.16-alpine3.11 as builder
 
 WORKDIR /app
 
-COPY client/package.json /app/
-COPY client/yarn.lock /app/
-RUN yarn install
-
+COPY client/package.json client/yarn.lock /app/
 COPY client /app/
-WORKDIR client/
-RUN yarn build
+RUN yarn install && yarn build
 
-FROM python:3.7.6
+###############################################################################
+# FROM python:3.7.7-alpine3.11
+FROM python:3.7.7-slim-buster
 
 ENV PIP_DEFAULT_TIMEOUT=100 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PIP_NO_CACHE_DIR=1 \
-    POETRY_VERSION=1.0.2
+    POETRY_VERSION=1.0.5
 
-RUN pip install -U pip
-RUN pip install "poetry==$POETRY_VERSION"
-
-# COPY poetry.lock .
-# COPY pyproject.toml .
+RUN pip install -U pip && pip install "poetry==$POETRY_VERSION"
 
 WORKDIR /app
-COPY . /app
+COPY poetry.lock pyproject.toml /app/
+copy piazza-api/dist/piazza_api-0.1.0-py3-none-any.whl /app/piazza-api/dist/
+RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi --no-dev --no-root
+
+###############################################################################
+# FROM python:3.7.7-alpine3.11
+# FROM gcr.io/distroless/python3-debian10:latest
+# COPY --from=installer /usr/local/lib/python3.7/site-packages /usr/local/lib/python3/site-packages
 COPY --from=builder /app/build /app/client/build
 
-RUN poetry config virtualenvs.create false
-RUN poetry install --no-interaction --no-ansi --no-dev --no-root
+COPY app.py /app
+COPY app /app/app
+# copy secrets /app/secrets
 
 EXPOSE 5000
 
