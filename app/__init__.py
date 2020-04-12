@@ -60,9 +60,9 @@ def manifest():
     return send_from_directory(os.path.join(app.root_path, "../client/build"),'manifest.json')
 
 
-@app.route('/MCIfavicon.ico')
-def MCIfavicon():
-    return send_from_directory(os.path.join(app.root_path, "static"),"MCIfavicon.ico")
+@app.route('/ColorMCIfavicon.ico')
+def ColorMCIfavicon():
+    return send_from_directory(os.path.join(app.root_path, "static"),"ColorMCIfavicon.ico")
 
 
 @app.route('/oidc/callback')
