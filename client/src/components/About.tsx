@@ -12,11 +12,28 @@ export const About: React.StatelessComponent = (): JSX.Element => (
             <h4>About</h4>
             <h4><a href="https://github.com/oscarso2000/mycourseindex">Source code on Github</a></h4>
             <p> The authors of the mycourseindex project are: </p>
-            <a href="https://github.com/bayoumi17m">Magd Bayoumi (mb2363)</a>
-            <a href="https://github.com/jek343">Jenna Kressin (jek343)</a>
-            <a href="https://github.com/soule">Souleiman Benhida (sb2342)</a>
-            <a href="https://github.com/sheetal-athrey">Sheetal Athrey (spa42)</a>
-            <a href="https://github.com/oscarso2000">Oscar So (ons4) </a>
+
+            <div class="item">
+                <img src="../images/Magd_Bayoumi.png"/>
+                <span class="caption"><a href="https://github.com/bayoumi17m">Magd Bayoumi (mb2363)</a></span>
+            </div>
+            <div class="item">
+                <img src="../images/Jenna_Kressin.jpeg"/>
+                <span class="caption"><a href="https://github.com/jek343">Jenna Kressin (jek343)</a></span>
+            </div>
+            <div class="item">
+                <img src="../images/Souleiman_B.png"/>
+                <span class="caption"><a href="https://github.com/soule">Souleiman Benhida (sb2342)</a></span>
+            </div>
+            <div class="item">
+                <img src="../images/Sheetal_A.jpeg"/>
+                <span class="caption"><a href="https://github.com/sheetal-athrey">Sheetal Athrey (spa42)</a></span>
+            </div>
+            <div class="item">
+                <img src="../images/Oscar_So.jpg"/>
+                <span class="caption"><a href="https://github.com/oscarso2000">Oscar So (ons4) </a></span>
+            </div>
+
             <p>MyCourseIndex is...</p>  
         </div>
     </div>
