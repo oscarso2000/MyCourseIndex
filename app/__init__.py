@@ -41,6 +41,8 @@ def auth():
 def whoami():
     access_token = request.get_json()["token"]
     # app.logger.debug("My Token is: {}".format(access_token))
+    #name = get_name(access_token, app.config["APP_ID"], app.logger)
+    #return name
     firstName = str(get_name(access_token, app.config["APP_ID"], app.logger)).split(' ')[0]
     return firstName
 
