@@ -3,12 +3,15 @@
   display: inline-block;
 }
 .home-1 {
+  font-size: 1rem;
   background-image: linear-gradient(to right, #00688B 0%, #00CDCD 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-left: 23px;
 }
 .home-2 {
+  font-size: 1rem;
+  padding-top: 19px;
   color: #ffffff;
   padding-left: 5.5px;
 }
@@ -22,7 +25,7 @@
   color: #ffffff;
 }
 .center a {
-  color: #00CDCD;
+  color: #ffffff;
 }
 .center a:hover {
   text-decoration: underline;
@@ -30,11 +33,22 @@
 .center h4 {
   display: block;
 }
-ul,
-li {
-  list-style: none;
+
+.item {
+  /* To correctly align image, regardless of content height: */
+  vertical-align: top;
+  display: inline-block;
+  /* To horizontally center images and caption */
+  text-align: center;
+  /* The width of the container also implies margin around the images. */
+  width: 120px;
 }
-ul,
-li::before {
-  content: "- ";
+.item img {
+  width: 100px;
+  height: 100px;
+  background-color: grey;
+}
+.item caption {
+  /* Make the caption a block so it occupies its own line. */
+  display: block;
 }
