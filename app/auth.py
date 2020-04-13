@@ -144,7 +144,7 @@ def get_name(token: str, app_id: str, logger: logging.Logger) -> str:
     
     # logger.info("Claims: {}".format(claims))
     
-    name = claims.get("name", "user")
+    name = claims.get("given_name", "User")
     # logger.info(name)
     return name
 
