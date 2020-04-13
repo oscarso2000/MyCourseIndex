@@ -3,12 +3,15 @@
   display: inline-block;
 }
 .home-1 {
+  font-size: 1rem;
   background-image: linear-gradient(to right, #00688B 0%, #00CDCD 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-left: 23px;
 }
 .home-2 {
+  font-size: 1rem;
+  padding-top: 19px;
   color: #ffffff;
   padding-left: 5.5px;
 }
@@ -22,7 +25,7 @@
   color: #ffffff;
 }
 .center a {
-  color: #00CDCD;
+  color: #ffffff;
 }
 .center a:hover {
   text-decoration: underline;
