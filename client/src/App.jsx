@@ -44,6 +44,7 @@ const defaultOptions3 = {
 
 const getAuth = (token) => {
     return axios.post(`https://www.mycourseindex.com/auth`, { "token": token }).then(
+    //return axios.post(`http://localhost:5000/auth`, { "token": token }).then(
         (response) => {
             console.log(response.data);
             // console.log(typeof response.data)
@@ -54,6 +55,7 @@ const getAuth = (token) => {
 
 const getName = (token) => {
     return axios.post(`https://www.mycourseindex.com/whoami`, { "token": token }).then(
+    //return axios.post(`http://localhost:5000/whoami`, { "token": token }).then(
         (response) => {
             console.log(response.data);
             // console.log(typeof response.data)
