@@ -34,7 +34,7 @@
   display: block;
 }
 
-div.item {
+.item {
   /* To correctly align image, regardless of content height: */
   vertical-align: top;
   display: inline-block;
@@ -43,12 +43,12 @@ div.item {
   /* The width of the container also implies margin around the images. */
   width: 120px;
 }
-img {
+.item img {
   width: 100px;
   height: 100px;
   background-color: grey;
 }
-.caption {
+.item caption {
   /* Make the caption a block so it occupies its own line. */
   display: block;
 }
