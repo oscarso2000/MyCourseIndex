@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: cs4300piazza
-        image: mb2363/cs4300piazza:
+        image: oscarso2000/cs4300piazza:
         imagePullPolicy: Always
         ports:
         - name: https
@@ -30,6 +30,23 @@ spec:
             cpu: 250m
           limits:
             cpu: 500m
+        env:
+        - name: deployment
+          value: "True" 
+        volumeMounts:
+          - mountPath: /etc/cs4300-volume-json
+            name: cs4300-volume-json
+          - mountPath: /etc/cs4300-volume-cfg
+            name: cs4300-volume-cfg
+      volumes:
+      - name: cs4300-volume-json
+        secret:
+          defaultMode: 420
+          secretName: mycourseindex-json
+      - name: cs4300-volume-cfg
+        secret:
+          defaultMode: 420
+          secretName: mycourseindex-cfg
 ---
 apiVersion: v1
 kind: Service
