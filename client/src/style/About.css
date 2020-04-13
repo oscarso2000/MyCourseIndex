@@ -33,11 +33,22 @@
 .center h4 {
   display: block;
 }
-ul,
-li {
-  list-style: none;
+
+div.item {
+  /* To correctly align image, regardless of content height: */
+  vertical-align: top;
+  display: inline-block;
+  /* To horizontally center images and caption */
+  text-align: center;
+  /* The width of the container also implies margin around the images. */
+  width: 120px;
 }
-ul,
-li::before {
-  content: "- ";
+img {
+  width: 100px;
+  height: 100px;
+  background-color: grey;
+}
+.caption {
+  /* Make the caption a block so it occupies its own line. */
+  display: block;
 }
