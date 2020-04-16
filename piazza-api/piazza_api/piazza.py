@@ -3,12 +3,14 @@ from .course import Course
 
 
 class Piazza(object):
-    """Piazza [summary]
-    
-    [extended_summary]
-    
+    """Piazza is an object that represent the Piazza website.
+
+    Since this represents the website, we only offer login and returning course
+    methods which then allow the user a lower level access to the Piazza
+    website and the information contained within.
+
     :param piazza_jrpc: Piazza RPC lower level API
-    :type piazza_jrpc::class:`PiazzaJRPC`
+    :type piazza_jrpc: :class:`~piazza_api.piazza_jrpc.PiazzaJRPC`
     """
     def __init__(self, piazza_jrpc=None):
         self._jrpc_api = piazza_jrpc if piazza_jrpc else None
@@ -35,7 +37,7 @@ class Piazza(object):
             https://piazza.com/class/{course_id}
         :type course_id: str
         :returns: Course instance that allows accessing posts etc.
-        :rtype: :class:`Course`
+        :rtype: :class:`~piazza_api.course.Course`
         """
         self._ensure_authenticated()
         return Course(course_id, self._jrpc_api.session)
