@@ -25,6 +25,7 @@ cryptography = "^2.9"
 spacy = "^2.2.4"
 nltk = "^3.5"
 spacy-lookups-data = "^0.2.0"
+"pdfminer.six" = "^20200402"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.3"
