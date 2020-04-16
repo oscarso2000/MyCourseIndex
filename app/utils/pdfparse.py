@@ -200,7 +200,7 @@ def extract_text_from_pdf(pdf_path, start_page, end_page):
         return text
 
     
-def make_pdf_to_txt(pdf_path, doc_name):
+def make_pdf_to_txt(pdf_path, doc_name, aws_access_key_id=None, aws_secret_access_key=None):
     start_idx, end_idx, new_doc_names = parse_TOC(pdf_path, doc_name)
     for i in tqdm(range(len(start_idx))):
         new_filename = new_doc_names[i].replace("/", "-").replace(" ", "_") + ".txt"
@@ -211,7 +211,7 @@ def make_pdf_to_txt(pdf_path, doc_name):
         else:
             print(extract_text_from_pdf(pdf_path,int(start_idx[i]),9999999), file=fp)
         fp.close()
-        s3_client = boto3.client('s3')
+        s3_client = boto3.client('s3', aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
         try:
             response = s3_client.upload_file(new_path, "cs4300-data-models", new_path)
         except ClientError as e:
