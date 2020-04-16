@@ -1671,6 +1671,14 @@ tests = ["pytest", "pytest-cov", "codecov"]
 
 [[package]]
 category = "main"
+description = "Makes working with XML feel like you are working with JSON"
+name = "xmltodict"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "0.12.0"
+
+[[package]]
+category = "main"
 description = "Backport of pathlib-compatible object wrapper for zip files"
 marker = "python_version < \"3.8\""
 name = "zipp"
@@ -1686,7 +1694,7 @@ testing = ["jaraco.itertools", "func-timeout"]
 doc = []
 
 [metadata]
-content-hash = "3c9828b388bbca77aaef50c9309477835b5680e459dbcafa8f120451890a8cd0"
+content-hash = "9472d41ffb8d888cd5ddd6ae0791556c64054cace8014957e377c788c764ad1c"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -2618,6 +2626,10 @@ wtforms = [
 xdoctest = [
     {file = "xdoctest-0.10.3-py2.py3-none-any.whl", hash = "sha256:8e96068a02f2394bd56415444d1a31fad908e01522df03695b876a73b8d500c4"},
     {file = "xdoctest-0.10.3.tar.gz", hash = "sha256:520ad9c3980247f7f97d1b01d5ae751fa4e0de4951afcf9df5ef89a89c86d85e"},
+]
+xmltodict = [
+    {file = "xmltodict-0.12.0-py2.py3-none-any.whl", hash = "sha256:8bbcb45cc982f48b2ca8fe7e7827c5d792f217ecf1792626f808bf41c3b86051"},
+    {file = "xmltodict-0.12.0.tar.gz", hash = "sha256:50d8c638ed7ecb88d90561beedbf720c9b4e851a9fa6c47ebd64e99d166d8a21"},
 ]
 zipp = [
     {file = "zipp-3.1.0-py3-none-any.whl", hash = "sha256:aa36550ff0c0b7ef7fa639055d797116ee891440eac1a56f378e2d3179e0320b"},
