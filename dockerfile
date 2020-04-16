@@ -19,7 +19,7 @@ RUN pip install -U pip && pip install "poetry==$POETRY_VERSION"
 WORKDIR /app
 COPY poetry.lock pyproject.toml /app/
 copy piazza-api/dist/piazza_api-0.1.0-py3-none-any.whl /app/piazza-api/dist/
-RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi --no-dev --no-root
+RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi --no-dev --no-root && python -m spacy download en_core_web_sm
 
 COPY --from=builder /app/build /app/client/build
 
