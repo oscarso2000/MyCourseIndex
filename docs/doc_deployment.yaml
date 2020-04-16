@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cs4300docs
+  namespace: ingress-basic
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  selector:
+    matchLabels:
+      app: cs4300docs
+  template:
+    metadata:
+      labels:
+        app: cs4300docs
+    spec:
+      containers:
+      - name: cs4300docs
+        image: oscarso2000/cs4300docs:
+        imagePullPolicy: Always
+        ports:
+        - name: https
+          containerPort: 80
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cs4300docs
+  namespace: ingress-basic
+spec:
+  type: ClusterIP
+  ports:
+  - name: https
+    port: 443
+    targetPort: https
+  selector:
+    app: cs4300docs
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: cs4300docs
+  namespace: ingress-basic
+  annotations:
+    kubernetes.io/tls-acme: 'true'
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.allow-http: "false"
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    certmanager.k8s.io/acme-challenge-type: dns01
+    certmanager.k8s.io/acme-dns01-provider: route53
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: 200m
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  tls:
+  - hosts:
+    - docs.mycourseindex.com
+    secretName: tls-secret
+  rules:
+  - host: docs.mycourseindex.com
+    http:
+      paths:
+      - path: /?(.*)
+        backend:
+          serviceName: cs4300docs
+          servicePort: 443
