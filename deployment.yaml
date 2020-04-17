@@ -4,7 +4,7 @@ metadata:
   name: cs4300piazza
   namespace: ingress-basic
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
     rollingUpdate:
       maxSurge: 1
