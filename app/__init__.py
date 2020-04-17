@@ -1,16 +1,11 @@
 import os
 from flask import Flask, render_template, request, redirect, flash, url_for, send_from_directory
 #from db_setup import init_db, db_session
-from app.forms import SearchForm
 from app.auth import user_jwt_required, get_name
 
 import logging
-import os
-import connexion
 
 
-# application = connexion.FlaskApp(__name__, specification_dir='openapi/')
-# app = application.app 
 app = Flask(__name__, template_folder="../client/build", static_folder="../client/build/static")
 app.logger.setLevel(logging.DEBUG)
 
