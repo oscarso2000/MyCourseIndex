@@ -64,7 +64,7 @@ spec:
   tls:
   - hosts:
     - docs.mycourseindex.com
-    secretName: tls-secret
+    secretName: tls-secret2
   rules:
   - host: docs.mycourseindex.com
     http:
