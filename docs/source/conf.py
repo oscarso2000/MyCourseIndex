@@ -14,10 +14,11 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('../..'))
 
+from pallets_sphinx_themes import ProjectLink
 
 # -- Project information -----------------------------------------------------
 
-project = 'Piazza Search'
+project = 'MyCourseIndex'
 copyright = '2020, Magd Bayoumi, Jenna Kressin, Souleiman Benhida, Sheetal Athrey, Oscar So'
 author = 'Magd Bayoumi, Jenna Kressin, Souleiman Benhida, Sheetal Athrey, Oscar So'
 
@@ -31,7 +32,14 @@ release = '0.1.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.mathjax",
+    "pallets_sphinx_themes",
+    "sphinx.ext.todo",
 ]
+
+source_suffix = [".rst", ".md"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -47,7 +55,26 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+# html_theme = 'alabaster'
+html_theme = "flask"
+html_theme_options = {"index_sidebar_logo": True}
+html_context = {
+    "project_links": [
+        ProjectLink(
+            "Source Code",
+            "https://github.com/oscarso2000/MyCourseIndex",
+        ),
+        ProjectLink(
+            "Build Pipeline",
+            "https://travis-ci.org/github/oscarso2000/MyCourseIndex",
+        ),
+        ProjectLink("MyCourseIndex Team", "https://www.mycourseindex.com/about"),
+    ]
+}
+html_sidebars = {
+    "index": ["project.html", "localtoc.html", "searchbox.html"],
+    "**": ["localtoc.html", "relations.html", "searchbox.html"],
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

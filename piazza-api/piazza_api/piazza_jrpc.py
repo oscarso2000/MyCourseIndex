@@ -22,7 +22,11 @@ from piazza_api.exceptions import (
 class PiazzaJRPC(object):
     """PiazzaJRPC is the unofficial client for Piazza's internal API.
     
-    [extended_summary]
+    This module maps directly to Piazza's lower level API and will contain most/all
+    breaking changes if their API changes.
+
+    They seem to use JSON-RPC which is the remote procedure call protocol. It is a
+    different method than REST since we have to specify methods and arguments
     
     :param class_id: This is the ID of the class from which to query posts
     :type object: str or None
@@ -33,7 +37,8 @@ class PiazzaJRPC(object):
         >>> p.content_get(181)
             ...
     
-    .. note:
+    .. note: One could directly use this instead of the Piazza class, however
+        the Piazza class offers a nice wrapper
     """
     def __init__(self, class_id=None):
         self._cid = class_id
@@ -45,8 +50,6 @@ class PiazzaJRPC(object):
 
     def user_login(self, email, password):
         """user_login grabs a session cookie using email and password.
-        
-        [extended_summary]
         
         :param email: Email used for authentication
         :type email: str
@@ -76,7 +79,7 @@ class PiazzaJRPC(object):
                 api_url="logic"):
         """request gets the data from an arbitrary Piazza API endpoint.
         
-        [extended_summary]
+        TODO: Write a more in-depth explanation
         
         :param method: [description]
         :type method: [type]

@@ -3,12 +3,14 @@ from flask import Flask, render_template, request, redirect, flash, url_for, sen
 #from db_setup import init_db, db_session
 from app.forms import SearchForm
 from app.auth import user_jwt_required, get_name
-from flask_oidc import OpenIDConnect
 
 import logging
 import os
-from flask import send_from_directory
+import connexion
 
+
+# application = connexion.FlaskApp(__name__, specification_dir='openapi/')
+# app = application.app 
 app = Flask(__name__, template_folder="../client/build", static_folder="../client/build/static")
 app.logger.setLevel(logging.DEBUG)
 
@@ -23,7 +25,6 @@ gunicorn_logger = logging.getLogger('gunicorn.error')
 app.logger.handlers = gunicorn_logger.handlers
 app.logger.setLevel(gunicorn_logger.level)
 
-# oidc = OpenIDConnect(app)
 
 @app.route("/auth", methods=["POST"])
 def auth():
@@ -41,28 +42,26 @@ def auth():
 def whoami():
     access_token = request.get_json()["token"]
     # app.logger.debug("My Token is: {}".format(access_token))
-    #name = get_name(access_token, app.config["APP_ID"], app.logger)
-    #return name
-    firstName = str(get_name(access_token, app.config["APP_ID"], app.logger)).split(' ')[0]
-    return firstName
+    name = get_name(access_token, app.config["APP_ID"], app.logger)
+    return name
 
 
-@app.route('/results')
-def search_results(search):
-    # results here will take in search, 
-    # query database, and use IR stuff like 
-    # cosine similarity and other stuff to 
-    # gain final results array. 
-    results = []
-    search_string = search.data['search']
-    if search.data['search'] == '':
-        return redirect('/')
-    if not results:
-        flash('No results found!')
-        return redirect('/')
-    else:
-        # display results
-        return render_template('results.html', results=results)
+# @app.route('/results')
+# def search_results(search):
+#     # results here will take in search, 
+#     # query database, and use IR stuff like 
+#     # cosine similarity and other stuff to 
+#     # gain final results array. 
+#     results = []
+#     search_string = search.data['search']
+#     if search.data['search'] == '':
+#         return redirect('/')
+#     if not results:
+#         flash('No results found!')
+#         return redirect('/')
+#     else:
+#         # display results
+#         return render_template('results.html', results=results)
 
 
 @app.route("/manifest.json")
@@ -75,7 +74,7 @@ def ColorMCIfavicon():
     return send_from_directory(os.path.join(app.root_path, "static"),"ColorMCIfavicon.ico")
 
 
-@app.route('/oidc/callback')
+@app.route('/oidc/callback', methods=['GET'])
 def oidc_callback():
     return redirect(url_for("index"))
 
@@ -85,6 +84,8 @@ def oidc_callback():
 def index(path):
     return render_template("index.html")
 
+
+# application.add_api('spec.yml')
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
