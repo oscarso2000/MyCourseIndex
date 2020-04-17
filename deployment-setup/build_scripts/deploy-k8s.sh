@@ -33,7 +33,7 @@ echo -e "${YELLOW}==== TESTING KUBECTL CONNECTION ====${NC}"
 dummybool=$(kubectl get nodes | grep NAME)
 failure=true
 
-if [ "$dummybool" = "NAME                             STATUS   ROLES    AGE    VERSION" ]; then
+if [ "$dummybool" = "NAME                             STATUS   ROLES    AGE   VERSION" ]; then
     failure=false
     echo -e "${GREEN}====             SUCCESS             ====${NC}"
 else
@@ -71,4 +71,13 @@ echo -e "${GREEN}==== Updated deployment to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
 echo -e "${GREEN}==== Deploying Updated Application ====${NC}"
 kubectl apply -f deployment.yaml
 echo -e "${GREEN}==== Done deploying external dns ====${NC}"
+echo ''
+
+echo -e "${GREEN}==== Updating docs to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
+sed -i 's|oscarso2000/cs4300docs:|oscarso2000/cs4300docs:'$TRAVIS_BUILD_NUMBER'|g' docs/doc_deployment.yaml
+echo -e "${GREEN}==== Updated docs to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
+
+echo -e "${GREEN}==== Deploying Docs ====${NC}"
+kubectl apply -f docs/doc_deployment.yaml
+echo -e "${GREEN}==== Done Docs ====${NC}"
 echo ''

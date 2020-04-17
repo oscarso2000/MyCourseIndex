@@ -22,6 +22,11 @@ gunicorn = "^20.0.4"
 flask-wtf = "^0.14.3"
 pyjwt = "^1.7.1"
 cryptography = "^2.9"
+spacy = "^2.2.4"
+nltk = "^3.5"
+spacy-lookups-data = "^0.2.0"
+"pdfminer.six" = "^20200402"
+xmltodict = "^0.12.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.3"
@@ -48,6 +53,7 @@ tox = "^3.14.3"
 pytorch_sphinx_theme = "^0.0.19"
 sphinxcontrib-katex = "^0.6.0"
 tqdm = "^4.43.0"
+connexion = {extras = ["swagger-ui"], version = "^2.6.0"}
 
 [tool.poetry.extras]
 doc = ["sphinx", "sphinx_rtd_theme"]

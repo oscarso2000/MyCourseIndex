@@ -1,0 +1,145 @@
+openapi: 3.0.0
+info:
+  version: "0.0.1"
+  title: MyCourseIndex
+
+servers:
+  - url: http://localhost:5000/
+  - url: https://www.mycourseindex.com/
+
+paths:
+  /:
+    get:
+      summary: Rendering of the Single Page React App
+      description: Endpoint to render and display the react app
+      operationId: app.index
+      responses:
+        200:
+          description: Successfully arrived at website
+          content:
+            text/html:
+              schema:
+                type: string
+                example: '<html><body><ul><li>item 1</li><li>item 2</li></ul></body></html>'
+  /auth:
+    post:
+      summary: summary
+      description: description
+      operationId: app.auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/auth'
+      responses:
+        200:
+          description: Successfully ran authorization algorithm
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+  /whoami:
+    post:
+      summary: summary
+      description: description
+      operationId: app.whoami
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/auth'
+      responses:
+        200:
+          description: Successfully decoded payload into name
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Magd Bayoumi"
+  /oidc/callback:
+    get:
+      summary: catch and redirect
+      description: MORE HERE
+      operationId: app.oidc_callback
+      responses:
+        200:
+          description: Will never happen
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/empty"
+        302:
+          description: Redirect to start
+          headers:
+            location:
+              description: "redirect uri"
+              schema:
+                type: string
+  /manifest.json:
+    get:
+      summary: manifest json file
+      operationId: app.manifest
+      responses:
+        200:
+          description: returned manifest file
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/manifest'
+  /ColorMCIfavicon.ico:
+    get:
+      summary: get icon
+      operationId: app.ColorMCIfavicon
+      responses:
+        200:
+          description: returned icon
+          content:
+            image/x-icon:
+              schema:
+                type: string
+                format: binary
+
+components:
+  schemas:
+    empty:
+      title: Null object
+      type: object
+      properties:
+        useless:
+          type: string
+          description: useless object
+    auth:
+      title: Authentication
+      type: object
+      properties:
+        token:
+          type: string
+          description: Access token
+      required:
+        - token
+    manifest:
+      title: Manifest.json
+      type: object
+      properties:
+        short_name:
+          type: string
+          description: short name of the project
+        name:
+          type: string
+          description: Full name
+        icons:
+          type: array
+          description: Icons list
+        start_url:
+          type: string
+          description: base file to start with
+        display:
+          type: string
+          description: display type
+        theme_color:
+          type: string
+          description: Color of the theme
+        background_color:
+          type: string
+          description: Color of the background

@@ -13,12 +13,13 @@ import ReactTimeout from 'react-timeout'
 import * as legoData from "./images/legoloading.json";
 import * as doneData from "./images/doneloading.json";
 import * as errorData from "./images/errorloading.json";
+import { any } from 'prop-types';
 
 
 const defaultOptions = {
     loop: true,
     autoplay: true,
-    animationData: legoData.default,
+    animationData: legoData,//.default,
     rendererSettings: {
         preserveAspectRatio: "xMidYMid slice"
     }
@@ -27,7 +28,7 @@ const defaultOptions = {
 const defaultOptions2 = {
     loop: false,
     autoplay: true,
-    animationData: doneData.default,
+    animationData: doneData,//.default,
     rendererSettings: {
         preserveAspectRatio: "xMidYMid slice"
     }
@@ -36,13 +37,13 @@ const defaultOptions2 = {
 const defaultOptions3 = {
     loop: false,
     autoplay: true,
-    animationData: errorData.default,
+    animationData: errorData,//.default,
     rendererSettings: {
         preserveAspectRatio: "xMidYMid slice"
     }
 };
 
-const getAuth = (token) => {
+const getAuth: (token: string | null) => Promise<boolean> = (token) => {
     return axios.post(`https://www.mycourseindex.com/auth`, { "token": token }).then(
     //return axios.post(`http://localhost:5000/auth`, { "token": token }).then(
         (response) => {
@@ -53,7 +54,7 @@ const getAuth = (token) => {
     )
 }
 
-const getName = (token) => {
+const getName: (token: string | null) => Promise<string> = (token) => {
     return axios.post(`https://www.mycourseindex.com/whoami`, { "token": token }).then(
     //return axios.post(`http://localhost:5000/whoami`, { "token": token }).then(
         (response) => {
@@ -64,7 +65,7 @@ const getName = (token) => {
     )
 }
 
-const App = (props) => {
+const App: React.FC = (props: any) => {
 
     const [authorized, setAuthorized] = React.useState(false);
     const [loaded, setLoaded] = React.useState(false);
@@ -129,7 +130,7 @@ const App = (props) => {
                 <div className="App">
                     <header className="App-header">
                         <FadeIn>
-                            <div class="d-flex justify-content-center align-items-center">
+                            <div className="d-flex justify-content-center align-items-center">
                                 <h1 style={{ color: "#FFFFFF" }}>Not Authorized!</h1>
                             </div>
                         </FadeIn>
@@ -144,7 +145,7 @@ const App = (props) => {
             <div className="App">
                 <header className="App-header">
                     <FadeIn>
-                        <div class="d-flex justify-content-center align-items-center">
+                        <div className="d-flex justify-content-center align-items-center">
                             <h1>One moment, {name}</h1>
                             {done ?
                                 (authorized ?
