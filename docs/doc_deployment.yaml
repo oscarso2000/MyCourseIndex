@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cs4300piazza
+  name: cs4300docs
   namespace: ingress-basic
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -12,46 +12,29 @@ spec:
   minReadySeconds: 5
   selector:
     matchLabels:
-      app: cs4300piazza
+      app: cs4300docs
   template:
     metadata:
       labels:
-        app: cs4300piazza
+        app: cs4300docs
     spec:
       containers:
-      - name: cs4300piazza
-        image: oscarso2000/cs4300piazza:
+      - name: cs4300docs
+        image: oscarso2000/cs4300docs:
         imagePullPolicy: Always
         ports:
         - name: https
-          containerPort: 5000
+          containerPort: 80
         resources:
           requests:
             cpu: 250m
           limits:
             cpu: 500m
-        env:
-        - name: deployment
-          value: "True" 
-        volumeMounts:
-          - mountPath: /etc/cs4300-volume-json
-            name: cs4300-volume-json
-          - mountPath: /etc/cs4300-volume-cfg
-            name: cs4300-volume-cfg
-      volumes:
-      - name: cs4300-volume-json
-        secret:
-          defaultMode: 420
-          secretName: mycourseindex-json
-      - name: cs4300-volume-cfg
-        secret:
-          defaultMode: 420
-          secretName: mycourseindex-cfg
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: cs4300piazza
+  name: cs4300docs
   namespace: ingress-basic
 spec:
   type: ClusterIP
@@ -60,12 +43,12 @@ spec:
     port: 443
     targetPort: https
   selector:
-    app: cs4300piazza
+    app: cs4300docs
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: cs4300piazza
+  name: cs4300docs
   namespace: ingress-basic
   annotations:
     kubernetes.io/tls-acme: 'true'
@@ -80,13 +63,13 @@ metadata:
 spec:
   tls:
   - hosts:
-    - www.mycourseindex.com
+    - docs.mycourseindex.com
     secretName: tls-secret
   rules:
-  - host: www.mycourseindex.com
+  - host: docs.mycourseindex.com
     http:
       paths:
       - path: /?(.*)
         backend:
-          serviceName: cs4300piazza
+          serviceName: cs4300docs
           servicePort: 443

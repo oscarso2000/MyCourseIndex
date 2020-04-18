@@ -16,7 +16,7 @@ export const About: React.StatelessComponent = (): JSX.Element => (
         <div className="center">
             <h4>About</h4>
             <h4><a href="https://github.com/oscarso2000/mycourseindex">Source code on Github</a></h4>
-            <p> The authors of the mycourseindex project are: </p>
+            <p> The authors of the MyCourseIndex project are: </p>
 
             <div className="item">
                 <img src={Magd}/>
