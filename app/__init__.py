@@ -47,28 +47,22 @@ def whoami():
 
 @app.route('/results')
 def search_results():
-    # results here will take in search, 
-    # query database, and use IR stuff like 
-    # cosine similarity and other stuff to 
-    # gain final results array. 
-    query = request.args.get("query")
-    #courseSelection = request.args.get("courseSelection")
-    courseSelection = "CS 4300"
-    results = cosineSim(query, vecPy.docVecDictionary , courseSelection)
-    #n = request.args.get("numberOfResults")
-    n = 50 #top x highest
-    
-    reverseList = (-results).argsort()[:n]
-    #results[reverseList]    
-    #returns array [docIDName, rawData, URL, doc type] in correct order...
-    #from highest similarity to least
+    access_token = request.get_json()["token"]
 
-    return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList].tolist())
-   
-    # return [vecPy.courseDocIDNameDictionary[courseSelection][reverseList], 
-    #         vecPy.courseRawDataDictionary[courseSelection][reverseList],
-    #         vecPy.courseURLDictionary[courseSelection][reverseList],
-    #         vecPy.courseTypeOfDocDictionary[courseSelection][reverseList]]
+    if user_jwt_required(access_token, app.config["APP_ID"], app.logger):
+
+        query = request.args.get("query")
+        app.logger.info("User queried: {}".format(query))
+        #courseSelection = request.args.get("courseSelection")
+        courseSelection = "CS 4300"
+        results = cosineSim(query, vecPy.docVecDictionary , courseSelection)
+        n = 50 #top x highest
+        
+        reverseList = (-results).argsort()[:n]
+
+        return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList].tolist())
+    else:
+        return "Not Authorized"
     
     
 @app.route("/manifest.json")
