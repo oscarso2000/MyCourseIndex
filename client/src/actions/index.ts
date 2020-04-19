@@ -21,11 +21,11 @@ export const search = (reset?: any): void => {
         }
         dispatch({ type: 'LOADING_STATUS', payload: true });
         axios
-            .post(`/search/${store.getState().query}`)
+            .post(`/search`, {query: store.getState().query})
             .then((res: any) => dispatch({ type: 'SEND_RESULTS', payload: res.data }))
             .then(() => {
                 dispatch({ type: 'LOADING_STATUS', payload: false });
-                screenGrab();
+                //screenGrab();
             });
     });
 };
@@ -64,14 +64,14 @@ export const nextPage = (): void => {
         dispatch({ type: 'INCREMENT' });
         axios.post(`/search/${store.getState().query}/${store.getState().counter}`).then(res => {
             dispatch({ type: 'SEND_RESULTS', payload: res.data });
-            screenGrab();
+            //screenGrab();
         });
     });
 };
 
-export const outline = (site: string): void => {
+export const outline = (content: string): void => {
     store.dispatch<any>((dispatch: any): any => {
         dispatch({ type: 'OUTLINE_LOADING' });
-        axios.post(`/outline/${site}`).then(res => dispatch({ type: 'OUTLINE', payload: res.data }));
+        dispatch({ type: 'OUTLINE', payload: {title:"title", text:content }});
     });
 };
