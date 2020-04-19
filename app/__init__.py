@@ -47,6 +47,7 @@ def whoami():
 
 @app.route('/results')
 def search_results():
+<<<<<<< HEAD
     access_token = request.get_json()["token"]
 
     if user_jwt_required(access_token, app.config["APP_ID"], app.logger):
@@ -63,6 +64,28 @@ def search_results():
         return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList].tolist())
     else:
         return "Not Authorized"
+=======
+    # results here will take in search, 
+    # query database, and use IR stuff like 
+    # cosine similarity and other stuff to 
+    # gain final results array. 
+    query = request.args.get("query")
+    #courseSelection = request.args.get("courseSelection")
+    courseSelection = "CS 4300"
+    results = cosineSim(query, vecPy.docVecDictionary , courseSelection)
+    #n = request.args.get("numberOfResults")
+    n = 50 #top x highest
+    
+    reverseList = (-results).argsort()[:n]
+    #results[reverseList]    
+    #returns array [docIDName, rawData, URL, doc type] in correct order...
+    #from highest similarity to least
+   
+    return [vecPy.courseDocIDNameDictionary[courseSelection][reverseList], 
+            vecPy.courseRawDataDictionary[courseSelection][reverseList],
+            vecPy.courseURLDictionary[courseSelection][reverseList],
+            vecPy.courseTypeOfDocDictionary[courseSelection][reverseList]]
+>>>>>>> e673e2009a22f9e856e57bc3085d666ffd03ada5
     
     
 @app.route("/manifest.json")
