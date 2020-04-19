@@ -1,8 +1,10 @@
 import os
-from flask import Flask, render_template, request, redirect, flash, url_for, send_from_directory
+from flask import Flask, render_template, request, redirect, flash, url_for, send_from_directory, jsonify
 #from db_setup import init_db, db_session
 from app.auth import user_jwt_required, get_name
-
+from app.search.similarity import *
+import app.utils
+import app.utils.vectorizer as vecPy
 import logging
 
 
@@ -19,6 +21,8 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 gunicorn_logger = logging.getLogger('gunicorn.error')
 app.logger.handlers = gunicorn_logger.handlers
 app.logger.setLevel(gunicorn_logger.level)
+
+
 
 
 @app.route("/auth", methods=["POST"])
@@ -41,22 +45,24 @@ def whoami():
     return name
 
 
-# @app.route('/results')
-# def search_results(search):
-#     # results here will take in search, 
-#     # query database, and use IR stuff like 
-#     # cosine similarity and other stuff to 
-#     # gain final results array. 
-#     results = []
-#     search_string = search.data['search']
-#     if search.data['search'] == '':
-#         return redirect('/')
-#     if not results:
-#         flash('No results found!')
-#         return redirect('/')
-#     else:
-#         # display results
-#         return render_template('results.html', results=results)
+@app.route('/results')
+def search_results():
+    access_token = request.get_json()["token"]
+
+    if user_jwt_required(access_token, app.config["APP_ID"], app.logger):
+
+        query = request.args.get("query")
+        app.logger.info("User queried: {}".format(query))
+        #courseSelection = request.args.get("courseSelection")
+        courseSelection = "CS 4300"
+        results = cosineSim(query, vecPy.docVecDictionary , courseSelection)
+        n = 50 #top x highest
+        
+        reverseList = (-results).argsort()[:n]
+
+        return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList].tolist())
+    else:
+        return "Not Authorized"
 
 
 @app.route("/manifest.json")

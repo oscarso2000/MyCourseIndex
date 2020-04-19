@@ -170,7 +170,6 @@ def tokenize_transcript(tokenize_method,input_transcript):
         token_dict[k] = token_simpl_dict
     return (token_dict, Counter(total_tokens))
 
-
 (tokenized_spacy_dict, total_tokens_spacy) = tokenize_transcript(tokenize_SpaCy, processed_simple_dict)
 
 (tokenized_num_dict, total_tokens_w_num) = tokenize_transcript(tokenize_w_numbers, processed_simple_dict)
