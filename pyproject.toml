@@ -17,6 +17,8 @@ jwt = "^0.6.1"
 connexion = "^2.6.0"
 piazza-api = {file = "./piazza-api/dist/piazza_api-0.1.0-py3-none-any.whl"}
 gunicorn = "^20.0.4"
+flask-wtf = "^0.14.3"
+html2text = "^2020.1.16"
 pyjwt = "^1.7.1"
 cryptography = "^2.9"
 spacy = "^2.2.4"
