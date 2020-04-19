@@ -52,6 +52,17 @@ def search_results():
     #course = request.args.get("courseSelection")
     results = cosineSim(query, utils.vectorizer.docVecDictionary , "CS 4300")
     
+    #n = request.args.get("numberOfResults")
+    n = 50 #top x highest
+    
+    #INCOMPLETE: TODO NEEDS FIXING UP
+    #Return the documents TEXT&ID most highly similar 
+    #returns indices of highest n similarity values
+    reverseList = (-results).argsort()[:n]
+    print(results[reverseList])
+
+    return results
+    
     
     # print([documents[x] for x in returnedResults])
 

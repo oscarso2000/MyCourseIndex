@@ -29,12 +29,19 @@ def cosineSim(query, courseVecDictionary, course): #top x highest
     denom = LA.norm(queryVectorizerArray)*LA.norm(docVectorizerArray,axis=1)
     sim = num/denom
     
-    n = 50 #top x highest
-    #returns indices of highest n similarity values
-    reverseList = (-sim).argsort()[:n]
-    print(sim[reverseList])
+    return sim
     
-    return reverseList 
+    # n = 50 #top x highest
+    # #returns indices of highest n similarity values
+    # reverseList = (-sim).argsort()[:n]
+    # print(sim[reverseList])
+    
+    # return reverseList 
+    
+    
+    
+    
+    
     # for vector in docVectorizerArray:
     #     for queryV in queryVectorizerArray:
     #         cosine = cosine_function(vector, queryV)
@@ -58,7 +65,7 @@ if __name__ == "__main__":
     #stopWords = stopwords.words('english')
     #stopWords = utils.sp.Defaults.stop_words
     
-    tokenizer = utils.tokenized_already
+    tokenizer = utils.tokenized_SpaCy
     
     #vectorizer = TfidfVectorizer(stop_words = stopWords, tokenizer = tokenizer)
     vectorizer = TfidfVectorizer(tokenizer = tokenizer)
