@@ -14,6 +14,7 @@ export const handleKey = (e: any, reset?: string): void => {
     }
 };
 
+// TODO add token
 export const search = (reset?: any): void => {
     store.dispatch<any>((dispatch: any): any => {
         if (reset) {
