@@ -31,4 +31,4 @@ COPY app /app/app
 
 EXPOSE 5000
 
-CMD ["python", "-m", "gunicorn.app.wsgiapp", "app:app", "-w 2", "-b 0.0.0.0:5000", "--log-level", "INFO"]
+CMD ["python", "-m", "gunicorn.app.wsgiapp", "app:app", "-w 2", "-b 0.0.0.0:5000", "--log-level", "DEBUG", "--timeout", "900"]

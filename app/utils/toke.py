@@ -7,7 +7,7 @@ used in all other modules.
 from nltk.stem import PorterStemmer 
 from nltk.tokenize import word_tokenize 
 import spacy
-from piazza_api import Piazza
+# from piazza_api import Piazza
 
 # EMPLOY CONSTANTS USED THROUGHOUT THE FILE AND CAN BE IMPORTED
 sp = spacy.load('en_core_web_lg')
@@ -44,3 +44,8 @@ def tokenize_SpaCy(text):
     text = text.lower()
     tokenized = sp(text)    
     return [w.lemma_ for w in tokenized if not w.is_punct and not w.is_stop and not w.is_space]
+
+
+def tokenized_already(input):
+    #return input[2:]
+    return input
