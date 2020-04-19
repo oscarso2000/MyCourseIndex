@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, flash, url_for, send_from_directory
+from flask import Flask, render_template, request, redirect, flash, url_for, send_from_directory, jsonify
 #from db_setup import init_db, db_session
 from app.auth import user_jwt_required, get_name
 from app.search.similarity import *
@@ -21,6 +21,8 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 gunicorn_logger = logging.getLogger('gunicorn.error')
 app.logger.handlers = gunicorn_logger.handlers
 app.logger.setLevel(gunicorn_logger.level)
+
+
 
 
 @app.route("/auth", methods=["POST"])
@@ -60,11 +62,13 @@ def search_results():
     #results[reverseList]    
     #returns array [docIDName, rawData, URL, doc type] in correct order...
     #from highest similarity to least
+
+    return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList].tolist())
    
-    return [vecPy.courseDocIDNameDictionary[courseSelection][reverseList], 
-            vecPy.courseRawDataDictionary[courseSelection][reverseList],
-            vecPy.courseURLDictionary[courseSelection][reverseList],
-            vecPy.courseTypeOfDocDictionary[courseSelection][reverseList]]
+    # return [vecPy.courseDocIDNameDictionary[courseSelection][reverseList], 
+    #         vecPy.courseRawDataDictionary[courseSelection][reverseList],
+    #         vecPy.courseURLDictionary[courseSelection][reverseList],
+    #         vecPy.courseTypeOfDocDictionary[courseSelection][reverseList]]
     
     
 @app.route("/manifest.json")

@@ -1,5 +1,5 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
-import toke
+from app.utils import toke
 import boto3
 import os
 import json
@@ -19,7 +19,7 @@ secret = app.config["AWS_SECRET"]
 
 # P03Data.json
 s3 = boto3.client('s3', aws_access_key_id=key, aws_secret_access_key=secret)
-# s3.download_file('cs4300-data-models', 'P03Data.json', 'P03Data.json')
+s3.download_file('cs4300-data-models', 'P03Data.json', 'P03Data.json')
 
 # S3 JSON Format:
 # { "CS4300": {"Piazza": {PostID: content, PostID2: content2}, "Textbook": {DocId: content, DocID2: content2} } }
@@ -28,44 +28,48 @@ with open("P03Data.json") as f:
 
 docVecDictionary = {}
 courseDocDictionary = {}
-courseRawDataDictionary = {}
-courseURLDictionary = {}
-courseTypeOfDocDictionary = {}
-courseDocIDNameDictionary = {}
+# courseRawDataDictionary = {}
+# courseURLDictionary = {}
+# courseTypeOfDocDictionary = {}
+# courseDocIDNameDictionary = {}
 
 for course in fromS3:
     vec = TfidfVectorizer(tokenizer=tokenizer, lowercase=False)
     documents = []
-    rawData = []
-    URL = []
-    typeOfDoc = []
-    docIDName = []
+    # rawData = []
+    # URL = []
+    # typeOfDoc = []
+    # docIDName = []
+    rawDocs = []
     for source in fromS3[course]:
         for content in fromS3[course][source]:
-            for final in fromS3[course][source][content]:
+            # for final in fromS3[course][source][content]:
                 #pre is type, first is text, second is tokenized, third is url
-                if final == "type":
-                    typeOfDoc.append(
-                        fromS3[course][source][content][final])
-                elif final == "raw":
-                    rawData.append(fromS3[course][source][content][final])
-                elif final == "tokenized":
-                    documents.append(
-                        fromS3[course][source][content][final])
-                elif final == "url":
-                    URL.append(fromS3[course][source][content][final])
-                elif final == "doc_name":
-                    docIDName.append(
-                        fromS3[course][source][content][final])
+            documents.append(fromS3[course][source][content].pop("tokenized"))
+            rawDocs.append(fromS3[course][source][content])
+                # if final == "type":
+                #     typeOfDoc.append(
+                #         fromS3[course][source][content][final])
+                # elif final == "raw":
+                #     rawData.append(fromS3[course][source][content][final])
+                # elif final == "tokenized":
+                #     documents.append(
+                #         fromS3[course][source][content][final])
+                # elif final == "url":
+                #     URL.append(fromS3[course][source][content][final])
+                # elif final == "doc_name":
+                #     docIDName.append(
+                #         fromS3[course][source][content][final])
    # elif course == "INFO 1998"
-    docVecDictionary[course] = vec.fit_transform(documents).toarray()
+    docVecDictionary[course] = (vec, vec.fit_transform(documents).toarray())
+    courseDocDictionary[course] = np.array(rawDocs)
     # [["this", "is", "the", "post"],["Piazza", "this", "is", "the", "post"]]
     # courseDocDictionary[course] = np.array(documents)
-    courseRawDataDictionary[course] = np.array(rawData)
-    courseURLDictionary[course] = np.array(URL)
-    courseTypeOfDocDictionary[course] = np.array(typeOfDoc)
-    courseDocIDNameDictionary[course] = np.array(docIDName)
+    # courseRawDataDictionary[course] = np.array(rawData)
+    # courseURLDictionary[course] = np.array(URL)
+    # courseTypeOfDocDictionary[course] = np.array(typeOfDoc)
+    # courseDocIDNameDictionary[course] = np.array(docIDName)
 
-print(courseRawDataDictionary["CS 4300"][0])
+# print(courseRawDataDictionary["CS 4300"][0])
 
 # docVecDictionary is full dictionary of all documents in all courses. Everything should be a global variable.
