@@ -9,6 +9,7 @@ tokenizer = tokenize.tokenized_already
 fromS3 = loadJSONFILE from S3 !!!
 
 docVecDictionary = {}
+courseDocDictionary = {}
 
 for course in fromS3:
     vec = TfidfVectorizer(tokenizer = tokenizer)
@@ -20,5 +21,6 @@ for course in fromS3:
             #looks like ["Piazza", "671", "this", "is", "the", "post"]      
             documents.append(unique)
     docVecDictionary[course.key] = vec.fit_transform(documents).toarray()
+    courseDocDictionary[course.key] = documents #[["Piazza", "671", "this", "is", "the", "post"],["Piazza", "672", "this", "is", "the", "post"]]
     
 #docVecDictionary is full dictionary of all documents in all courses. Should be a global variable.
