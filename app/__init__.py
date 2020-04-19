@@ -2,7 +2,8 @@ import os
 from flask import Flask, render_template, request, redirect, flash, url_for, send_from_directory
 #from db_setup import init_db, db_session
 from app.auth import user_jwt_required, get_name
-
+from app.search.similarity import *
+import app.utils
 import logging
 
 
@@ -41,22 +42,18 @@ def whoami():
     return name
 
 
-# @app.route('/results')
-# def search_results(search):
-#     # results here will take in search, 
-#     # query database, and use IR stuff like 
-#     # cosine similarity and other stuff to 
-#     # gain final results array. 
-#     results = []
-#     search_string = search.data['search']
-#     if search.data['search'] == '':
-#         return redirect('/')
-#     if not results:
-#         flash('No results found!')
-#         return redirect('/')
-#     else:
-#         # display results
-#         return render_template('results.html', results=results)
+@app.route('/results')
+def search_results():
+    # results here will take in search, 
+    # query database, and use IR stuff like 
+    # cosine similarity and other stuff to 
+    # gain final results array. 
+    query = request.args.get("query")
+    #course = request.args.get("courseSelection")
+    results = cosineSim(query, utils.vectorizer.docVecDictionary , "CS 4300")
+    
+    
+    # print([documents[x] for x in returnedResults])
 
 
 @app.route("/manifest.json")

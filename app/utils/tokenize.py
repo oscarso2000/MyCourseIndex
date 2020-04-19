@@ -44,3 +44,7 @@ def tokenize_SpaCy(text):
     text = text.lower()
     tokenized = sp(text)    
     return [w.lemma_ for w in tokenized if not w.is_punct and not w.is_stop]
+
+def tokenized_already(input):
+    #return input[2:]
+    return input
