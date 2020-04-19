@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, redirect, flash, url_for, sen
 from app.auth import user_jwt_required, get_name
 from app.search.similarity import *
 import app.utils
+import app.utils.vectorizer as vecPy
 import logging
 
 
@@ -49,24 +50,23 @@ def search_results():
     # cosine similarity and other stuff to 
     # gain final results array. 
     query = request.args.get("query")
-    #course = request.args.get("courseSelection")
-    results = cosineSim(query, utils.vectorizer.docVecDictionary , "CS 4300")
-    
+    #courseSelection = request.args.get("courseSelection")
+    courseSelection = "CS 4300"
+    results = cosineSim(query, vecPy.docVecDictionary , courseSelection)
     #n = request.args.get("numberOfResults")
     n = 50 #top x highest
     
-    #INCOMPLETE: TODO NEEDS FIXING UP
-    #Return the documents TEXT&ID most highly similar 
-    #returns indices of highest n similarity values
     reverseList = (-results).argsort()[:n]
-    print(results[reverseList])
-
-    return results
+    #results[reverseList]    
+    #returns array [docIDName, rawData, URL, doc type] in correct order...
+    #from highest similarity to least
+   
+    return [vecPy.courseDocIDNameDictionary[courseSelection][reverseList], 
+            vecPy.courseRawDataDictionary[courseSelection][reverseList],
+            vecPy.courseURLDictionary[courseSelection][reverseList],
+            vecPy.courseTypeOfDocDictionary[courseSelection][reverseList]]
     
     
-    # print([documents[x] for x in returnedResults])
-
-
 @app.route("/manifest.json")
 def manifest():
     return send_from_directory(os.path.join(app.root_path, "../client/build"),'manifest.json')

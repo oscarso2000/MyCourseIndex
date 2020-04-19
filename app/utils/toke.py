@@ -7,7 +7,7 @@ used in all other modules.
 from nltk.stem import PorterStemmer 
 from nltk.tokenize import word_tokenize 
 import spacy
-from piazza_api import Piazza
+# from piazza_api import Piazza
 
 # EMPLOY CONSTANTS USED THROUGHOUT THE FILE AND CAN BE IMPORTED
 sp = spacy.load('en_core_web_lg')
