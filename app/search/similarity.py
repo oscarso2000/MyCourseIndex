@@ -2,14 +2,11 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.corpus import stopwords
 import numpy as np
 import numpy.linalg as LA
-import app.utils
+import app.utils as utils
 import time
 
 def cosineSim(query, courseVecDictionary, course): #top x highest
     #cosine_function = lambda a, b : round(np.inner(a, b)/(LA.norm(a)*LA.norm(b)), 3)
-
-
-
     #vectorizer = TfidfVectorizer(stop_words = stopWords)
     #start = time.time()
     #docVectorizerArray = vectorizer.fit_transform(documents).toarray()
