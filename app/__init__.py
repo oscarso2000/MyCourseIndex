@@ -53,9 +53,12 @@ def search_results():
         #courseSelection = request.args.get("courseSelection")
         courseSelection = "CS 4300"
         results = cosineSim(query, vecPy.docVecDictionary , courseSelection)
-        n = 50 #top x highest
+        n = 25 #top x highest
         
-        reverseList = (-results).argsort()[:n]
+        #source Dictionary 0.1 for resources, 1 for piazza (weighting)
+        finalresults = np.multiply(results,vecPy.sourceDictionary[courseSelection])
+        
+        reverseList = (-finalresults).argsort()[:n]
 
         return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList].tolist())
     else:

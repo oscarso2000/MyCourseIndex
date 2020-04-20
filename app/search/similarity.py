@@ -39,7 +39,7 @@ if __name__ == "__main__":
     #stopWords = stopwords.words('english')
     #stopWords = utils.sp.Defaults.stop_words
     
-    tokenizer = utils.tokenize_SpaCy
+    tokenizer = utils.tokenized_SpaCy
     
     #vectorizer = TfidfVectorizer(stop_words = stopWords, tokenizer = tokenizer)
     vectorizer = TfidfVectorizer(tokenizer = tokenizer)
