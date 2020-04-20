@@ -45,8 +45,7 @@
         "build": "react-scripts build",
         "clean": "rm -rf node_modules build",
         "test": "react-scripts-ts test --env=jsdom",
-        "eject": "react-scripts-ts eject",
-        "watch": "onchange 'src/*.ts*' -- npm run build"
+        "eject": "react-scripts-ts eject"
     },
     "devDependencies": {
         "@types/jest": "^23.3.5",

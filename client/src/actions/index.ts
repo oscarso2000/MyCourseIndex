@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { store } from '../reducers';
+import { getToken } from '../config/adalConfig';
+
 
 export const setQuery = (e: any): void => {
     store.dispatch({ type: 'SET_QUERY', payload: encodeURI(e.target.value) });
@@ -22,7 +24,7 @@ export const search = (reset?: any): void => {
         }
         dispatch({ type: 'LOADING_STATUS', payload: true });
         axios
-            .post(`/search`, {query: store.getState().query})
+            .post(`/search`, {query: store.getState().query, "token": getToken() })
             .then((res: any) => dispatch({ type: 'SEND_RESULTS', payload: res.data }))
             .then(() => {
                 dispatch({ type: 'LOADING_STATUS', payload: false });
@@ -63,7 +65,7 @@ const getScreenshot = (links: string[]): void => {
 export const nextPage = (): void => {
     store.dispatch<any>((dispatch: any): any => {
         dispatch({ type: 'INCREMENT' });
-        axios.post(`/search/${store.getState().query}/${store.getState().counter}`).then(res => {
+        axios.post(`/results/${store.getState().query}/${store.getState().counter}`).then(res => {
             dispatch({ type: 'SEND_RESULTS', payload: res.data });
             //screenGrab();
         });
@@ -73,6 +75,6 @@ export const nextPage = (): void => {
 export const outline = (data: any): void => {
     store.dispatch<any>((dispatch: any): any => {
         dispatch({ type: 'OUTLINE_LOADING' });
-        dispatch({ type: 'OUTLINE', payload: {title:data.history[0].subject, text:data.history[0].content }});
+        dispatch({ type: 'OUTLINE', payload: {title:data.doc_name, text:data.raw }});
     });
 };
