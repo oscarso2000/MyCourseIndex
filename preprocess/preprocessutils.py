@@ -9,8 +9,9 @@ import pickle
 
 import numpy as np
 import bs4
-get_ipython().run_line_magic('matplotlib', 'inline')
-import matplotlib.pyplot as plt
+from IPython import get_ipython
+# get_ipython().run_line_magic('matplotlib', 'inline')
+# import matplotlib.pyplot as plt
 
 import spacy
 sp = spacy.load('en_core_web_sm')
@@ -169,6 +170,7 @@ def tokenize_transcript(tokenize_method,input_transcript):
         token_simpl_dict['followups'] = Counter(followups)
         token_dict[k] = token_simpl_dict
     return (token_dict, Counter(total_tokens))
+
 
 (tokenized_spacy_dict, total_tokens_spacy) = tokenize_transcript(tokenize_SpaCy, processed_simple_dict)
 
