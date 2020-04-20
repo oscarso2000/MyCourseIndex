@@ -34,15 +34,9 @@ spec:
         - name: deployment
           value: "True" 
         volumeMounts:
-          - mountPath: /etc/cs4300-volume-json
-            name: cs4300-volume-json
           - mountPath: /etc/cs4300-volume-cfg
             name: cs4300-volume-cfg
       volumes:
-      - name: cs4300-volume-json
-        secret:
-          defaultMode: 420
-          secretName: mycourseindex-json
       - name: cs4300-volume-cfg
         secret:
           defaultMode: 420

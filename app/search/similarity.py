@@ -5,21 +5,27 @@ import numpy.linalg as LA
 import app.utils as utils
 import time
 
-def cosineSim(query, courseVecDictionary, course):
+def cosineSim(query, courseVecDictionary, course, logger):
     #courseVecDictionary[class selected]
     vec, docVectorizerArray = courseVecDictionary[course]
     
     query = utils.tokenize_SpaCy(query)
+    queryVectorizerArray = np.zeros((docVectorizerArray.shape[1],))
+    feature_list = vec.get_feature_names()
+
+    for w in query:
+        idx = feature_list.index(w)
+        queryVectorizerArray[idx] += 1.0
+
+    # queryVectorizerArray = vec.transform(query).toarray()[0]
     
-    queryVectorizerArray = vec.transform(query).toarray()[0]
-    
-    print('Fit Vectorizer to train set', docVectorizerArray.shape)
-    print('Transform Vectorizer to test set', queryVectorizerArray.shape)
+    # print('Fit Vectorizer to train set', docVectorizerArray.shape)
+    # print('Transform Vectorizer to test set', queryVectorizerArray.shape)
 
     num = queryVectorizerArray.dot(docVectorizerArray.T)
     denom = LA.norm(queryVectorizerArray)*LA.norm(docVectorizerArray,axis=1)
     sim = num/denom
-    
+
     return sim
 
 

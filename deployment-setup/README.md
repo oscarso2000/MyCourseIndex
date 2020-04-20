@@ -80,8 +80,8 @@ Now the big boi
 $ kops create cluster --cloud aws \
  --bastion \
  --node-count 1 \
- --node-size t2.medium \
- --master-size t2.medium \
+ --node-size t3.2xlarge \
+ --master-size t3.medium \
  --zones us-east-1a \
  --master-zones us-east-1a \
  --dns-zone mycourseindex.com \
