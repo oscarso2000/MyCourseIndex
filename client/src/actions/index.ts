@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { store } from '../reducers';
+import { getToken } from '../config/adalConfig';
+
 
 export const setQuery = (e: any): void => {
     store.dispatch({ type: 'SET_QUERY', payload: encodeURI(e.target.value) });
@@ -11,9 +13,10 @@ export const handleKey = (e: any, reset?: string): void => {
             store.dispatch({ type: 'RESET_RESULTS' });
         }
         search();
-    }
+    } 
 };
 
+// TODO add token
 export const search = (reset?: any): void => {
     store.dispatch<any>((dispatch: any): any => {
         if (reset) {
@@ -21,12 +24,12 @@ export const search = (reset?: any): void => {
         }
         dispatch({ type: 'LOADING_STATUS', payload: true });
         axios
-            .post(`/search/${store.getState().query}`)
+            .post(`/search`, {query: store.getState().query, "token": getToken() })
             .then((res: any) => dispatch({ type: 'SEND_RESULTS', payload: res.data }))
             .then(() => {
                 dispatch({ type: 'LOADING_STATUS', payload: false });
-                screenGrab();
-            });
+                //screenGrab();
+            }); 
     });
 };
 
@@ -62,16 +65,16 @@ const getScreenshot = (links: string[]): void => {
 export const nextPage = (): void => {
     store.dispatch<any>((dispatch: any): any => {
         dispatch({ type: 'INCREMENT' });
-        axios.post(`/search/${store.getState().query}/${store.getState().counter}`).then(res => {
-            dispatch({ type: 'SEND_RESULTS', payload: res.data });
-            screenGrab();
-        });
+        // axios.post(`/results/${store.getState().query}/${store.getState().counter}`).then(res => {
+        //    dispatch({ type: 'SEND_RESULTS', payload: res.data });
+        //    //screenGrab();
+        //});
     });
 };
 
-export const outline = (site: string): void => {
+export const outline = (data: any): void => {
     store.dispatch<any>((dispatch: any): any => {
         dispatch({ type: 'OUTLINE_LOADING' });
-        axios.post(`/outline/${site}`).then(res => dispatch({ type: 'OUTLINE', payload: res.data }));
+        dispatch({ type: 'OUTLINE', payload: {data: data}});
     });
 };

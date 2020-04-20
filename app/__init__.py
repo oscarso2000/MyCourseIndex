@@ -44,14 +44,11 @@ def whoami():
     name = get_name(access_token, app.config["APP_ID"], app.logger)
     return name
 
-
-@app.route('/results')
+@app.route('/search', methods=["POST"])
 def search_results():
     access_token = request.get_json()["token"]
-
     if user_jwt_required(access_token, app.config["APP_ID"], app.logger):
-
-        query = request.args.get("query")
+        query = request.get_json()["query"]
         app.logger.info("User queried: {}".format(query))
         #courseSelection = request.args.get("courseSelection")
         courseSelection = "CS 4300"
@@ -87,6 +84,7 @@ def oidc_callback():
 @app.route('/<path:path>')
 def index(path):
     return render_template("index.html")
+    
 
 
 # application.add_api('spec.yml')

@@ -9,11 +9,14 @@ import { Result } from './Result';
 //     screenshots: string[];
 // }
 
+
+
 export const ResultsList = ({ results, screenshots }) => {
     const ResultsArray = [];
     const len = results.length;
 
     for (let i = 0; i < len; i++) {
+        console.log(results[i])
         ResultsArray.push(<Result data={results[i]} screenshots={screenshots} />);
     }
 
