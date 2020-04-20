@@ -65,10 +65,10 @@ const getScreenshot = (links: string[]): void => {
 export const nextPage = (): void => {
     store.dispatch<any>((dispatch: any): any => {
         dispatch({ type: 'INCREMENT' });
-        axios.post(`/results/${store.getState().query}/${store.getState().counter}`).then(res => {
-            dispatch({ type: 'SEND_RESULTS', payload: res.data });
-            //screenGrab();
-        });
+        // axios.post(`/results/${store.getState().query}/${store.getState().counter}`).then(res => {
+        //    dispatch({ type: 'SEND_RESULTS', payload: res.data });
+        //    //screenGrab();
+        //});
     });
 };
 
