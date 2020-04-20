@@ -46,7 +46,7 @@ const getAuth: (token: string | null) => Promise<boolean> = (token) => {
     return axios.post(`https://www.mycourseindex.com/auth`, { "token": token }).then(
     // return axios.post(`http://localhost:3000/auth`, { "token": token }).then(
         (response) => {
-            console.log(response.data);
+            // console.log(response.data);
             // console.log(typeof response.data)
             return (response.data === "OK")
         }
@@ -57,8 +57,8 @@ const getName: (token: string | null) => Promise<string> = (token) => {
     return axios.post(`https://www.mycourseindex.com/whoami`, { "token": token }).then(
     // return axios.post(`http://localhost:3000/whoami`, { "token": token }).then(
         (response) => {
-            console.log(response.data);
-            console.log(typeof response.data)
+            // console.log(response.data);
+            // console.log(typeof response.data)
             return response.data;
         }
     )
