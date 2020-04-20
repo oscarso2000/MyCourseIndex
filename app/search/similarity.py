@@ -5,19 +5,13 @@ import numpy.linalg as LA
 import app.utils as utils
 import time
 
-def cosineSim(query, courseVecDictionary, course): #top x highest
-    #cosine_function = lambda a, b : round(np.inner(a, b)/(LA.norm(a)*LA.norm(b)), 3)
-    #vectorizer = TfidfVectorizer(stop_words = stopWords)
-    #start = time.time()
-    #docVectorizerArray = vectorizer.fit_transform(documents).toarray()
-    #end = time.time()-start
-
+def cosineSim(query, courseVecDictionary, course):
     #courseVecDictionary[class selected]
-    docVectorizerArray = courseVecDictionary[course]
+    vec, docVectorizerArray = courseVecDictionary[course]
     
     query = utils.tokenize_SpaCy(query)
     
-    queryVectorizerArray = docVectorizerArray.transform(query).toarray()[0]
+    queryVectorizerArray = vec.transform(query).toarray()[0]
     
     print('Fit Vectorizer to train set', docVectorizerArray.shape)
     print('Transform Vectorizer to test set', queryVectorizerArray.shape)
@@ -27,24 +21,7 @@ def cosineSim(query, courseVecDictionary, course): #top x highest
     sim = num/denom
     
     return sim
-    
-    # n = 50 #top x highest
-    # #returns indices of highest n similarity values
-    # reverseList = (-sim).argsort()[:n]
-    # print(sim[reverseList])
-    
-    # return reverseList 
-    
-    
-    
-    
-    
-    # for vector in docVectorizerArray:
-    #     for queryV in queryVectorizerArray:
-    #         cosine = cosine_function(vector, queryV)
-    #         print(cosine)
-            
-    #print(end)
+
 
 
 
