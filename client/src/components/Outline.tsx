@@ -4,10 +4,11 @@ import '../style/Outline.css';
 
 interface IOutlineProp {
     outline: {
-        title: string;
-        text: string;
+        data: any;
+        
     };
 }
+
 
 export const Outline: React.StatelessComponent<IOutlineProp> = ({ outline }: IOutlineProp): JSX.Element => {
     // if (outline === 'outline loading...') {
@@ -18,19 +19,50 @@ export const Outline: React.StatelessComponent<IOutlineProp> = ({ outline }: IOu
     //     );
     // }
 
-    if (outline.text === undefined) {
+    const post = [];
+    
+    if (outline.data === undefined) {
         return (
             <div className="outline">
             <h4 className="placeholder">{!!outline ? null : 'Results go here'}</h4>
             </div>
             )
-    } else {
+    } else if (outline.data.type==="Resource") {
         return (
-        <div className="outline">
-                <h3>{!outline ? null : outline.title}</h3>
-                <div dangerouslySetInnerHTML={{__html: outline.text}}></div>
+            <div className="outline">
+                <a href={outline.data.url}><h3>{ "Textbook: " +outline.data.doc_name  + " 🔗"}</h3></a>
+                <div dangerouslySetInnerHTML={{__html: outline.data.raw}}></div>
         </div>
         );
+    } else { // Piazza
+        const q = outline.data.raw
+        post.push(<a href={outline.data.url}><h3>{"Piazza post: " + q.history[0].subject} 🔗</h3></a>);
+
+        post.push(<div dangerouslySetInnerHTML={{__html: q.history[0].content}} />);
+
+        if (q.children){
+            q.children.forEach(function (c: any) {
+                if (c.type==="i_answer") {
+                    post.push(<b>Instructor Answer</b>);
+                    post.push(<div style={{textIndent: 0}} dangerouslySetInnerHTML={{__html: c.history[0].content}} />);
+                } else if (c.type==="s_answer") {
+                    post.push(<b>Student Answer</b>);
+                    post.push(<div style={{textIndent: 0}} dangerouslySetInnerHTML={{__html: c.history[0].content}} />);
+                } else { //followup
+                    post.push(<b>Followup</b>)
+                    post.push(<div style={{textIndent: 0}} dangerouslySetInnerHTML={{__html: c.subject}} />);
+                }
+                c.children.forEach(function (f: any) {
+                        post.push(<div className="inner"><i>Sub-followup</i></div>)
+                         post.push(<div className="inner" dangerouslySetInnerHTML={{__html: f.subject}} />); 
+                        });
+            });
+            
+            
+        }
+        return(<div className="outline">{post}</div>)
+        
+        
     }
     
 };

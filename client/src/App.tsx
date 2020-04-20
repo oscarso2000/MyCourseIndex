@@ -43,8 +43,8 @@ const defaultOptions3 = {
 };
 
 const getAuth: (token: string | null) => Promise<boolean> = (token) => {
-    // return axios.post(`https://www.mycourseindex.com/auth`, { "token": token }).then( TODO prod
-    return axios.post(`http://localhost:3000/auth`, { "token": token }).then(
+    return axios.post(`https://www.mycourseindex.com/auth`, { "token": token }).then(
+    // return axios.post(`http://localhost:3000/auth`, { "token": token }).then(
         (response) => {
             console.log(response.data);
             // console.log(typeof response.data)
@@ -54,8 +54,8 @@ const getAuth: (token: string | null) => Promise<boolean> = (token) => {
 }
 
 const getName: (token: string | null) => Promise<string> = (token) => {
-    // return axios.post(`https://www.mycourseindex.com/whoami`, { "token": token }).then(
-    return axios.post(`http://localhost:3000/whoami`, { "token": token }).then(
+    return axios.post(`https://www.mycourseindex.com/whoami`, { "token": token }).then(
+    // return axios.post(`http://localhost:3000/whoami`, { "token": token }).then(
         (response) => {
             console.log(response.data);
             console.log(typeof response.data)
@@ -115,6 +115,7 @@ const App: React.FC = (props: any) => {
     // console.log('done is ' + done + '\nloaded is ' + loaded + '\ntimedOut is ' + timedOut + '\nauthorized is ' + authorized);
 
     if (loaded && done && timedOut) {
+        
         if (authorized) {
             return (
                 <div>

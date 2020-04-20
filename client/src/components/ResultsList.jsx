@@ -9,6 +9,8 @@ import { Result } from './Result';
 //     screenshots: string[];
 // }
 
+
+
 export const ResultsList = ({ results, screenshots }) => {
     const ResultsArray = [];
     const len = results.length;

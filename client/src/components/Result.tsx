@@ -35,9 +35,9 @@ const resolveImage = (pagemap: IData['pagemap'], link: string, screenshots: any[
 export const Result = ({data,screenshots}: IResultProps) => (
     <div className="card">
         <div className="card-body">
-            <h4 className="title" onClick={() => outline(data)}>{data.doc_name} </h4>
-            <div className="wrap">
-                <p className="description" dangerouslySetInnerHTML={{__html: data.raw}} ></p>
+            <h4 className="title" onClick={() => outline(data)}>{data.type==="Resource" ? "Textbook: "+data.doc_name : "Piazza: " +data.raw.history[0].subject} </h4>
+            <div className="">
+                <p className="description" dangerouslySetInnerHTML={{__html: data.type==="Resource" ? data.raw : data.raw.history[0].content}} ></p>
             </div>
         </div>
     </div>

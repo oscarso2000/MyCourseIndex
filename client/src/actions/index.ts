@@ -75,6 +75,6 @@ export const nextPage = (): void => {
 export const outline = (data: any): void => {
     store.dispatch<any>((dispatch: any): any => {
         dispatch({ type: 'OUTLINE_LOADING' });
-        dispatch({ type: 'OUTLINE', payload: {title:data.doc_name, text:data.raw }});
+        dispatch({ type: 'OUTLINE', payload: {data: data}});
     });
 };
