@@ -10,7 +10,7 @@ import spacy
 # from piazza_api import Piazza
 
 # EMPLOY CONSTANTS USED THROUGHOUT THE FILE AND CAN BE IMPORTED
-sp = spacy.load('en_core_web_lg')
+sp = spacy.load('en_core_web_lg') #TODO This is for speed
 ps = PorterStemmer()
 
 

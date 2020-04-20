@@ -35,7 +35,7 @@ h4 a:visited {
 }
 .title {
   color: #00CDCD;
-  max-width: 22vw;
+  /*max-width: 22vw;*/
   text-overflow: ellipsis;
   overflow: hidden;
 }

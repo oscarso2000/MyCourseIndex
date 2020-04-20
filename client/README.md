@@ -29,6 +29,12 @@ If making any modifications to the server's TypeScript code, you should start th
 
  `tsc -w` so your changes can be tracked in the JS build.
 
+Client:
+If you want to use npm start, add a line:
+"proxy": "http://localhost:5000"
+to package.json.
+And replace references to mycourseindex.com to localhost:3000.
 
+Then you can access the site from localhost:3000
 ## License
 [MIT](https://github.com/JoshuaScript/spresso-search/blob/master/LICENSE.md)

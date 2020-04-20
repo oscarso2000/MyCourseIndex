@@ -44,21 +44,21 @@ def whoami():
     name = get_name(access_token, app.config["APP_ID"], app.logger)
     return name
 
-
-@app.route('/results')
+@app.route('/search', methods=["POST"])
 def search_results():
     access_token = request.get_json()["token"]
-
     if user_jwt_required(access_token, app.config["APP_ID"], app.logger):
-
-        query = request.args.get("query")
+        query = request.get_json()["query"]
         app.logger.info("User queried: {}".format(query))
         #courseSelection = request.args.get("courseSelection")
         courseSelection = "CS 4300"
         results = cosineSim(query, vecPy.docVecDictionary , courseSelection)
-        n = 50 #top x highest
+        n = 25 #top x highest
         
-        reverseList = (-results).argsort()[:n]
+        #source Dictionary 0.1 for resources, 1 for piazza (weighting)
+        finalresults = np.multiply(results,vecPy.sourceDictionary[courseSelection])
+        
+        reverseList = (-finalresults).argsort()[:n]
 
         return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList].tolist())
     else:
@@ -84,6 +84,7 @@ def oidc_callback():
 @app.route('/<path:path>')
 def index(path):
     return render_template("index.html")
+    
 
 
 # application.add_api('spec.yml')
