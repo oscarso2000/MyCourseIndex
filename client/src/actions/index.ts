@@ -11,7 +11,7 @@ export const handleKey = (e: any, reset?: string): void => {
             store.dispatch({ type: 'RESET_RESULTS' });
         }
         search();
-    }
+    } 
 };
 
 // TODO add token
@@ -27,7 +27,7 @@ export const search = (reset?: any): void => {
             .then(() => {
                 dispatch({ type: 'LOADING_STATUS', payload: false });
                 //screenGrab();
-            });
+            }); 
     });
 };
 
@@ -70,9 +70,9 @@ export const nextPage = (): void => {
     });
 };
 
-export const outline = (content: string): void => {
+export const outline = (data: any): void => {
     store.dispatch<any>((dispatch: any): any => {
         dispatch({ type: 'OUTLINE_LOADING' });
-        dispatch({ type: 'OUTLINE', payload: {title:"title", text:content }});
+        dispatch({ type: 'OUTLINE', payload: {title:data.history[0].subject, text:data.history[0].content }});
     });
 };

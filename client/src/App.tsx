@@ -1,7 +1,6 @@
 import * as React from 'react';
 import FadeIn from "react-fade-in";
 import Lottie from "react-lottie";
-import "bootstrap/dist/css/bootstrap.css";
 import Home from './containers/Home';
 import { About } from './components/About';
 import { Switch, Route } from 'react-router-dom';
