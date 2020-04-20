@@ -74,6 +74,3 @@ class Course(object):
         
         for cid in cids:
             yield self.get_post(cid)
-
-    
-
