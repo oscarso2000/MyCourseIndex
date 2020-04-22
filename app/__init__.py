@@ -104,7 +104,7 @@ def search_results():
           
         # #split cosine sim between piazza and resource (or here)
         # #uses split_vectorizer.py instead
-        # piazza_results, resource_results = cosineSimSplit(query, vecPy.docVecDictionary , courseSelection)
+        # piazza_results, resource_results = cosineSimSplit(query, vecPySplit.docVecDictionary , courseSelection)
         # piazza_n = 10 #top x highest
         # resource_n = 3
 
