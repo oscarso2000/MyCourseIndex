@@ -7,6 +7,7 @@ from app.auth import user_jwt_required, get_name
 from app.search.similarity import *
 import app.utils
 import app.utils.vectorizer as vecPy
+import app.utils.split_vectorizer as vecPySplit
 import logging
 import html2text
 
@@ -66,12 +67,15 @@ def search_results():
         app.logger.info("User queried: {}".format(query))
         #courseSelection = request.args.get("courseSelection")
         courseSelection = "CS 4300"
+        
+        
+        
+        #regular cosine similarity (start commenting out here)
         results = cosineSim(query, vecPy.docVecDictionary , courseSelection, app.logger)
         n = 25 #top x highest
-        
+
         #source Dictionary 0.2 for resources, 1 for piazza (weighting)
         finalresults = results #np.multiply(results,vecPy.sourceDictionary[courseSelection])
-        
         reverseList = (-finalresults).argsort()[:n]
 
         if courseSelection == "CS 4300":
@@ -95,6 +99,41 @@ def search_results():
                 return jsonify(list(filter(lambda x: x["type"] != "Piazza", vecPy.courseDocDictionary[courseSelection][reverseList].tolist())))
         
         return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList].tolist())
+          
+          
+          
+        # #split cosine sim between piazza and resource (or here)
+        # #uses split_vectorizer.py instead
+        # piazza_results, resource_results = cosineSimSplit(query, vecPy.docVecDictionary , courseSelection)
+        # piazza_n = 10 #top x highest
+        # resource_n = 3
+
+        # piazza_reverseList = (-piazza_results).argsort()[:piazza_n]
+        # resource_reverseList = (-resource_results).argsort()[:resource_n]
+        # total_reverselist = (-(np.concatenate(piazza_results[piazza_reverseList], resource_results[resource_reverseList]))).argsort()
+
+        # sortedPiazzaResults = vecPySplit.courseDocDictionary[courseSelection]["piazza"][reverseList]
+        # sortedResourceResults = vecPySplit.courseDocDictionary[courseSelection]["resource"][reverseList]
+        # total_results = np.concatenate(sortedPiazzaResults, sortedResourceResults)
+        # final_rawlist = total_results[total_reverselist]
+
+        # if courseSelection == "CS 4300":
+        #     h = html2text.HTML2Text()
+        #     h.ignore_links = True
+        #     parsed_piazza = h.handle(coursePiazzaDict["CS 4300"].get_post(app.config["PIAZZA_CS4300_TOKEN_POST"])["history"][0]["content"])
+        #     split_piazza = parsed_piazza.split("\n")
+        #     piazza_token = split_piazza[0]
+        #     our_token = app.config["PIAZZA_CS4300_TOKEN"]
+        #     keep_piazza = (piazza_token == our_token)
+            
+        #     if keep_piazza:
+        #         return jsonify(final_rawlist.tolist())
+        #     else:
+        #         return jsonify(list(filter(lambda x: x["type"] != "Piazza", final_rawlist.tolist())))
+        
+        # return jsonify(final_rawlist.tolist())
+        
+    
     else:
         return "Not Authorized"
 
