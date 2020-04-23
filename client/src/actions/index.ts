@@ -13,7 +13,7 @@ export const handleKey = (e: any, reset?: string): void => {
             store.dispatch({ type: 'RESET_RESULTS' });
         }
         search();
-    } 
+    }
 };
 
 // TODO add token
@@ -24,12 +24,12 @@ export const search = (reset?: any): void => {
         }
         dispatch({ type: 'LOADING_STATUS', payload: true });
         axios
-            .post(`/search`, {query: store.getState().query, "token": getToken() })
+            .post(`/search`, { query: store.getState().query, "token": getToken() })
             .then((res: any) => dispatch({ type: 'SEND_RESULTS', payload: res.data }))
             .then(() => {
                 dispatch({ type: 'LOADING_STATUS', payload: false });
                 //screenGrab();
-            }); 
+            });
     });
 };
 
@@ -75,6 +75,6 @@ export const nextPage = (): void => {
 export const outline = (data: any): void => {
     store.dispatch<any>((dispatch: any): any => {
         dispatch({ type: 'OUTLINE_LOADING' });
-        dispatch({ type: 'OUTLINE', payload: {data: data}});
+        dispatch({ type: 'OUTLINE', payload: { data: data } });
     });
 };

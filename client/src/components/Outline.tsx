@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { Loader } from './Loader';
 import '../style/Outline.css';
+import distressedEmoji from '../images/distressedEmoji.png'
 
 interface IOutlineProp {
     outline: {
         data: any;
-        
+
     };
 }
 
@@ -20,49 +21,60 @@ export const Outline: React.StatelessComponent<IOutlineProp> = ({ outline }: IOu
     // }
 
     const post = [];
-    
+
     if (outline.data === undefined) {
         return (
             <div className="outline">
-            <h4 className="placeholder">{!!outline ? null : 'Results go here'}</h4>
+                <h4 className="placeholder">{!!outline ? null : 'Results go here'}</h4>
             </div>
-            )
-    } else if (outline.data.type==="Resource") {
+        )
+    } else if (outline.data.type === "Failure") {
         return (
             <div className="outline">
-                <a href={outline.data.url}><h3>{ "Textbook: " +outline.data.doc_name  + " 🔗"}</h3></a>
-                <div dangerouslySetInnerHTML={{__html: outline.data.raw}}></div>
-        </div>
+                {/* <a href={outline.data.url}><h3>{}</h3></a> */}
+                <img src={distressedEmoji} style={{ height: "auto", width: "auto", verticalAlign: "middle", textAlign: "center" }}></img>
+            </div>
+        );
+    } else if (outline.data.type === "Resource") {
+        return (
+            <div className="outline">
+                <a href={outline.data.url}><h3>{"Textbook: " + outline.data.doc_name + " 🔗"}</h3></a>
+                {/* <object data={outline.data.url} type="application/pdf">
+                    <iframe src={"https://docs.google.com/viewer?url=" + outline.data.url + "&embedded=true"}></iframe>
+                </object> */}
+                {/* <div dangerouslySetInnerHTML={{ __html: outline.data.raw }}></div> */}
+                <embed src={outline.data.url} key={outline.data.url} type="application/pdf" width="100%" height="600px" />
+            </div>
         );
     } else { // Piazza
         const q = outline.data.raw
         post.push(<a href={outline.data.url}><h3>{"Piazza post: " + q.history[0].subject} 🔗</h3></a>);
 
-        post.push(<div dangerouslySetInnerHTML={{__html: q.history[0].content}} />);
+        post.push(<div dangerouslySetInnerHTML={{ __html: q.history[0].content }} />);
 
-        if (q.children){
+        if (q.children) {
             q.children.forEach(function (c: any) {
-                if (c.type==="i_answer") {
+                if (c.type === "i_answer") {
                     post.push(<b>Instructor Answer</b>);
-                    post.push(<div style={{textIndent: 0}} dangerouslySetInnerHTML={{__html: c.history[0].content}} />);
-                } else if (c.type==="s_answer") {
+                    post.push(<div style={{ textIndent: 0 }} dangerouslySetInnerHTML={{ __html: c.history[0].content }} />);
+                } else if (c.type === "s_answer") {
                     post.push(<b>Student Answer</b>);
-                    post.push(<div style={{textIndent: 0}} dangerouslySetInnerHTML={{__html: c.history[0].content}} />);
+                    post.push(<div style={{ textIndent: 0 }} dangerouslySetInnerHTML={{ __html: c.history[0].content }} />);
                 } else { //followup
                     post.push(<b>Followup</b>)
-                    post.push(<div style={{textIndent: 0}} dangerouslySetInnerHTML={{__html: c.subject}} />);
+                    post.push(<div style={{ textIndent: 0 }} dangerouslySetInnerHTML={{ __html: c.subject }} />);
                 }
                 c.children.forEach(function (f: any) {
-                        post.push(<div className="inner"><i>Sub-followup</i></div>)
-                         post.push(<div className="inner" dangerouslySetInnerHTML={{__html: f.subject}} />); 
-                        });
+                    post.push(<div className="inner"><i>Sub-followup</i></div>)
+                    post.push(<div className="inner" dangerouslySetInnerHTML={{ __html: f.subject }} />);
+                });
             });
-            
-            
+
+
         }
-        return(<div className="outline">{post}</div>)
-        
-        
+        return (<div className="outline">{post}</div>)
+
+
     }
-    
+
 };

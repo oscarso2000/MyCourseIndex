@@ -88,10 +88,10 @@ for post in data_dict:
             for fb in answer['children']:
                 followups += fb['subject']
     simple_dict[post_id] = {"folders": folders, "subject":subject,"question": question, "s_answer": s_answer, "i_answer": i_answer, "followups":followups}
-    processed_simple_dict[post_id] = {"folders": folders,"subject":h.handle(subject).replace("\n","") ,"question": h.handle(question).replace("\n", ""), 
-                            "s_answer": h.handle(s_answer).replace("\n", ""), 
-                            "i_answer": h.handle(i_answer).replace("\n", ""),
-                            "followups":h.handle(followups).replace("\n","")}
+    processed_simple_dict[post_id] = {"folders": folders,"subject":h.handle(subject).replace("\n"," ") ,"question": h.handle(question).replace("\n", " "), 
+                            "s_answer": h.handle(s_answer).replace("\n", " "), 
+                            "i_answer": h.handle(i_answer).replace("\n", " "),
+                            "followups":h.handle(followups).replace("\n"," ")}
     
 all_folders = Counter(all_folders_lst)
 

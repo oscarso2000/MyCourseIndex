@@ -116,7 +116,7 @@ def extract_TOC(pdf_path):
     try:
         outlines = document.get_outlines()
         toc += '<outlines>\n'
-        for (level, title, dest, a, se) in outlines:
+        for (level, title, dest, a, se) in tqdm(outlines, leave=False):
             pageno = None
             if dest:
                 dest = resolve_dest(dest) # Very imperative and can cause errors that are hard to debug since we overwrite
@@ -158,7 +158,7 @@ def parse_TOC(pdf_path, doc_name):
     else:
         toc_xml = {"outlines": {"outline": [{"pageno": 99999999999, "@title": ""}]}}
 
-    for outline in toc_xml["outlines"]["outline"]:
+    for outline in tqdm(toc_xml["outlines"]["outline"], leave=False):
         if start_lst_empty:
             start_idx.append(outline["pageno"])
             new_doc_names.append(doc_name + "_" + outline["@title"][2:-1])
@@ -202,10 +202,12 @@ def extract_text_from_pdf(pdf_path, start_page, end_page):
     
 def make_pdf_to_txt(pdf_path, doc_name, aws_access_key_id=None, aws_secret_access_key=None):
     start_idx, end_idx, new_doc_names = parse_TOC(pdf_path, doc_name)
-    for i in tqdm(range(len(start_idx))):
+    urls = []
+    for i in tqdm(range(len(start_idx)), leave=False):
         new_filename = new_doc_names[i].replace("/", "-").replace(" ", "_") + ".txt"
-        new_path = os.path.join("zumbTest", new_filename)
+        new_path = os.path.join("CS4300Textbook", new_filename)
         fp = open(new_path, "w")
+        print("https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf#page={}".format(start_idx[i]), file=fp)
         if i < len(start_idx) -1:
             print(extract_text_from_pdf(pdf_path,int(start_idx[i]), int(end_idx[i])), file=fp)
         else:
@@ -214,6 +216,9 @@ def make_pdf_to_txt(pdf_path, doc_name, aws_access_key_id=None, aws_secret_acces
         s3_client = boto3.client('s3', aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
         try:
             response = s3_client.upload_file(new_path, "cs4300-data-models", new_path)
+            urls.append("https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf#page={}".format(start_idx[i]))
         except ClientError as e:
-            return "ERROR {}".format(e.msg)
+            print("ERROR {}".format(e.msg), flush=True)
         os.system("rm -rf {}".format(new_path))
+    
+    return urls

@@ -410,7 +410,7 @@ resource "aws_launch_configuration" "bastions-cs4300-k8s-mycourseindex-com" {
 resource "aws_launch_configuration" "master-us-east-1a-masters-cs4300-k8s-mycourseindex-com" {
   name_prefix                 = "master-us-east-1a.masters.cs4300.k8s.mycourseindex.com-"
   image_id                    = "ami-0938c52697eb48ee2"
-  instance_type               = "t2.medium"
+  instance_type               = "t3.medium"
   key_name                    = "${aws_key_pair.kubernetes-cs4300-k8s-mycourseindex-com-fd3242d36d41c1c3901c47795ec774a6.id}"
   iam_instance_profile        = "${aws_iam_instance_profile.masters-cs4300-k8s-mycourseindex-com.id}"
   security_groups             = ["${aws_security_group.masters-cs4300-k8s-mycourseindex-com.id}"]
@@ -433,7 +433,7 @@ resource "aws_launch_configuration" "master-us-east-1a-masters-cs4300-k8s-mycour
 resource "aws_launch_configuration" "nodes-cs4300-k8s-mycourseindex-com" {
   name_prefix                 = "nodes.cs4300.k8s.mycourseindex.com-"
   image_id                    = "ami-0938c52697eb48ee2"
-  instance_type               = "t2.medium"
+  instance_type               = "t3.2xlarge"
   key_name                    = "${aws_key_pair.kubernetes-cs4300-k8s-mycourseindex-com-fd3242d36d41c1c3901c47795ec774a6.id}"
   iam_instance_profile        = "${aws_iam_instance_profile.nodes-cs4300-k8s-mycourseindex-com.id}"
   security_groups             = ["${aws_security_group.nodes-cs4300-k8s-mycourseindex-com.id}"]
