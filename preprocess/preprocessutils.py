@@ -171,19 +171,58 @@ def tokenize_transcript(tokenize_method,input_transcript):
         token_dict[k] = token_simpl_dict
     return (token_dict, Counter(total_tokens))
 
+def tokenize_piazza_transcript(tokenize_method,input_transcript):
+    """Returns a list of words contained in an entire transcript.
+    Params: {tokenize_method: Function (a -> b),
+             input_transcript: Tuple}
+    Returns: List
+    """
+    # YOUR CODE HERE
+    token_dict = {}
+    
+    total_tokens = []
+    for (k,i) in input_transcript.items():
+        token_simpl_dict = {}
+#         token_simpl_dict['folders'] = i['folders']
+        temp = i['question'] +i['subject'] + i['i_answer']+i['s_answer']+i["followups"]
+        question = tokenize_method(i['question'])
+        total_tokens.extend(question)
+        token_simpl_dict['question'] = Counter(question)
+        i_answer = tokenize_method(i['i_answer'])
+        total_tokens.extend(i_answer)
+        token_simpl_dict['i_answer'] = Counter(i_answer)
+        s_answer = tokenize_method(i['s_answer'])
+        total_tokens.extend(s_answer)
+        token_simpl_dict['s_answer'] = Counter(s_answer)
+        subject = tokenize_method(i['subject'])
+        total_tokens.extend(subject)
+        token_simpl_dict['subject'] = Counter(subject)
+        followups = tokenize_method(i['followups'])
+        total_tokens.extend(followups)
+        token_simpl_dict['followups'] = Counter(followups)
+        temp = token_simpl_dict['question'] + token_simpl_dict['i_answer'] + token_simpl_dict['s_answer'] + token_simpl_dict['subject'] +token_simpl_dict['followups'] 
+        token_dict[k] = temp
+    return (token_dict, Counter(total_tokens))
 
-(tokenized_spacy_dict, total_tokens_spacy) = tokenize_transcript(tokenize_SpaCy, processed_simple_dict)
 
-(tokenized_num_dict, total_tokens_w_num) = tokenize_transcript(tokenize_w_numbers, processed_simple_dict)
+(tokenized_spacy_dict, total_tokens_spacy) = tokenize_piazza_transcript(tokenize_SpaCy, processed_simple_dict)
+pickle_file = {"Piazza": tokenized_spacy_dict}
 
-(tokenized_no_num_dict, total_tokens_wo_num) = tokenize_transcript(tokenize_wo_numbers, processed_simple_dict)
+pickle.dump( pickle_file, open( "piazza_data_preprocessed.p", "wb" ) )
 
-main_sample_dict_processed = {"tokenized_num_dict":tokenized_num_dict, "tokenized_no_num_dict":tokenized_no_num_dict, "total_tokens_w_num":total_tokens_w_num, "total_tokens_wo_num":total_tokens_wo_num, "tokenized_spacy_dict":tokenized_spacy_dict, "total_tokens_spacy":total_tokens_spacy}
 
-# main_sample_dict_processed.keys()
-# keys are as follows: dict_keys(['tokenized_num_dict', 'tokenized_no_num_dict', 'total_tokens_w_num', 'total_tokens_wo_num', 'tokenized_spacy_dict', 'total_tokens_spacy'])
+# (tokenized_spacy_dict, total_tokens_spacy) = tokenize_transcript(tokenize_SpaCy, processed_simple_dict)
 
-pickle.dump( main_sample_dict_processed, open( "sample_data_preprocessed.p", "wb" ) )
+# (tokenized_num_dict, total_tokens_w_num) = tokenize_transcript(tokenize_w_numbers, processed_simple_dict)
+
+# (tokenized_no_num_dict, total_tokens_wo_num) = tokenize_transcript(tokenize_wo_numbers, processed_simple_dict)
+
+# main_sample_dict_processed = {"tokenized_num_dict":tokenized_num_dict, "tokenized_no_num_dict":tokenized_no_num_dict, "total_tokens_w_num":total_tokens_w_num, "total_tokens_wo_num":total_tokens_wo_num, "tokenized_spacy_dict":tokenized_spacy_dict, "total_tokens_spacy":total_tokens_spacy}
+
+# # main_sample_dict_processed.keys()
+# # keys are as follows: dict_keys(['tokenized_num_dict', 'tokenized_no_num_dict', 'total_tokens_w_num', 'total_tokens_wo_num', 'tokenized_spacy_dict', 'total_tokens_spacy'])
+
+# pickle.dump( main_sample_dict_processed, open( "sample_data_preprocessed.p", "wb" ) )
 
 def build_inverted_index(nrs):
     """ Builds an inverted index from the messages."""
