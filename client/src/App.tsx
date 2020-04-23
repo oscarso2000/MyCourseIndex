@@ -87,7 +87,7 @@ const App: React.FC = (props: any) => {
         })
 
         setAllowRefresh(sessionStorage.getItem("allowRefresh") === "True");
-        console.log(allowRefresh);
+        // console.log(allowRefresh);
         if (allowRefresh) {
             const auth = getAuth(getToken());
             auth.then((value) => {

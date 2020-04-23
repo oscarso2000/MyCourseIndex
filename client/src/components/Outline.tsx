@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Loader } from './Loader';
 import '../style/Outline.css';
+import distressedEmoji from '../images/distressedEmoji.png'
 
 interface IOutlineProp {
     outline: {
@@ -27,6 +28,13 @@ export const Outline: React.StatelessComponent<IOutlineProp> = ({ outline }: IOu
                 <h4 className="placeholder">{!!outline ? null : 'Results go here'}</h4>
             </div>
         )
+    } else if (outline.data.type === "Failure") {
+        return (
+            <div className="outline">
+                {/* <a href={outline.data.url}><h3>{}</h3></a> */}
+                <img src={distressedEmoji} style={{ height: "auto", width: "auto", verticalAlign: "middle", textAlign: "center" }}></img>
+            </div>
+        );
     } else if (outline.data.type === "Resource") {
         return (
             <div className="outline">
