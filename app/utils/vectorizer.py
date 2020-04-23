@@ -29,10 +29,6 @@ with open("P03Data.json") as f:
 docVecDictionary = {}
 courseDocDictionary = {}
 sourceDictionary = {}
-# courseRawDataDictionary = {}
-# courseURLDictionary = {}
-# courseTypeOfDocDictionary = {}
-# courseDocIDNameDictionary = {}
 
 for course in fromS3:
     vec = TfidfVectorizer(tokenizer=tokenizer, lowercase=False)
@@ -49,34 +45,8 @@ for course in fromS3:
                 #pre is type, first is text, second is tokenized, third is url
             documents.append(fromS3[course][source][content].pop("tokenized"))
             rawDocs.append(fromS3[course][source][content])
-            if source == "Piazza":
-                src.append(1)
-            else:
-                src.append(0.2) # Warning, magic number
-                # if final == "type":
-                #     typeOfDoc.append(
-                #         fromS3[course][source][content][final])
-                # elif final == "raw":
-                #     rawData.append(fromS3[course][source][content][final])
-                # elif final == "tokenized":
-                #     documents.append(
-                #         fromS3[course][source][content][final])
-                # elif final == "url":
-                #     URL.append(fromS3[course][source][content][final])
-                # elif final == "doc_name":
-                #     docIDName.append(
-                #         fromS3[course][source][content][final])
+
     # elif course == "INFO 1998"
     sourceDictionary[course] = np.array(src)
     docVecDictionary[course] = (vec, vec.fit_transform(documents).toarray())
     courseDocDictionary[course] = np.array(rawDocs)
-    # [["this", "is", "the", "post"],["Piazza", "this", "is", "the", "post"]]
-    # courseDocDictionary[course] = np.array(documents)
-    # courseRawDataDictionary[course] = np.array(rawData)
-    # courseURLDictionary[course] = np.array(URL)
-    # courseTypeOfDocDictionary[course] = np.array(typeOfDoc)
-    # courseDocIDNameDictionary[course] = np.array(docIDName)
-
-# print(courseRawDataDictionary["CS 4300"][0])
-
-# docVecDictionary is full dictionary of all documents in all courses. Everything should be a global variable.

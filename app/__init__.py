@@ -66,13 +66,19 @@ def search_results():
         app.logger.info("User queried: {}".format(query))
         #courseSelection = request.args.get("courseSelection")
         courseSelection = "CS 4300"
-        results = cosineSim(query, vecPy.docVecDictionary , courseSelection, app.logger)
+        results, results_filter = cosineSim(query, vecPy.docVecDictionary , courseSelection, app.logger)
         n = 25 #top x highest
         
         #source Dictionary 0.2 for resources, 1 for piazza (weighting)
         finalresults = results #np.multiply(results,vecPy.sourceDictionary[courseSelection])
+
+        if len(finalresults) == 0:
+            return jsonify([])
         
-        reverseList = (-finalresults).argsort()[:n]
+        reverseList = (-finalresults).argsort() #[:n]
+        reverseList_filter = results_filter[reverseList]
+
+        n = min(sum(reverseList_filter), n)
 
         if courseSelection == "CS 4300":
             h = html2text.HTML2Text()
@@ -90,11 +96,13 @@ def search_results():
             # app.logger.info("Keeping Piazza? {}".format(keep_piazza))
             
             if keep_piazza:
-                return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList].tolist())
+                return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()[:n])
             else:
-                return jsonify(list(filter(lambda x: x["type"] != "Piazza", vecPy.courseDocDictionary[courseSelection][reverseList].tolist())))
+                modified_results = list(filter(lambda x: x["type"] != "Piazza", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
+                n = min(n, len(modified_results))
+                return jsonify(modified_results[:n])
         
-        return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList].tolist())
+        return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()[:n])
     else:
         return "Not Authorized"
 

@@ -14,8 +14,14 @@ def cosineSim(query, courseVecDictionary, course, logger):
     feature_list = vec.get_feature_names()
 
     for w in query:
-        idx = feature_list.index(w)
-        queryVectorizerArray[idx] += 1.0
+        try:
+            idx = feature_list.index(w)
+            queryVectorizerArray[idx] += 1.0
+        except ValueError:
+            pass
+    
+    if queryVectorizerArray.sum() == 0:
+        return [], []
 
     # queryVectorizerArray = vec.transform(query).toarray()[0]
     
@@ -26,7 +32,7 @@ def cosineSim(query, courseVecDictionary, course, logger):
     denom = LA.norm(queryVectorizerArray)*LA.norm(docVectorizerArray,axis=1)
     sim = num/denom
 
-    return sim
+    return sim, sim > 0
 
 
 
