@@ -29,28 +29,37 @@ with open("P03Data.json") as f:
 docVecDictionary = {}
 courseDocDictionary = {}
 sourceDictionary = {}
+# courseRawDataDictionary = {}
+# courseURLDictionary = {}
+# courseTypeOfDocDictionary = {}
+# courseDocIDNameDictionary = {}
 
 for course in fromS3:
     vec = TfidfVectorizer(tokenizer=tokenizer, lowercase=False)
-    documents = []
+    piazza_documents = []
+    other_documents = []
     src = []
-    # rawData = []
-    # URL = []
-    # typeOfDoc = []
-    # docIDName = []
-    rawDocs = []
+    piazza_rawDocs = []
+    other_rawDocs = []
     for source in fromS3[course]:
         for content in fromS3[course][source]:
-            documents.append(fromS3[course][source][content].pop("tokenized"))
-            rawDocs.append(fromS3[course][source][content])
+            # for final in fromS3[course][source][content]:
+                #pre is type, first is text, second is tokenized, third is url
             if source == "Piazza":
                 src.append(1)
+                piazza_documents.append(fromS3[course][source][content].pop("tokenized"))
+                piazza_rawDocs.append(fromS3[course][source][content])
+
             else:
                 src.append(0.2) # Warning, magic number
-
+                other_documents.append(fromS3[course][source][content].pop("tokenized"))
+                other_rawDocs.append(fromS3[course][source][content])
 
 
     # elif course == "INFO 1998"
     sourceDictionary[course] = np.array(src)
-    docVecDictionary[course] = (vec, vec.fit_transform(documents).toarray())
-    courseDocDictionary[course] = np.array(rawDocs)
+    docVecDictionary[course] = (vec, vec.fit_transform(piazza_documents).toarray(), vec.fit_transform(other_documents).toarray())
+    courseDocDictionary[course] = {}
+    courseDocDictionary[course]["Piazza"] = np.array(piazza_rawDocs)
+    courseDocDictionary[course]["Resource"] = np.array(other_rawDocs)
+
