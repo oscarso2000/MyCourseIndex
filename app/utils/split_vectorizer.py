@@ -60,6 +60,6 @@ for course in fromS3:
     sourceDictionary[course] = np.array(src)
     docVecDictionary[course] = (vec, vec.fit_transform(piazza_documents).toarray(), vec.fit_transform(other_documents).toarray())
     courseDocDictionary[course] = {}
-    courseDocDictionary[course]["piazza"] = np.array(piazza_rawDocs)
-    courseDocDictionary[course]["resource"] = np.array(other_rawDocs)
+    courseDocDictionary[course]["Piazza"] = np.array(piazza_rawDocs)
+    courseDocDictionary[course]["Resource"] = np.array(other_rawDocs)
 

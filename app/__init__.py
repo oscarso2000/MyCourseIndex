@@ -68,72 +68,91 @@ def search_results():
         #courseSelection = request.args.get("courseSelection")
         courseSelection = "CS 4300"
         
+        #search selection: Default(both),Piazza only, Resource only [Default, Piazza, Resource]
+        #searchSelection = request.args.get("searchSelection")
+        searchSelection = "Default"
         
-        
-        #regular cosine similarity (start commenting out here)
-        results = cosineSim(query, vecPy.docVecDictionary , courseSelection, app.logger)
-        n = 25 #top x highest
+        if searchSelection == "Default":
+            #regular cosine similarity (start commenting out here)
+            results, results_filter = cosineSim(query, vecPy.docVecDictionary , courseSelection, app.logger)
+            n = 25 #top x highest
 
-        #source Dictionary 0.2 for resources, 1 for piazza (weighting)
-        finalresults = results #np.multiply(results,vecPy.sourceDictionary[courseSelection])
-        reverseList = (-finalresults).argsort()[:n]
-
-        if courseSelection == "CS 4300":
-            h = html2text.HTML2Text()
-            h.ignore_links = True
-            parsed_piazza = h.handle(coursePiazzaDict["CS 4300"].get_post(app.config["PIAZZA_CS4300_TOKEN_POST"])["history"][0]["content"])
-            split_piazza = parsed_piazza.split("\n")
-            piazza_token = split_piazza[0]
-            our_token = app.config["PIAZZA_CS4300_TOKEN"]
-            keep_piazza = (piazza_token == our_token)
-
-            # app.logger.info("Parsed Piazza: {}".format(repr(parsed_piazza)))
-            # app.logger.info("Split Piazza: {}".format(repr(split_piazza)))
-            # app.logger.info("Piazza Response: {}".format(repr(piazza_token)))
-            # app.logger.info("Our token is: {}".format(repr(our_token)))
-            # app.logger.info("Keeping Piazza? {}".format(keep_piazza))
+            #source Dictionary 0.2 for resources, 1 for piazza (weighting)
+            finalresults = results #np.multiply(results,vecPy.sourceDictionary[courseSelection])
+            # reverseList = (-finalresults).argsort()[:n]
             
-            if keep_piazza:
-                return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList].tolist())
-            else:
-                return jsonify(list(filter(lambda x: x["type"] != "Piazza", vecPy.courseDocDictionary[courseSelection][reverseList].tolist())))
-        
-        return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList].tolist())
+            if len(finalresults) == 0:
+                return jsonify([])
+            
+            reverseList = (-finalresults).argsort() #[:n]
+            reverseList_filter = results_filter[reverseList]
+
+            n = min(sum(reverseList_filter), n)
+
+
+            if courseSelection == "CS 4300":
+                h = html2text.HTML2Text()
+                h.ignore_links = True
+                parsed_piazza = h.handle(coursePiazzaDict["CS 4300"].get_post(app.config["PIAZZA_CS4300_TOKEN_POST"])["history"][0]["content"])
+                split_piazza = parsed_piazza.split("\n")
+                piazza_token = split_piazza[0]
+                our_token = app.config["PIAZZA_CS4300_TOKEN"]
+                keep_piazza = (piazza_token == our_token)
+
+                # app.logger.info("Parsed Piazza: {}".format(repr(parsed_piazza)))
+                # app.logger.info("Split Piazza: {}".format(repr(split_piazza)))
+                # app.logger.info("Piazza Response: {}".format(repr(piazza_token)))
+                # app.logger.info("Our token is: {}".format(repr(our_token)))
+                # app.logger.info("Keeping Piazza? {}".format(keep_piazza))
+                
+                if keep_piazza:
+                    return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList].tolist())
+                else:
+                    modified_results = list(filter(lambda x: x["type"] != "Piazza", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
+                    n = min(n, len(modified_results))
+                    return jsonify(modified_results[:n])     
+                
+            return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()[:n])
           
-          
-          
+        else:
         # #split cosine sim between piazza and resource (or here)
         # #uses split_vectorizer.py instead
-        # piazza_results, resource_results = cosineSimSplit(query, vecPySplit.docVecDictionary , courseSelection)
-        # piazza_n = 10 #top x highest
-        # resource_n = 3
-
-        # piazza_reverseList = (-piazza_results).argsort()[:piazza_n]
-        # resource_reverseList = (-resource_results).argsort()[:resource_n]
-        # total_reverselist = (-(np.concatenate(piazza_results[piazza_reverseList], resource_results[resource_reverseList]))).argsort()
-
-        # sortedPiazzaResults = vecPySplit.courseDocDictionary[courseSelection]["piazza"][reverseList]
-        # sortedResourceResults = vecPySplit.courseDocDictionary[courseSelection]["resource"][reverseList]
-        # total_results = np.concatenate(sortedPiazzaResults, sortedResourceResults)
-        # final_rawlist = total_results[total_reverselist]
-
-        # if courseSelection == "CS 4300":
-        #     h = html2text.HTML2Text()
-        #     h.ignore_links = True
-        #     parsed_piazza = h.handle(coursePiazzaDict["CS 4300"].get_post(app.config["PIAZZA_CS4300_TOKEN_POST"])["history"][0]["content"])
-        #     split_piazza = parsed_piazza.split("\n")
-        #     piazza_token = split_piazza[0]
-        #     our_token = app.config["PIAZZA_CS4300_TOKEN"]
-        #     keep_piazza = (piazza_token == our_token)
+            piazza_results, piazza_results_filter, resource_results, resource_results_filter = cosineSimSplit(query, vecPySplit.docVecDictionary , courseSelection)
+            n = 25
             
-        #     if keep_piazza:
-        #         return jsonify(final_rawlist.tolist())
-        #     else:
-        #         return jsonify(list(filter(lambda x: x["type"] != "Piazza", final_rawlist.tolist())))
-        
-        # return jsonify(final_rawlist.tolist())
-        
-    
+            if searchSelection == "Piazza":
+                finalresults = piazza_results
+                results_filter = piazza_results_filter
+            elif searchSelection == "Resource":
+                finalresults = resource_results
+                results_filter = resource_results_filter
+            
+            if len(finalresults) == 0:
+                return jsonify([])
+            
+            reverseList = (-finalresults).argsort() #[:n]
+            reverseList_filter = results_filter[reverseList]
+
+            n = min(sum(reverseList_filter), n)
+
+            if courseSelection == "CS 4300":
+                h = html2text.HTML2Text()
+                h.ignore_links = True
+                parsed_piazza = h.handle(coursePiazzaDict["CS 4300"].get_post(app.config["PIAZZA_CS4300_TOKEN_POST"])["history"][0]["content"])
+                split_piazza = parsed_piazza.split("\n")
+                piazza_token = split_piazza[0]
+                our_token = app.config["PIAZZA_CS4300_TOKEN"]
+                keep_piazza = (piazza_token == our_token)
+                
+                if keep_piazza:
+                    return jsonify(vecPySplit.courseDocDictionary[courseSelection][searchSelection][reverseList].tolist())
+                else:
+                    modified_results = list(filter(lambda x: x["type"] != "Piazza", vecPySplit.courseDocDictionary[courseSelection][searchSelection][reverseList][reverseList_filter].tolist()))
+                    n = min(n, len(modified_results))
+                    return jsonify(modified_results[:n])     
+                
+            return jsonify(vecPySplit.courseDocDictionary[courseSelection][searchSelection][reverseList][reverseList_filter].tolist()[:n])
+          
     else:
         return "Not Authorized"
 

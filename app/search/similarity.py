@@ -24,7 +24,7 @@ def cosineSim(query, courseVecDictionary, course, logger):
     denom = LA.norm(queryVectorizerArray)*LA.norm(docVectorizerArray,axis=1)
     sim = num/denom
 
-    return sim
+    return sim, sim > 0
 
 def cosineSimSplit(query, courseVecDictionary, course):
     vec, piazzaDocVectorizerArray, otherDocVectorizerArray = courseVecDictionary[course]
@@ -44,7 +44,7 @@ def cosineSimSplit(query, courseVecDictionary, course):
     other_denom = LA.norm(queryOtherVectorizerArray)*LA.norm(otherDocVectorizerArray,axis=1)
     other_sim = other_num/other_denom
     
-    return piazza_sim, other_sim
+    return piazza_sim, piazza_sim > 0 , other_sim , other_sim > 0
     
 def LSI_SVD(query, courseVecDictionary, course):
     #courseVecDictionary[class selected]
