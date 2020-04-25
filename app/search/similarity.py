@@ -82,7 +82,7 @@ def LSI_SVD(query, courseVecDictionary, course):
     vec, docVectorizerArray = courseVecDictionary[course]
     
     query = utils.tokenize_SpaCy(query)
-    queryVectorizerArray = np.zeroes((docVectorizerArray.shape[1],))
+    queryVectorizerArray = np.zeros((docVectorizerArray.shape[1],))
     feature_list = vec.get_feature_names()
 
     for w in query:
