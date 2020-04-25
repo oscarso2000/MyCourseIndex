@@ -6,19 +6,26 @@ import app.utils as utils
 import time
 
 def cosineSim(query, courseVecDictionary, course, logger):
-    #courseVecDictionary[class selected]
     vec, docVectorizerArray = courseVecDictionary[course]
     
     query = utils.tokenize_SpaCy(query)
-    queryVectorizerArray = np.zeroes((docVectorizerArray.shape[1],))
+    queryVectorizerArray = np.zeros((docVectorizerArray.shape[1],))
     feature_list = vec.get_feature_names()
 
     for w in query:
-        idx = feature_list.index(w)
-        queryVectorizerArray[idx] += 1.0
+        try:
+            idx = feature_list.index(w)
+            queryVectorizerArray[idx] += 1.0
+        except ValueError:
+            pass
+    
+    if queryVectorizerArray.sum() == 0:
+        return [], []
 
-    # Below doesnt work:
     # queryVectorizerArray = vec.transform(query).toarray()[0]
+    
+    # print('Fit Vectorizer to train set', docVectorizerArray.shape)
+    # print('Transform Vectorizer to test set', queryVectorizerArray.shape)
 
     num = queryVectorizerArray.dot(docVectorizerArray.T)
     denom = LA.norm(queryVectorizerArray)*LA.norm(docVectorizerArray,axis=1)
@@ -26,16 +33,40 @@ def cosineSim(query, courseVecDictionary, course, logger):
 
     return sim, sim > 0
 
-def cosineSimSplit(query, courseVecDictionary, course):
+def cosineSimSplit(query, courseVecDictionary, course): #not working
     vec, piazzaDocVectorizerArray, otherDocVectorizerArray = courseVecDictionary[course]
     query = utils.tokenize_SpaCy(query)
+    
     queryPiazzaVectorizerArray = np.zeros((piazzaDocVectorizerArray.shape[1],))
     queryOtherVectorizerArray = np.zeros((otherDocVectorizerArray.shape[1],))
     feature_list = vec.get_feature_names()
+
     for w in query:
-        idx = feature_list.index(w)
-        queryPiazzaVectorizerArray[idx] += 1.0
-        queryOtherVectorizerArray[idx] += 1.0
+        try:
+            idx = feature_list.index(w)
+            queryPiazzaVectorizerArray[idx] += 1.0
+        except ValueError:
+            pass
+        
+    for w in query:
+        try:
+            idx = feature_list.index(w)
+            queryOtherVectorizerArray[idx] += 1.0
+        except ValueError:
+            pass
+    if queryPiazzaVectorizerArray.sum() == 0 and queryOtherVectorizerArray.sum() == 0:
+        return [], [], [], []
+    elif queryPiazzaVectorizerArray.sum() == 0:
+        other_num = queryOtherVectorizerArray.dot(otherDocVectorizerArray.T)
+        other_denom = LA.norm(queryOtherVectorizerArray)*LA.norm(otherDocVectorizerArray,axis=1)
+        other_sim = other_num/other_denom
+        return [], [], other_sim, other_sim > 0  
+    elif queryOtherVectorizerArray.sum() == 0:
+        piazza_num = queryPiazzaVectorizerArray.dot(piazzaDocVectorizerArray.T)
+        piazza_denom = LA.norm(queryPiazzaVectorizerArray)*LA.norm(piazzaDocVectorizerArray,axis=1)
+        piazza_sim = piazza_num/piazza_denom
+        return piazza_sim, piazza_sim>0, [],[]
+        
     piazza_num = queryPiazzaVectorizerArray.dot(piazzaDocVectorizerArray.T)
     piazza_denom = LA.norm(queryPiazzaVectorizerArray)*LA.norm(piazzaDocVectorizerArray,axis=1)
     piazza_sim = piazza_num/piazza_denom
