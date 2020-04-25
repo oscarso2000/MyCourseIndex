@@ -30,7 +30,6 @@ docVecDictionary = {}
 courseDocDictionary = {}
 sourceDictionary = {}
 
-
 for course in fromS3:
     vec = TfidfVectorizer(tokenizer=tokenizer, lowercase=False)
     documents = []
@@ -55,7 +54,3 @@ for course in fromS3:
     sourceDictionary[course] = np.array(src)
     docVecDictionary[course] = (vec, vec.fit_transform(documents).toarray())
     courseDocDictionary[course] = np.array(rawDocs)
-
-# print(courseRawDataDictionary["CS 4300"][0])
-
-# docVecDictionary is full dictionary of all documents in all courses. Everything should be a global variable.

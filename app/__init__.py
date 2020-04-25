@@ -65,7 +65,7 @@ def search_results():
         app.logger.info("User queried: {}".format(query))
         #courseSelection = request.args.get("courseSelection")
         courseSelection = "CS 4300"
-        
+
         #search selection: Default(both),Piazza only, Resource only 
         # [Default, Piazza, Resource]
         #searchSelection = request.args.get("searchSelection")

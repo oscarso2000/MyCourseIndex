@@ -32,12 +32,12 @@ const resolveImage = (pagemap: IData['pagemap'], link: string, screenshots: any[
         return imgLoader;
     }
 };
-export const Result = ({data,screenshots}: IResultProps) => (
-    <div className="card">
+export const Result = ({ data, screenshots }: IResultProps) => (
+    <div className="card" onClick={() => outline(data)}>
         <div className="card-body">
-            <h4 className="title" onClick={() => outline(data)}>{data.type==="Resource" ? "Textbook: "+data.doc_name : "Piazza: " +data.raw.history[0].subject} </h4>
+            <h4 className="title" >{data.type === "Resource" ? "Textbook: " + data.doc_name : "Piazza: " + data.raw.history[0].subject} </h4>
             <div className="">
-                <p className="description" dangerouslySetInnerHTML={{__html: data.type==="Resource" ? data.raw : data.raw.history[0].content}} ></p>
+                <p className="description" dangerouslySetInnerHTML={{ __html: data.type === "Resource" ? data.raw : data.raw.history[0].content }} ></p>
             </div>
         </div>
     </div>
@@ -58,7 +58,7 @@ export const Result2 = ({ data, screenshots }: IResultProps) => (
             </a>
             <h4 className="title">
                 <a className="ext-link" target="_blank" rel="noopener noreferrer" href={decodeURI(data.link)}>
-                    
+
                 </a>
             </h4>
             <Tooltip
