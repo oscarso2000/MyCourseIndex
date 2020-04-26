@@ -39,7 +39,7 @@ export const About: React.StatelessComponent = (): JSX.Element => (
                 <span className="caption"><a href="https://github.com/oscarso2000">Oscar So (ons4) </a></span>
             </div>
 
-            <p>MyCourseIndex is...</p>  
+            <p>MyCourseIndex is a project for CS/INFO 4300: Language and Information that acts as an essential search engine for Cornell students and their courses. This search gathers all information from Piazza posts to Textbook and Notes Resources and returns valid results for the student to utilize. </p>  
         </div>
     </div>
 )
