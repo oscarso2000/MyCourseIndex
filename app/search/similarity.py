@@ -5,20 +5,24 @@ import numpy.linalg as LA
 import app.utils as utils
 import time
 
-def cosineSim(query, courseVecDictionary, course, logger):
+def cosineSim(query, courseVecDictionary, course, reverseIndexDictionary):
     #courseVecDictionary[class selected]
     vec, docVectorizerArray = courseVecDictionary[course]
+    reverse_index = reverseIndexDictionary[course]
     
     query = utils.tokenize_SpaCy(query)
     queryVectorizerArray = np.zeros((docVectorizerArray.shape[1],))
-    feature_list = vec.get_feature_names()
+    # feature_list = vec.get_feature_names()
 
     for w in query:
-        try:
-            idx = feature_list.index(w)
+        idx = reverse_index.get(w, -1)
+        if idx > 0:
             queryVectorizerArray[idx] += 1.0
-        except ValueError:
-            pass
+        # try:
+        #     idx = feature_list.index(w)
+        #     queryVectorizerArray[idx] += 1.0
+        # except ValueError:
+        #     pass
     
     if queryVectorizerArray.sum() == 0:
         return [], []

@@ -13,6 +13,14 @@ else:
     app.config.from_pyfile(os.path.join(
         os.path.join(os.getcwd(), "secrets"), "cs4300app.cfg"))
 
+
+def create_reverse_index(lst):
+    d = {}
+    for i, w in enumerate(lst):
+        d[w] = i
+    return d
+
+
 tokenizer = toke.tokenized_already
 key = app.config["AWS_ACCESS"]
 secret = app.config["AWS_SECRET"]
@@ -29,6 +37,7 @@ with open("P03Data.json") as f:
 docVecDictionary = {}
 courseDocDictionary = {}
 sourceDictionary = {}
+courseRevsereIndexDictionary = {}
 
 for course in fromS3:
     vec = TfidfVectorizer(tokenizer=tokenizer, lowercase=False)
@@ -50,3 +59,4 @@ for course in fromS3:
     sourceDictionary[course] = np.array(src)
     docVecDictionary[course] = (vec, vec.fit_transform(documents).toarray())
     courseDocDictionary[course] = np.array(rawDocs)
+    courseRevsereIndexDictionary[course] = create_reverse_index(vec.get_feature_names())
