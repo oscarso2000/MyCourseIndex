@@ -1,0 +1,16 @@
+CUI|TUI|STY
+C000001|T001|Logistics
+C000002|T001|Logistics
+C000003|T002|Similarity measure
+C000004|T002|Similarity measure
+C000005|T002|Similarity measure
+C000006|T003|Information retrieval
+C000007|T004|Edit distance
+C000008|T005|Query expansion
+C000009|T005|Query expansion
+C000010|T006|Query expansion
+C000010|T003|Information retrieval
+C000010|T007|User intent
+C000011|T008|Preprocessing
+C000012|T008|Preprocessing
+C000013|T008|Preprocessing
