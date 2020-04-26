@@ -38,9 +38,77 @@ def cosineSim(query, courseVecDictionary, course, reverseIndexDictionary):
 
     return sim, sim > 0
 
+def cosineSimSplit(query, courseVecDictionary, course): #not working
+    vec, piazzaDocVectorizerArray, otherDocVectorizerArray = courseVecDictionary[course]
+    query = utils.tokenize_SpaCy(query)
+    
+    queryPiazzaVectorizerArray = np.zeros((piazzaDocVectorizerArray.shape[1],))
+    queryOtherVectorizerArray = np.zeros((otherDocVectorizerArray.shape[1],))
+    feature_list = vec.get_feature_names()
 
+    for w in query:
+        try:
+            idx = feature_list.index(w)
+            queryPiazzaVectorizerArray[idx] += 1.0
+        except ValueError:
+            pass
+        
+    for w in query:
+        try:
+            idx = feature_list.index(w)
+            queryOtherVectorizerArray[idx] += 1.0
+        except ValueError:
+            pass
+    if queryPiazzaVectorizerArray.sum() == 0 and queryOtherVectorizerArray.sum() == 0:
+        return [], [], [], []
+    elif queryPiazzaVectorizerArray.sum() == 0:
+        other_num = queryOtherVectorizerArray.dot(otherDocVectorizerArray.T)
+        other_denom = LA.norm(queryOtherVectorizerArray)*LA.norm(otherDocVectorizerArray,axis=1)
+        other_sim = other_num/other_denom
+        return [], [], other_sim, other_sim > 0  
+    elif queryOtherVectorizerArray.sum() == 0:
+        piazza_num = queryPiazzaVectorizerArray.dot(piazzaDocVectorizerArray.T)
+        piazza_denom = LA.norm(queryPiazzaVectorizerArray)*LA.norm(piazzaDocVectorizerArray,axis=1)
+        piazza_sim = piazza_num/piazza_denom
+        return piazza_sim, piazza_sim>0, [],[]
+        
+    piazza_num = queryPiazzaVectorizerArray.dot(piazzaDocVectorizerArray.T)
+    piazza_denom = LA.norm(queryPiazzaVectorizerArray)*LA.norm(piazzaDocVectorizerArray,axis=1)
+    piazza_sim = piazza_num/piazza_denom
+    
+    other_num = queryOtherVectorizerArray.dot(otherDocVectorizerArray.T)
+    other_denom = LA.norm(queryOtherVectorizerArray)*LA.norm(otherDocVectorizerArray,axis=1)
+    other_sim = other_num/other_denom
+    
+    return piazza_sim, piazza_sim > 0 , other_sim , other_sim > 0
+    
+def LSI_SVD(query, courseVecDictionary, course):
+    #courseVecDictionary[class selected]
+    vec, docVectorizerArray = courseVecDictionary[course]
+    
+    query = utils.tokenize_SpaCy(query)
+    queryVectorizerArray = np.zeros((docVectorizerArray.shape[1],))
+    feature_list = vec.get_feature_names()
 
+    for w in query:
+        idx = feature_list.index(w)
+        queryVectorizerArray[idx] += 1.0
+        
+    #using k = 2 rn, need to develop code to see what is optimal k
+    k = 2 
+    u,s,v_t = np.linalg.svd(docVectorizerArray) #svd on tfidf documents
+    q = queryVectorizerArray
+    q_hat = np.matmul(np.transpose(u[:,:k]),q)
+    
+    sim = []
+    for i in range(docVectorizerArray.shape[0]):
+        num = np.matmul(np.matmul(np.diag(s[:k]),v_t[:k,i]),np.transpose(q_hat))
+        denom = np.linalg.norm(np.matmul(np.diag(s[:k]),v_t[:k,i]))*np.linalg.norm(q_hat)
+        sim.append(num/denom)
 
+    return np.array(sim)
+    
+    
 #for local use
 if __name__ == "__main__":
     
