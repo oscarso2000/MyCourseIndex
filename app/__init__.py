@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, flash, url_for, sen
 #from db_setup import init_db, db_session
 from urllib.parse import unquote
 from piazza_api import Piazza
-from app.auth import user_jwt_required, get_name
+from app.auth import user_jwt_required, get_name, get_claims
 from app.search.similarity import *
 import app.utils
 import app.utils.vectorizer as vecPy
@@ -41,30 +41,32 @@ app.logger.setLevel(gunicorn_logger.level)
 @app.route("/auth", methods=["POST"])
 def auth():
     # app.logger.debug("Starting Auth")
-    access_token = request.get_json()["token"]
-    # app.logger.debug("My Token is: {}".format(access_token))
-    app.logger.critical("Should I have access? {}".format(user_jwt_required(access_token, app.config["APP_ID"], app.logger)))
-    if user_jwt_required(access_token, app.config["APP_ID"], app.logger):
-        return "OK"
-    else:
-        return "NO"
+    # access_token = request.get_json()["token"]
+    # # app.logger.debug("My Token is: {}".format(access_token))
+    # app.logger.critical("Should I have access? {}".format(user_jwt_required(access_token, app.config["APP_ID"])))
+    # if user_jwt_required(access_token, app.config["APP_ID"]):
+    #     return "OK"
+    # else:
+    #     return "NO"
+    return "OK"
 
 
 @app.route("/whoami", methods=["POST"])
 def whoami():
     access_token = request.get_json()["token"]
     # app.logger.debug("My Token is: {}".format(access_token))
-    name = get_name(access_token, app.config["APP_ID"], app.logger)
+    name = get_name(access_token, app.config["APP_ID"])
     return name
 
 @app.route('/search', methods=["POST"])
 def search_results():
     access_token = request.get_json()["token"]
-    if user_jwt_required(access_token, app.config["APP_ID"], app.logger):
+    if user_jwt_required(access_token, app.config["APP_ID"]):
         query = unquote(request.get_json()["query"])
         app.logger.info("User queried: {}".format(query))
         #courseSelection = request.args.get("courseSelection")
         courseSelection = "CS 4300"
+        results, results_filter = cosineSim(query, vecPy.docVecDictionary , courseSelection, vecPy.courseRevsereIndexDictionary)
 
         #search selection: Default(both),Piazza only, Resource only 
         # [Default, Piazza, Resource]
@@ -73,7 +75,6 @@ def search_results():
         
         # if searchSelection == "Default":
         #regular cosine similarity (start commenting out here)
-        results, results_filter = cosineSim(query, vecPy.docVecDictionary , courseSelection, app.logger)
         n = 25 #top x highest
             
         #source Dictionary 0.2 for resources, 1 for piazza (weighting)
@@ -96,11 +97,11 @@ def search_results():
             our_token = app.config["PIAZZA_CS4300_TOKEN"]
             keep_piazza = (piazza_token == our_token)
 
-                # app.logger.info("Parsed Piazza: {}".format(repr(parsed_piazza)))
-                # app.logger.info("Split Piazza: {}".format(repr(split_piazza)))
-                # app.logger.info("Piazza Response: {}".format(repr(piazza_token)))
-                # app.logger.info("Our token is: {}".format(repr(our_token)))
-                # app.logger.info("Keeping Piazza? {}".format(keep_piazza))
+            # app.logger.info("Parsed Piazza: {}".format(repr(parsed_piazza)))
+            # app.logger.info("Split Piazza: {}".format(repr(split_piazza)))
+            # app.logger.info("Piazza Response: {}".format(repr(piazza_token)))
+            # app.logger.info("Our token is: {}".format(repr(our_token)))
+            # app.logger.info("Keeping Piazza? {}".format(keep_piazza))
                 
             if keep_piazza:
                 if (searchSelection == "Default"):
@@ -190,6 +191,38 @@ def search_results():
           
     else:
         return "Not Authorized"
+
+@app.route("/courses", methods=["POST"])
+def get_user_courses():
+    access_token = request.get_json()["token"]
+    claims = get_claims(access_token, app.config["APP_ID"])
+    if claims["scope"] == "Unauthorized":
+        return jsonify([])
+    else:
+        return jsonify([app.config["COURSE_MAPPING"].get(claim,"") for claim in claims["scope"]])
+
+
+@app.route("/tokeVerify", methods=["POST"])
+def tokeVerify():
+    access_token = request.get_json()["token"]
+    course = request.get_json()["courseName"]
+    their_token = request.get_json()["piazzaToken"]
+
+    claims = get_claims(access_token, app.config["APP_ID"])
+    if claims["scope"] == "Unauthorized":
+        return "NO"
+    else:
+        auth_courses = [app.config["COURSE_MAPPING"].get(claim,{"courseName": ""}).get("courseName") for claim in claims["scope"]]
+    print("HELLOR: {}".format(course not in auth_courses))
+    if course not in auth_courses:
+        return "NO"
+    h = html2text.HTML2Text()
+    h.ignore_links = True
+    parsed_piazza = h.handle(coursePiazzaDict[course].get_post(app.config["PIAZZA_" +  course.replace(" ", "") + "_TOKEN_POST"])["history"][0]["content"])
+    split_piazza = parsed_piazza.split("\n")
+    piazza_token = split_piazza[0]
+
+    return "OK" if piazza_token == their_token else "NO"
 
 
 @app.route("/manifest.json")
