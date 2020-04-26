@@ -34,17 +34,37 @@ trigram_2_str = lambda w: w[0] + " " + w[1] + " " + w[2]
 # Parse Textbook data first
 for key, item in tqdm(P03Data["CS 4300"]["Resource"].items(), desc="Resource", leave=True):
     raw = item["raw"]
-    tokenized = sp(raw.lower())
-    tokenized = [w.text for w in tokenized if not w.is_punct]
+    tokes = sp(raw.lower())
+    tokenized = []
+    idxes = []
+    punct_count = 0
+    for w in tokes:
+        if w.is_punct:
+            punct_count += 1
+        else:
+            tokenized.append(w.text)
+            idxes.append(w.idx - punct_count)
+    # idxes = [w.idx for w in tokenized]
+    # tokenized = [w.text for w in tokenized if not w.is_punct]
     bigrams = nltk.bigrams(tokenized)
     trigrams = nltk.trigrams(tokenized)
-    location = "CS 4300|Resource|" + key
-    for w in tqdm(tokenized, leave=False, desc="Single words"):
-        db.add(w, location)
-    for w in tqdm(bigrams, leave=False, desc="Bigrams"):
-        db.add(bigram_2_str(w), location)
-    for w in tqdm(trigrams, leave=False, desc="Trigrams"):
-        db.add(trigram_2_str(w), location)
+    location = ("CS 4300", "Piazza", key)
+    for idx, w in tqdm(zip(idxes,tokenized), leave=False, desc="Single words"):
+        db.add(w, location + (idx,))
+    for idx, w in tqdm(zip(idxes[:-1], bigrams), leave=False, desc="Bigrams"):
+        db.add(bigram_2_str(w), location + (idx,))
+    for idx, w in tqdm(zip(idxes[:-2], trigrams), leave=False, desc="Trigrams"):
+        db.add(trigram_2_str(w), location + (idx,))
+    # tokenized = [w.text for w in tokenized if not w.is_punct]
+    # bigrams = nltk.bigrams(tokenized)
+    # trigrams = nltk.trigrams(tokenized)
+    # location = "CS 4300|Resource|" + key
+    # for w in tqdm(tokenized, leave=False, desc="Single words"):
+    #     db.add(w, location)
+    # for w in tqdm(bigrams, leave=False, desc="Bigrams"):
+    #     db.add(bigram_2_str(w), location)
+    # for w in tqdm(trigrams, leave=False, desc="Trigrams"):
+    #     db.add(trigram_2_str(w), location)
 
 for post_id, post in tqdm(P03Data["CS 4300"]["Piazza"].items(), leave=True, desc="Piazza"):
     post = post["raw"]
@@ -63,17 +83,27 @@ for post_id, post in tqdm(P03Data["CS 4300"]["Piazza"].items(), leave=True, desc
                 other_text += " " + h.handle(fb['subject']).replace("\n", " ")
     
     all_text = subject + " " + question + " " + other_text
-    tokenized = sp(all_text.lower())
-    tokenized = [w.text for w in tokenized if not w.is_punct]
+    tokes = sp(all_text.lower())
+    tokenized = []
+    idxes = []
+    punct_count = 0
+    for w in tokes:
+        if w.is_punct:
+            punct_count += 1
+        else:
+            tokenized.append(w.text)
+            idxes.append(w.idx - punct_count)
+    # idxes = [w.idx for w in tokenized]
+    # tokenized = [w.text for w in tokenized if not w.is_punct]
     bigrams = nltk.bigrams(tokenized)
     trigrams = nltk.trigrams(tokenized)
     location = ("CS 4300", "Piazza", post_id)
-    for w in tqdm(tokenized, leave=False, desc="Single words"):
-        db.add(w, location)
-    for w in tqdm(bigrams, leave=False, desc="Bigrams"):
-        db.add(bigram_2_str(w), location)
-    for w in tqdm(trigrams, leave=False, desc="Trigrams"):
-        db.add(trigram_2_str(w), location)
+    for idx, w in tqdm(zip(idxes,tokenized), leave=False, desc="Single words"):
+        db.add(w, location + (idx,))
+    for idx, w in tqdm(zip(idxes[:-1], bigrams), leave=False, desc="Bigrams"):
+        db.add(bigram_2_str(w), location + (idx,))
+    for idx, w in tqdm(zip(idxes[:-2], trigrams), leave=False, desc="Trigrams"):
+        db.add(trigram_2_str(w), location + (idx,))
 
 indexer = Searcher(db, CosineSimilarity())
 
