@@ -422,19 +422,6 @@ dotenv = ["python-dotenv"]
 
 [[package]]
 category = "main"
-description = "Simple integration of Flask and WTForms."
-name = "flask-wtf"
-optional = false
-python-versions = "*"
-version = "0.14.3"
-
-[package.dependencies]
-Flask = "*"
-WTForms = "*"
-itsdangerous = "*"
-
-[[package]]
-category = "main"
 description = "WSGI HTTP Server for UNIX"
 name = "gunicorn"
 optional = false
@@ -550,6 +537,14 @@ dev = ["testpath"]
 
 [[package]]
 category = "main"
+description = "Chinese Words Segmentation Utilities"
+name = "jieba"
+optional = false
+python-versions = "*"
+version = "0.42.1"
+
+[[package]]
+category = "main"
 description = "A very fast and expressive template engine."
 name = "jinja2"
 optional = false
@@ -642,6 +637,30 @@ version = "1.2.0"
 
 [[package]]
 category = "main"
+description = "Python bindings for leveldb database library"
+name = "leveldb"
+optional = false
+python-versions = "*"
+version = "0.201"
+
+[[package]]
+category = "main"
+description = "Universal Python binding for the LMDB 'Lightning' Database"
+name = "lmdb"
+optional = false
+python-versions = "*"
+version = "0.98"
+
+[[package]]
+category = "main"
+description = "Static memory-efficient and fast Trie-like structures for Python."
+name = "marisa-trie"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "0.7.5"
+
+[[package]]
+category = "main"
 description = "Safely add untrusted strings to HTML/XML markup."
 name = "markupsafe"
 optional = false
@@ -681,11 +700,27 @@ version = "8.2.0"
 
 [[package]]
 category = "main"
+description = "An implementation of a multiset."
+name = "multiset"
+optional = false
+python-versions = "*"
+version = "2.1.1"
+
+[[package]]
+category = "main"
 description = "Cython bindings for MurmurHash"
 name = "murmurhash"
 optional = false
 python-versions = "*"
 version = "1.0.2"
+
+[[package]]
+category = "main"
+description = "MWParserFromHell is a parser for MediaWiki wikicode."
+name = "mwparserfromhell"
+optional = false
+python-versions = "*"
+version = "0.5.4"
 
 [[package]]
 category = "main"
@@ -1051,8 +1086,32 @@ category = "main"
 description = "YAML parser and emitter for Python"
 name = "pyyaml"
 optional = false
-python-versions = "*"
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 version = "5.3.1"
+
+[[package]]
+category = "main"
+description = "QuickUMLS is a tool for fast, unsupervised biomedical concept extraction from medical text"
+name = "quickumls"
+optional = false
+python-versions = "*"
+version = "1.3.0.post4"
+
+[package.dependencies]
+leveldb = ">=0.193"
+nltk = ">=3.3"
+numpy = ">=1.8.2"
+quickumls_simstring = ">=1.1.5r1"
+spacy = ">=1.6.0"
+unidecode = ">=0.4.19"
+
+[[package]]
+category = "main"
+description = "Clone of simstring designed to work with QuickUMLS. Original version here: http://chokkan.org/software/simstring/"
+name = "quickumls-simstring"
+optional = false
+python-versions = "*"
+version = "1.1.5r1"
 
 [[package]]
 category = "main"
@@ -1497,6 +1556,14 @@ dev = ["py-make (>=0.1.0)", "twine", "argopt", "pydoc-markdown"]
 
 [[package]]
 category = "main"
+description = "ASCII transliterations of Unicode text"
+name = "unidecode"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "1.1.1"
+
+[[package]]
+category = "main"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 name = "urllib3"
 optional = false
@@ -1560,14 +1627,23 @@ watchdog = ["watchdog"]
 
 [[package]]
 category = "main"
-description = "A flexible forms validation and rendering library for Python web development."
-name = "wtforms"
+description = "A tool for learning vector representations of words and entities from Wikipedia"
+name = "wikipedia2vec"
 optional = false
 python-versions = "*"
-version = "2.2.1"
+version = "1.0.4"
 
-[package.extras]
-locale = ["Babel (>=1.3)"]
+[package.dependencies]
+click = "*"
+jieba = "*"
+joblib = "*"
+lmdb = "*"
+marisa-trie = "*"
+mwparserfromhell = "*"
+numpy = "*"
+scipy = "*"
+six = "*"
+tqdm = "*"
 
 [[package]]
 category = "dev"
@@ -1610,7 +1686,7 @@ testing = ["jaraco.itertools", "func-timeout"]
 doc = []
 
 [metadata]
-content-hash = "e9b32975e8354b577ac7b637b55e914c6502e2452a3920d018a8d36882953105"
+content-hash = "23ccfda2d087d1c6d3213151e8c5c2ef1c9f1de58c36410d4a4b7f32abfc7e55"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -1860,10 +1936,6 @@ flask = [
     {file = "Flask-1.1.2-py2.py3-none-any.whl", hash = "sha256:8a4fdd8936eba2512e9c85df320a37e694c93945b33ef33c89946a340a238557"},
     {file = "Flask-1.1.2.tar.gz", hash = "sha256:4efa1ae2d7c9865af48986de8aeb8504bf32c7f3d6fdc9353d34b21f4b127060"},
 ]
-flask-wtf = [
-    {file = "Flask-WTF-0.14.3.tar.gz", hash = "sha256:d417e3a0008b5ba583da1763e4db0f55a1269d9dd91dcc3eb3c026d3c5dbd720"},
-    {file = "Flask_WTF-0.14.3-py2.py3-none-any.whl", hash = "sha256:57b3faf6fe5d6168bda0c36b0df1d05770f8e205e18332d0376ddb954d17aef2"},
-]
 gunicorn = [
     {file = "gunicorn-20.0.4-py2.py3-none-any.whl", hash = "sha256:cd4a810dd51bf497552cf3f863b575dabd73d6ad6a91075b65936b151cbf4f9c"},
     {file = "gunicorn-20.0.4.tar.gz", hash = "sha256:1904bb2b8a43658807108d59c3f3d56c2b6121a701161de0ddf9ad140073c626"},
@@ -1903,6 +1975,9 @@ itsdangerous = [
 jeepney = [
     {file = "jeepney-0.4.3-py3-none-any.whl", hash = "sha256:d6c6b49683446d2407d2fe3acb7a368a77ff063f9182fe427da15d622adc24cf"},
     {file = "jeepney-0.4.3.tar.gz", hash = "sha256:3479b861cc2b6407de5188695fa1a8d57e5072d7059322469b62628869b8e36e"},
+]
+jieba = [
+    {file = "jieba-0.42.1.tar.gz", hash = "sha256:055ca12f62674fafed09427f176506079bc135638a14e23e25be909131928db2"},
 ]
 jinja2 = [
     {file = "Jinja2-2.11.2-py2.py3-none-any.whl", hash = "sha256:f0a4641d3cf955324a89c04f3d94663aa4d638abe8f733ecd3582848e1c37035"},
@@ -1944,6 +2019,34 @@ kiwisolver = [
     {file = "kiwisolver-1.2.0-cp38-none-win32.whl", hash = "sha256:d069ef4b20b1e6b19f790d00097a5d5d2c50871b66d10075dab78938dc2ee2cf"},
     {file = "kiwisolver-1.2.0-cp38-none-win_amd64.whl", hash = "sha256:18d749f3e56c0480dccd1714230da0f328e6e4accf188dd4e6884bdd06bf02dd"},
     {file = "kiwisolver-1.2.0.tar.gz", hash = "sha256:247800260cd38160c362d211dcaf4ed0f7816afb5efe56544748b21d6ad6d17f"},
+]
+leveldb = [
+    {file = "leveldb-0.201.tar.gz", hash = "sha256:1cffe776842917e09f073bd6ea5856c64136aebddbe51bd17ea29913472fecbf"},
+]
+lmdb = [
+    {file = "lmdb-0.98-cp27-cp27m-win32.whl", hash = "sha256:45db7b7da2e0b7122f0a140c9fb99cd6fd4bb734106b3e9390cf7caef0cb48ee"},
+    {file = "lmdb-0.98-cp27-cp27m-win_amd64.whl", hash = "sha256:bb48b89aa8d62145758992095b6b7c323815482364b684b8e3318a8a2c64eb16"},
+    {file = "lmdb-0.98-cp34-cp34m-win32.whl", hash = "sha256:efec783301d893fc7fe059abf4737a08cfb07a3189f7bbfcce558b2bb9787d25"},
+    {file = "lmdb-0.98-cp35-cp35m-win32.whl", hash = "sha256:15aa0ba7d3f17b6842ab1547e1224d9f444529d01e1bf443cc7d3f35445a98f4"},
+    {file = "lmdb-0.98-cp35-cp35m-win_amd64.whl", hash = "sha256:00ef17fe432088e979f004aa09d3dc741b998b86f67dde5d35a474b065b33789"},
+    {file = "lmdb-0.98-cp36-cp36m-win32.whl", hash = "sha256:11f70bde9f502b2843f9cab12d2d81080e6e5eefe8871c3011be7428802c1bd8"},
+    {file = "lmdb-0.98-cp36-cp36m-win_amd64.whl", hash = "sha256:df2ac8fa4047afa38940b3f96db91764deb94fd8d275e639a02e779493724be4"},
+    {file = "lmdb-0.98-cp37-cp37m-win32.whl", hash = "sha256:6769750d08619d18e945e5cd16a129cc5fb1ac5a55a9745ed4f8cbebaed0895d"},
+    {file = "lmdb-0.98-cp37-cp37m-win_amd64.whl", hash = "sha256:c002faf238ac765df5b18a0bed5a8dbeab36bf4bc2a7253899769ae615fd74df"},
+    {file = "lmdb-0.98-py2.7-win-amd64.egg", hash = "sha256:a186308016c26d38858c86a895cbf6a538aeaf5249815646935da7b0fe922758"},
+    {file = "lmdb-0.98-py2.7-win32.egg", hash = "sha256:f831ea263a3ebdbc66d5137c6f2e999d1aeaa8ea0d3256cf6cd56cf44f5af1be"},
+    {file = "lmdb-0.98-py3.4-win32.egg", hash = "sha256:7c4eb54e25234ea16b46b4baddc4020d63ad5697eb8fe07b18580fa8906bffd6"},
+    {file = "lmdb-0.98-py3.5-win-amd64.egg", hash = "sha256:baa501d3c20fb1475c99182ba57de25117c480539b12200b53208da2e7af6a1e"},
+    {file = "lmdb-0.98-py3.5-win32.egg", hash = "sha256:2ef48435985687d9e3c248ca9f01fa7ce6716fb6bdcfbca5cba18939ba6a497d"},
+    {file = "lmdb-0.98-py3.6-win-amd64.egg", hash = "sha256:d79e352433f64dfe17236cf53bd8c68ebf4789473d6056d1aa73f02266448df9"},
+    {file = "lmdb-0.98-py3.6-win32.egg", hash = "sha256:a3428c5ef487c13e5d7305bcbbb978d6a6fe9c23c24974f77162dc2a7d3fc7fd"},
+    {file = "lmdb-0.98-py3.7-win-amd64.egg", hash = "sha256:096e89ad61d64db4cececb0c230187eb74438437d367752f57a204b3d2eacd2c"},
+    {file = "lmdb-0.98-py3.7-win32.egg", hash = "sha256:444d702430fcacb4d7e0e502e24fa62de05db45074171433a54c013ecf66dabd"},
+    {file = "lmdb-0.98.tar.gz", hash = "sha256:0625bc28bf0893e6000a83be7234f915ca078c32f9e73d8ae48b3508db7af708"},
+]
+marisa-trie = [
+    {file = "marisa-trie-0.7.5.tar.gz", hash = "sha256:c73bc25d868e8c4ea7aa7f1e19892db07bba2463351269b05340ccfa06eb2baf"},
+    {file = "marisa_trie-0.7.5-cp36-cp36m-macosx_10_7_x86_64.whl", hash = "sha256:4419abb6b603c97e863fad994abe57ed247fb12491f4bbacb2d762bd2e8958b6"},
 ]
 markupsafe = [
     {file = "MarkupSafe-1.1.1-cp27-cp27m-macosx_10_6_intel.whl", hash = "sha256:09027a7803a62ca78792ad89403b1b7a73a01c8cb65909cd876f7fcebd79b161"},
@@ -2004,6 +2107,10 @@ more-itertools = [
     {file = "more-itertools-8.2.0.tar.gz", hash = "sha256:b1ddb932186d8a6ac451e1d95844b382f55e12686d51ca0c68b6f61f2ab7a507"},
     {file = "more_itertools-8.2.0-py3-none-any.whl", hash = "sha256:5dd8bcf33e5f9513ffa06d5ad33d78f31e1931ac9a18f33d37e77a180d393a7c"},
 ]
+multiset = [
+    {file = "multiset-2.1.1-py2.py3-none-any.whl", hash = "sha256:4f86178b3bfbd4c978fdfa5034249947b3710525cfc232bec6cb765ab6747e2d"},
+    {file = "multiset-2.1.1.tar.gz", hash = "sha256:4801569c08bfcecfe7b0927b17f079c90f8607aca8fecaf42ded92b737162bc7"},
+]
 murmurhash = [
     {file = "murmurhash-1.0.2-cp27-cp27m-macosx_10_6_intel.macosx_10_9_intel.macosx_10_9_x86_64.macosx_10_10_intel.macosx_10_10_x86_64.whl", hash = "sha256:717196a04cdc80cc3103a3da17b2415a8a5e1d0d578b7079259386bf153b3258"},
     {file = "murmurhash-1.0.2-cp27-cp27m-manylinux1_x86_64.whl", hash = "sha256:a6c071b4b498bcea16a8dc8590cad81fa8d43821f34c74bc00f96499e2527073"},
@@ -2021,6 +2128,19 @@ murmurhash = [
     {file = "murmurhash-1.0.2-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:8b045a79e8b621b4b35b29f29e33e9e0964f3a276f7da4d5736142f322ad4842"},
     {file = "murmurhash-1.0.2-cp38-cp38-win_amd64.whl", hash = "sha256:f468e4868f78c3ac202a66abfe2866414bca4ae7666a21ef0938c423de0f7d50"},
     {file = "murmurhash-1.0.2.tar.gz", hash = "sha256:c7a646f6b07b033642b4f52ae2e45efd8b80780b3b90e8092a0cec935fbf81e2"},
+]
+mwparserfromhell = [
+    {file = "mwparserfromhell-0.5.4-cp27-cp27m-win32.whl", hash = "sha256:fb7000b444d11f850992dc7cb31c1d89fa544a28ab7f983a8aca3af29af5ea00"},
+    {file = "mwparserfromhell-0.5.4-cp27-cp27m-win_amd64.whl", hash = "sha256:b101d457343c948588de5c292267b273de7632227a47e564e5ab80a3b10c4df3"},
+    {file = "mwparserfromhell-0.5.4-cp34-cp34m-win32.whl", hash = "sha256:dda8bc7807b5b77acebc5ea0699f0c95ca9a8d8151a36a2121d6affcfcdfcf87"},
+    {file = "mwparserfromhell-0.5.4-cp34-cp34m-win_amd64.whl", hash = "sha256:78cf0686ea762ff06ede4d52af05abc9981fba881d8d6f1325d6b34fe3e5d295"},
+    {file = "mwparserfromhell-0.5.4-cp35-cp35m-win32.whl", hash = "sha256:e1419c058cd4f644cc58af9ea13304d415d6d282a7b64beb5226ee3c25eb2cbf"},
+    {file = "mwparserfromhell-0.5.4-cp35-cp35m-win_amd64.whl", hash = "sha256:301e7742c769be6a2dedc287be2ca6724b5e85ed6aadc788fc2ba0a17d11f509"},
+    {file = "mwparserfromhell-0.5.4-cp36-cp36m-win32.whl", hash = "sha256:049b4de541f0e03c0d9b745e9482fcd72637661ac8af7f924a7005bd46a4e551"},
+    {file = "mwparserfromhell-0.5.4-cp36-cp36m-win_amd64.whl", hash = "sha256:696381fb96682a37655a8dfc35393d60433622e65618fd9e003cc81cb6e10554"},
+    {file = "mwparserfromhell-0.5.4-cp37-cp37m-win32.whl", hash = "sha256:6377696e0fe0e12bdf9b94eeb2625edd3f30e373c72c593986c85eba60184575"},
+    {file = "mwparserfromhell-0.5.4-cp37-cp37m-win_amd64.whl", hash = "sha256:2df9222bc5fc8f82ad68a3dd06ee38bde47eff521c4315b32523938ed834c3a4"},
+    {file = "mwparserfromhell-0.5.4.tar.gz", hash = "sha256:aaf5416ab9b75e99e286f8a4216f77a2f7d834afd4c8f81731e701e59bf99305"},
 ]
 nltk = [
     {file = "nltk-3.5.zip", hash = "sha256:845365449cd8c5f9731f7cb9f8bd6fd0767553b9d53af9eb1b3abf7700936b35"},
@@ -2208,6 +2328,12 @@ pyyaml = [
     {file = "PyYAML-5.3.1-cp38-cp38-win32.whl", hash = "sha256:06a0d7ba600ce0b2d2fe2e78453a470b5a6e000a985dd4a4e54e436cc36b0e97"},
     {file = "PyYAML-5.3.1-cp38-cp38-win_amd64.whl", hash = "sha256:95f71d2af0ff4227885f7a6605c37fd53d3a106fcab511b8860ecca9fcf400ee"},
     {file = "PyYAML-5.3.1.tar.gz", hash = "sha256:b8eac752c5e14d3eca0e6dd9199cd627518cb5ec06add0de9d32baeee6fe645d"},
+]
+quickumls = [
+    {file = "quickumls-1.3.0.post4.tar.gz", hash = "sha256:c5c6547e382e015921c44f31e2cf66703c1a972587f49d826415f719da5f3e91"},
+]
+quickumls-simstring = [
+    {file = "quickumls_simstring-1.1.5r1.tar.gz", hash = "sha256:e6c6d8ace730ef3d703e2e479694914e544762ee5d37e26536b95001b426666b"},
 ]
 regex = [
     {file = "regex-2020.4.4-cp27-cp27m-win32.whl", hash = "sha256:90742c6ff121a9c5b261b9b215cb476eea97df98ea82037ec8ac95d1be7a034f"},
@@ -2432,6 +2558,10 @@ tqdm = [
     {file = "tqdm-4.45.0-py2.py3-none-any.whl", hash = "sha256:ea9e3fd6bd9a37e8783d75bfc4c1faf3c6813da6bd1c3e776488b41ec683af94"},
     {file = "tqdm-4.45.0.tar.gz", hash = "sha256:00339634a22c10a7a22476ee946bbde2dbe48d042ded784e4d88e0236eca5d81"},
 ]
+unidecode = [
+    {file = "Unidecode-1.1.1-py2.py3-none-any.whl", hash = "sha256:1d7a042116536098d05d599ef2b8616759f02985c85b4fef50c78a5aaf10822a"},
+    {file = "Unidecode-1.1.1.tar.gz", hash = "sha256:2b6aab710c2a1647e928e36d69c21e76b453cd455f4e2621000e54b2a9b8cce8"},
+]
 urllib3 = [
     {file = "urllib3-1.25.9-py2.py3-none-any.whl", hash = "sha256:88206b0eb87e6d677d424843ac5209e3fb9d0190d0ee169599165ec25e9d9115"},
     {file = "urllib3-1.25.9.tar.gz", hash = "sha256:3018294ebefce6572a474f0604c2021e33b3fd8006ecd11d62107a5d2a963527"},
@@ -2452,9 +2582,8 @@ werkzeug = [
     {file = "Werkzeug-1.0.1-py2.py3-none-any.whl", hash = "sha256:2de2a5db0baeae7b2d2664949077c2ac63fbd16d98da0ff71837f7d1dea3fd43"},
     {file = "Werkzeug-1.0.1.tar.gz", hash = "sha256:6c80b1e5ad3665290ea39320b91e1be1e0d5f60652b964a3070216de83d2e47c"},
 ]
-wtforms = [
-    {file = "WTForms-2.2.1-py2.py3-none-any.whl", hash = "sha256:e3ee092c827582c50877cdbd49e9ce6d2c5c1f6561f849b3b068c1b8029626f1"},
-    {file = "WTForms-2.2.1.tar.gz", hash = "sha256:0cdbac3e7f6878086c334aa25dc5a33869a3954e9d1e015130d65a69309b3b61"},
+wikipedia2vec = [
+    {file = "wikipedia2vec-1.0.4.tar.gz", hash = "sha256:48a18d0b39162b8b29ead0626711f984003d509cbe52149b8bac3b9a2578e9f8"},
 ]
 xdoctest = [
     {file = "xdoctest-0.10.3-py2.py3-none-any.whl", hash = "sha256:8e96068a02f2394bd56415444d1a31fad908e01522df03695b876a73b8d500c4"},
