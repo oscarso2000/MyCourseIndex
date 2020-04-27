@@ -29,6 +29,7 @@ with open("P03Data.json") as f:
 docVecDictionary = {}
 courseDocDictionary = {}
 sourceDictionary = {}
+tokenized_dict = {}
 
 for course in fromS3:
     vec = TfidfVectorizer(tokenizer=tokenizer, lowercase=False)
@@ -51,6 +52,7 @@ for course in fromS3:
 
 
     # elif course == "INFO 1998"
+    tokenized_dict[course] = documents
     sourceDictionary[course] = np.array(src)
     docVecDictionary[course] = (vec, vec.fit_transform(documents).toarray())
     courseDocDictionary[course] = np.array(rawDocs)
