@@ -4,16 +4,22 @@ import numpy as np
 import pickle
 
 tokenize_method = preprocessutils.tokenize_SpaCy
-query = "-'gain' +'cumulative' 'score'^3"
+query = "-'gains' -'gain' +'cumulative presses' +'sun' 'score football'^3 'unprecidented'^2 'scores'^4 'score'^2"
+
+flatten = lambda l: [item for sublist in l for item in sublist]
 
 def get_pos(query):
     pos = re.findall("\+'(.*?)'",query)
     pos = np.array(pos).flatten()
+    pos = list(map(tokenize_method, pos))
+    pos = list(set(flatten(pos)))
     return pos
 
 def get_neg(query):
     neg = re.findall("\-'(.*?)'",query)
     neg = np.array(neg).flatten()
+    neg = list(map(tokenize_method, neg))
+    neg = list(set(flatten(neg)))
     return neg
 
 def get_mult(query):
@@ -21,8 +27,12 @@ def get_mult(query):
     mult = re.findall("'[^']+'\^[0-9]+", query)
     exps = list(map(lambda t: int(re.findall("\^([0-9]+)", t)[0]), mult))
     words = list(map(lambda t: re.findall("'([^']+)'\^", t)[0], mult))
-    #if two words are the exact same, uses last exponent
-    m = dict(zip(words, exps))
+    m = {}
+    for word, exp in zip(words, exps):
+        for w in tokenize_method(word):
+            if (w in m and m[w] < exp) or (w not in m):
+                m[w] = exp
+    #if two words are the exact same, uses greater
     return list(m.keys()), m
 
 def remove(query):
@@ -70,3 +80,4 @@ neg_mat, neg_tokens, doc_ids = create_matrix(neg, z)
 mult_mat, mult_tokens, doc_ids = create_matrix(mult, z)
 #tokens is in order of rows in matrix
 #doc_ids is in order of columns in matrix
+
