@@ -173,4 +173,4 @@ def user_jwt_required(access_token, app_id):
     if (auth_claims["scope"] == "Unauthorized"):
         return False
     else:
-        return ("Read" in auth_claims["scope"])  
+        return ("View" in auth_claims["scope"])  

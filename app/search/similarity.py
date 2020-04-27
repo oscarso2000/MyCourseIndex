@@ -23,6 +23,7 @@ def cosineSim(query, courseVecDictionary, course, reverseIndexDictionary):
         #     queryVectorizerArray[idx] += 1.0
         # except ValueError:
         #     pass
+    queryVectorizerArray *= vec.idf_
     
     if queryVectorizerArray.sum() == 0:
         return [], []
