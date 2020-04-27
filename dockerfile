@@ -28,7 +28,7 @@ COPY app.py /app
 COPY app /app/app
 
 # DEV ONLY
-copy secrets /app/secrets
+# copy secrets /app/secrets
 
 EXPOSE 5000
 
