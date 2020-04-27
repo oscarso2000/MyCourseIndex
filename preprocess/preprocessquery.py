@@ -4,7 +4,7 @@ import numpy as np
 import pickle
 
 tokenize_method = preprocessutils.tokenize_SpaCy
-query = "-'gains' -'gain' +'cumulative presses' +'sun' 'score football'^3 'unprecidented'^2 'scores'^4 'score'^2"
+query = "+'cumulative' +'system discount' -'football' 'score'^3 'unprecidented'^3 'scores'^4 'score'^2"
 
 flatten = lambda l: [item for sublist in l for item in sublist]
 
@@ -12,14 +12,14 @@ def get_pos(query):
     pos = re.findall("\+'(.*?)'",query)
     pos = np.array(pos).flatten()
     pos = list(map(tokenize_method, pos))
-    pos = list(set(flatten(pos)))
+    pos = sorted(list(set(flatten(pos))))
     return pos
 
 def get_neg(query):
     neg = re.findall("\-'(.*?)'",query)
     neg = np.array(neg).flatten()
     neg = list(map(tokenize_method, neg))
-    neg = list(set(flatten(neg)))
+    neg = sorted(list(set(flatten(neg))))
     return neg
 
 def get_mult(query):
@@ -33,7 +33,7 @@ def get_mult(query):
             if (w in m and m[w] < exp) or (w not in m):
                 m[w] = exp
     #if two words are the exact same, uses greater
-    return list(m.keys()), m
+    return sorted(list(m.keys())), m
 
 def remove(query):
     #remove +/-
@@ -46,7 +46,7 @@ def get_all_tokens(query, pos, neg, mult):
     other_tokens = tokenize_method(query)
     all_tokens = list(set(list(pos) + list(neg) + mult + other_tokens))
     regex = re.compile("[^\s]+")
-    all_tokens = list(filter(regex.match, all_tokens))
+    all_tokens = sorted(list(filter(regex.match, all_tokens)))
     return all_tokens
 
 pos = get_pos(query)
@@ -80,4 +80,23 @@ neg_mat, neg_tokens, doc_ids = create_matrix(neg, z)
 mult_mat, mult_tokens, doc_ids = create_matrix(mult, z)
 #tokens is in order of rows in matrix
 #doc_ids is in order of columns in matrix
+
+def bool_vec(pos_mat, neg_mat, mult_tokens, mult_mat, m):
+    pos_bool = np.prod(pos_mat, axis=0)
+    pos_idx = np.where(pos_bool > 0, 1, 0)
+
+    neg_bool = np.sum(neg_mat, axis=0)
+    neg_idx = np.where(neg_bool == 0, 1, 0)
+
+    for idx, word in enumerate(mult_tokens):
+        mult_mat[idx] *= m[word]
+
+    mult_idx = np.sum(mult_mat, axis=0)
+
+    return pos_idx * neg_idx * mult_idx
+
+print(bool_vec(pos_mat, neg_mat, mult_tokens, mult_mat, m))
+
+
+
 
