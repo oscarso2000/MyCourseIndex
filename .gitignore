@@ -16,6 +16,7 @@ deployment-setup/build_scripts/setup-secrets.sh
 **/terraform.tfstate.backup
 **/kube_secrets/**
 secrets/**
+concept_matching/quickUCSLS/**
 
 # C extensions
 *.so

@@ -152,21 +152,29 @@ def parse_TOC(pdf_path, doc_name):
     end_idx = []
     new_doc_names = []
     start_lst_empty = True
+    toc_empty = True
 
-    if toc_str:
+    if toc_str and toc_str != "<outlines>\n</outlines>\n":
         toc_xml = xmltodict.parse(toc_str)
+        toc_empty = False
     else:
         toc_xml = {"outlines": {"outline": [{"pageno": 99999999999, "@title": ""}]}}
 
     for outline in tqdm(toc_xml["outlines"]["outline"], leave=False):
         if start_lst_empty:
             start_idx.append(outline["pageno"])
-            new_doc_names.append(doc_name + "_" + outline["@title"][2:-1])
+            if toc_empty:
+                new_doc_names.append(doc_name)
+            else:
+                new_doc_names.append(doc_name + "_" + outline["@title"][2:-1])
             start_lst_empty = False
         else:
             end_idx.append(outline["pageno"])
             start_idx.append(outline["pageno"])
-            new_doc_names.append(doc_name + "_" + outline["@title"][2:-1])
+            if toc_empty:
+                new_doc_names.append(doc_name)
+            else:
+                new_doc_names.append(doc_name + "_" + outline["@title"][2:-1])
     
     return start_idx, end_idx, new_doc_names
 
@@ -203,11 +211,19 @@ def extract_text_from_pdf(pdf_path, start_page, end_page):
 def make_pdf_to_txt(pdf_path, doc_name, aws_access_key_id=None, aws_secret_access_key=None):
     start_idx, end_idx, new_doc_names = parse_TOC(pdf_path, doc_name)
     urls = []
+    if start_idx == [99999999999]:
+        start_idx = [0]
+
     for i in tqdm(range(len(start_idx)), leave=False):
         new_filename = new_doc_names[i].replace("/", "-").replace(" ", "_") + ".txt"
-        new_path = os.path.join("CS4300Textbook", new_filename)
+        new_path = os.path.join("info1998Resources", new_filename)
+        try:
+            os.mkdir("info1998Resources")
+        except:
+            pass
         fp = open(new_path, "w")
-        print("https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf#page={}".format(start_idx[i]), file=fp)
+        print("https://intsys-education-docs.s3.us-east-2.amazonaws.com/info1998/{}.pdf".format(doc_name), file=fp)
+        # print("https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf#page={}".format(start_idx[i]), file=fp)
         if i < len(start_idx) -1:
             print(extract_text_from_pdf(pdf_path,int(start_idx[i]), int(end_idx[i])), file=fp)
         else:
@@ -216,7 +232,7 @@ def make_pdf_to_txt(pdf_path, doc_name, aws_access_key_id=None, aws_secret_acces
         s3_client = boto3.client('s3', aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
         try:
             response = s3_client.upload_file(new_path, "cs4300-data-models", new_path)
-            urls.append("https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf#page={}".format(start_idx[i]))
+            # urls.append("https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf#page={}".format(start_idx[i]))
         except ClientError as e:
             print("ERROR {}".format(e.msg), flush=True)
         os.system("rm -rf {}".format(new_path))

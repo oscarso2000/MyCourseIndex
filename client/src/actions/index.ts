@@ -7,8 +7,8 @@ export const setQuery = (e: any): void => {
     store.dispatch({ type: 'SET_QUERY', payload: encodeURI(e.target.value) });
 };
 
-export const setSearchSel = (e: any): void =>{
-    store.dispatch({ type: 'SET_SEARCH', payload: encodeURI(e.target.value)})
+export const setSearchSel = (e: any): void => {
+    store.dispatch({ type: 'SET_SEARCH', payload: encodeURI(e.target.value) })
 };
 
 export const handleKey = (e: any, reset?: string): void => {
@@ -28,13 +28,19 @@ export const search = (reset?: any): void => {
         }
         dispatch({ type: 'LOADING_STATUS', payload: true });
         axios
-            .post(`/search`, { query: store.getState().query, "token": getToken() , "search": store.getState().search })
+            .post(`/search`, { query: store.getState().query, "token": getToken(), "search": store.getState().search })
             .then((res: any) => dispatch({ type: 'SEND_RESULTS', payload: res.data }))
             .then(() => {
                 dispatch({ type: 'LOADING_STATUS', payload: false });
                 //screenGrab();
             });
     });
+};
+
+
+export const setOrder = (e: any): void => {
+    // console.log(e);
+    store.dispatch({ type: 'SET_ORDER', payload: e });
 };
 
 const screenGrab = (): void => {

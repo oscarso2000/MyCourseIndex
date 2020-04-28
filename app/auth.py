@@ -21,8 +21,8 @@ JWK_KEYS = res.json()
 
 
 SCOPES = {
-    "User": ["Read"],
-    "Developer": ["Read", "Dog"]
+    "User": ["Q1MgNDMwMAo=", "SU5GTyAxOTk4Cg==", "View"],
+    "Developer": ["Q1MgNDMwMAo=", "SU5GTyAxOTk4Cg==", "View"]
 }
 
 def make_scope_assignments(
@@ -40,8 +40,7 @@ def make_scope_assignments(
 def verify_token(
     token: str,
     app_id: str,
-    get_scopes_for_role: typing.Callable[[str], typing.Set[str]],
-    logger
+    get_scopes_for_role: typing.Callable[[str], typing.Set[str]]
     ) -> dict:
     if token == "null" or not token:
         return {"scope": "Unauthorized"}  # Don't accept empty tokens
@@ -101,7 +100,7 @@ def verify_token(
     return auth_claims
 
 
-def get_name(token: str, app_id: str, logger: logging.Logger) -> str:
+def get_name(token: str, app_id: str) -> str:
     """Get the name from the JWT.
 
     :param access_token: Access token
@@ -149,7 +148,12 @@ def get_name(token: str, app_id: str, logger: logging.Logger) -> str:
     return name
 
 
-def user_jwt_required(access_token, app_id, logger):
+def get_claims(access_token, app_id):
+    get_scopes_for_role = make_scope_assignments(SCOPES)
+    return verify_token(access_token, app_id, get_scopes_for_role)
+
+
+def user_jwt_required(access_token, app_id):
     """
     A function to protect a Flask endpoint.
 
@@ -159,7 +163,7 @@ def user_jwt_required(access_token, app_id, logger):
     """
 
     get_scopes_for_role = make_scope_assignments(SCOPES)
-    auth_claims = verify_token(access_token, app_id, get_scopes_for_role, logger)
+    auth_claims = verify_token(access_token, app_id, get_scopes_for_role)
 
     # logger.info("Reason: {}".format(auth_claims.get("reason", "None Given")))
 
@@ -169,4 +173,4 @@ def user_jwt_required(access_token, app_id, logger):
     if (auth_claims["scope"] == "Unauthorized"):
         return False
     else:
-        return ("Read" in auth_claims["scope"])  
+        return ("View" in auth_claims["scope"])  
