@@ -8,7 +8,7 @@ from app.search.similarity import *
 from app.search.boolean_search import *
 import app.utils
 import app.utils.vectorizer as vecPy
-# import app.utils.split_vectorizer as vecPySplit
+import app.utils.split_vectorizer as vecPySplit
 import logging
 import html2text
 
