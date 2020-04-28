@@ -5,6 +5,7 @@ from urllib.parse import unquote
 from piazza_api import Piazza
 from app.auth import user_jwt_required, get_name, get_claims
 from app.search.similarity import *
+from app.search.boolean_search import *
 import app.utils
 import app.utils.vectorizer as vecPy
 import app.utils.split_vectorizer as vecPySplit
@@ -75,10 +76,18 @@ def search_results():
         
         # if searchSelection == "Default":
         #regular cosine similarity (start commenting out here)
+        updated_query = get_all_tokens(query)
+        cosine_results, results_filter = cosineSim(updated_query, vecPy.docVecDictionary , courseSelection, app.logger)
+        boolean_results, results_filter = run(query, courseSelection)
+
         n = 25 #top x highest
             
         #source Dictionary 0.2 for resources, 1 for piazza (weighting)
-        finalresults = results #np.multiply(results,vecPy.sourceDictionary[courseSelection])
+        # finalresults = results #np.multiply(results,vecPy.sourceDictionary[courseSelection])
+        if len(cosine_results) == 0:
+            return jsonify([])
+        finalresults = np.multiply(cosine_results,boolean_results)
+        results_filter = (finalresults > 0)
 
         if len(finalresults) == 0:
             return jsonify([])
