@@ -76,7 +76,7 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
                     name="checkedB"
                     color="primary"
                 />
-                <h3 className="heading-2">Sort by time</h3>
+                <h3 className="heading-2">Sort by most recent</h3>
 
                 <Link to="/about" className="about-bar" style={{ textDecoration: "none" }}>
                     About
