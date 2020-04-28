@@ -37,11 +37,8 @@ with open("P03Data.json") as f:
 docVecDictionary = {}
 courseDocDictionary = {}
 sourceDictionary = {}
-<<<<<<< HEAD
 courseRevsereIndexDictionary = {}
-=======
 tokenized_dict = {}
->>>>>>> 57426600f7a3c7cbc1cbacfa273c8a45414dde56
 
 for course in fromS3:
     vec = TfidfVectorizer(tokenizer=tokenizer, lowercase=False)
