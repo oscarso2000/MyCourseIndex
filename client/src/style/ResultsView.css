@@ -5,6 +5,9 @@
   color: #545454;
   margin: 15px;
 }
+.about-bar{
+  font-size: 16px;
+}
 .top-bar {
   position: sticky;
   top: 0px;
@@ -15,10 +18,13 @@
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.10);
 }
 .top-bar input {
-  margin-left: 5.4vw;
+  margin-left: 4.5vw;
   height: 5.5vh;
+  width: 600px;
   margin-top: 7px;
+  padding: 0 58px 0 28px;
   box-shadow: none;
+  border-radius: 35px;
   border: 1px solid #ffffff;
   display: inline-flex;
 }
@@ -33,11 +39,13 @@
 .heading-1 {
   margin-left: 23px;
   margin-right: 5.5px;
+  font-size:45px;
   background-image: linear-gradient(to right, #00688B 0%, #00CDCD 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .heading-2 {
+  font-size:45px;
   color: #ffffff;
 }
 .about-bar {

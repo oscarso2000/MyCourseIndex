@@ -8,6 +8,7 @@ export interface IHomeProps {
     loadingStatus?: boolean;
     outline?: any;
     query: string;
+    search: string;
     counter?: number;
     screenshots?: any;
     order: string
@@ -18,8 +19,9 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
     loadingStatus,
     outline,
     query,
+    search,
     screenshots,
-    order
+    order,
 }: IHomeProps) => {
     if (loadingStatus === true) {
         {/* 
@@ -32,6 +34,7 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
                 outline={outline}
                 screenshots={screenshots}
                 query={query}
+                search={search}
                 loadingStatus={loadingStatus}
                 order={order}
             />
@@ -46,6 +49,7 @@ const mapStateToProps = (state: IHomeProps): IHomeProps => {
         loadingStatus: state.loadingStatus,
         outline: state.outline,
         query: state.query,
+        search: state.search,
         counter: state.counter,
         screenshots: state.screenshots,
         order: state.order
