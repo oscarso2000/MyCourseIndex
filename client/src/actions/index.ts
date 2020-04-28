@@ -7,6 +7,11 @@ export const setQuery = (e: any): void => {
     store.dispatch({ type: 'SET_QUERY', payload: encodeURI(e.target.value) });
 };
 
+export const setCourses = (e: any): void => {
+    store.dispatch({ type: 'SET_COURSES', payload: e });
+}
+
+
 export const handleKey = (e: any, reset?: string): void => {
     if (e.key === 'Enter') {
         if (reset) {

@@ -199,7 +199,11 @@ def get_user_courses():
     if claims["scope"] == "Unauthorized":
         return jsonify([])
     else:
-        return jsonify([app.config["COURSE_MAPPING"].get(claim,"") for claim in claims["scope"]])
+        to_json = []
+        for claim in claims["scope"]:
+            if app.config["COURSE_MAPPING"].get(claim,"")!="":
+                to_json.append(app.config["COURSE_MAPPING"].get(claim,""))
+        return jsonify(to_json)
 
 
 @app.route("/tokeVerify", methods=["POST"])

@@ -4,6 +4,7 @@ import { counterReducer } from './counterReducer';
 import { loadingStatusReducer } from './loadingStatus';
 import { outlineReducer } from './outlineReducer';
 import { queryReducer } from './queryReducer';
+import { coursesReducer } from './coursesReducer';
 import { resultsReducer } from './resultsReducer';
 import { screenshotsReducer } from './screenshotsReducer';
 
@@ -18,6 +19,7 @@ export const rootReducer = combineReducers({
   outline: outlineReducer,
   query: queryReducer,
   counter: counterReducer,
+  courses: coursesReducer,
   screenshots: screenshotsReducer
 })
 
