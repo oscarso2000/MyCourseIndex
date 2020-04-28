@@ -69,23 +69,27 @@
   transform: translate(-50%, -50%);
 }
 
-.searchSel {
-    top: 16px;
+.orderSel {
     display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
+    /* position: relative;
+    top: 16px;
+    left: 30px; */
+    float: center;
+    position: top;
+    /* padding-left: 35px;
+    margin-bottom: 12px; */
     cursor: pointer;
-    font-size: 22px;
+    font-size: 1rem;
     color: #ffffff;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
 }
+
   
 /* Hide the browser's default radio button */
-.searchSel input {
+.orderSel input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
@@ -103,12 +107,12 @@
 }
 
 /* On mouse-over, add a grey background color */
-.searchSel:hover input ~ .checkmark {
+.orderSel:hover input ~ .checkmark {
     background-color: #ccc;
 }
 
 /* When the radio button is checked, add a blue background */
-.searchSel input:checked ~ .checkmark {
+.orderSel input:checked ~ .checkmark {
     background-color: #00688B;
 }
 
@@ -120,12 +124,12 @@
 }
 
 /* Show the indicator (dot/circle) when checked */
-.searchSel input:checked ~ .checkmark:after {
+.orderSel input:checked ~ .checkmark:after {
     display: block;
 }
 
 /* Style the indicator (dot/circle) */
-.searchSel .checkmark:after {
+.orderSel .checkmark:after {
     top: 9px;
     left: 9px;
     width: 8px;
@@ -133,20 +137,3 @@
     border-radius: 50%;
     background: white;
 }
-
-@-webkit-keyframes fadeIn {
-    0% { 
-        opacity:0; 
-        transform: scale(0.6);
-    }
-  
-    100% {
-        opacity:100%;
-        transform: scale(1);
-    }
-}
-  
-@keyframes fadeIn {
-    0% { opacity:0; }
-    100% { opacity:100%; }
-} 

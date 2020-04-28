@@ -1,11 +1,11 @@
 import { IAction } from '.';
 
-const initialState = '';
+const initialState = false;
 
 export const orderReducer = (state = initialState, action: IAction) => {
     switch (action.type) {
         case 'SET_ORDER':
-            return state === 'timestamp' ? 'timestamp' : 'score';
+            return !state;
         default:
             return state;
     }

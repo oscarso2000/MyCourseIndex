@@ -6,6 +6,9 @@ import { handleKey, search, setQuery, setOrder } from '../actions';
 import '../style/ResultsView.css';
 import glass from '../images/glass.svg';
 import { Loader } from './Loader';
+import Switch from '@material-ui/core/Switch';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 export const ResultsView: React.StatelessComponent<any> = ({ results, outline, screenshots, query, loadingStatus, order }: any): JSX.Element => {
     const mobile: string[] = ['Android', 'webOS', 'iPhone', 'iPad', 'iPod', 'BlackBerry'];
@@ -13,7 +16,8 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
     const DSC = 'descending';
 
     const sortByTimestamp = (a: any, b: any, sortOrder: any = DSC) => {
-        const diff = a.timestamp.toLowerCase().localeCompare(b.text.toLowerCase());
+        // console.log(a);
+        const diff = a.timestamp.toLowerCase().localeCompare(b.timestamp.toLowerCase());
 
         if (sortOrder === ASC) {
             return diff;
@@ -31,8 +35,22 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
         return -1 * diff;
     }
 
+    // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     // event.persist();
+    //     // console.log(event.target.checked);
+    //     console.log("Clicked");
+    //     setOrder(!order);
+    // };
+
+    const handleChange = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        // event.persist();
+        // console.log(event.target.checked);
+        // console.log("Clicked");
+        setOrder(!order);
+    };
+
     if (results && results.length > 0) {
-        if (order === 'timestamp') {
+        if (order) {
             results.sort((a: any, b: any) => sortByTimestamp(a, b));
         } else {
             results.sort((a: any, b: any) => sortByScore(a, b));
@@ -52,12 +70,14 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
                     onChange={e => setQuery(e)}
                 />
                 <img onClick={() => search('reset')} className="glass" alt="magnifying glass" src={glass} />
-                <div className="radioButtons">
-                    <label className="searchSel" onChange={e => setOrder(e)}>Sort by Time
-                    <input type="radio" value="timestamp" name="s" />
-                        <span className="checkmark"></span>
-                    </label>
-                </div>
+                <Switch
+                    checked={order}
+                    onClick={handleChange}
+                    name="checkedB"
+                    color="primary"
+                />
+                <h3 className="heading-2">Sort by time</h3>
+
                 <Link to="/about" className="about-bar" style={{ textDecoration: "none" }}>
                     About
                 </Link>

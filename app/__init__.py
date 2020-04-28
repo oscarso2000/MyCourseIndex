@@ -67,7 +67,7 @@ def search_results():
         app.logger.info("User queried: {}".format(query))
         #courseSelection = request.args.get("courseSelection")
         courseSelection = "CS 4300"
-        results, results_filter = cosineSim(query, vecPy.docVecDictionary , courseSelection, vecPy.courseRevsereIndexDictionary)
+        # results, results_filter = cosineSim(query, vecPy.docVecDictionary , courseSelection, vecPy.courseRevsereIndexDictionary)
 
         #search selection: Default(both),Piazza only, Resource only 
         # [Default, Piazza, Resource]
@@ -78,7 +78,7 @@ def search_results():
         # if searchSelection == "Default":
         #regular cosine similarity (start commenting out here)
         updated_query = get_all_tokens(query)
-        cosine_results, results_filter = cosineSim(updated_query, vecPy.docVecDictionary , courseSelection, app.logger)
+        cosine_results, results_filter = cosineSim(updated_query, vecPy.docVecDictionary , courseSelection, vecPy.courseRevsereIndexDictionary)
         boolean_results, results_filter = run(query, courseSelection)
 
         n = 25 #top x highest

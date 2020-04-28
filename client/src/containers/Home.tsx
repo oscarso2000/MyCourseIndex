@@ -11,7 +11,7 @@ export interface IHomeProps {
     search: string;
     counter?: number;
     screenshots?: any;
-    order: string
+    order: boolean
 }
 
 export const Home: React.StatelessComponent<IHomeProps> = ({
