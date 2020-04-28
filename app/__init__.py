@@ -97,6 +97,9 @@ def search_results():
         
         n = min(sum(reverseList_filter), n)
 
+        for item, score in zip(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter], finalresults[reverseList][reverseList_filter]):
+            item["score"] = score
+
         if courseSelection == "CS 4300":
             h = html2text.HTML2Text()
             h.ignore_links = True

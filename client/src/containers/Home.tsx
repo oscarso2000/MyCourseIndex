@@ -10,6 +10,7 @@ export interface IHomeProps {
     query: string;
     counter?: number;
     screenshots?: any;
+    order: string
 }
 
 export const Home: React.StatelessComponent<IHomeProps> = ({
@@ -17,10 +18,13 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
     loadingStatus,
     outline,
     query,
-    screenshots
+    screenshots,
+    order
 }: IHomeProps) => {
     if (loadingStatus === true) {
-        return <ResultsView query={query} loadingStatus={loadingStatus} outline={outline} />;
+        {/* 
+        // @ts-ignore */}
+        return <ResultsView query={query} loadingStatus={loadingStatus} outline={outline} order={order} />;
     } else if (loadingStatus === false && !!results) {
         return (
             <ResultsView
@@ -29,6 +33,7 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
                 screenshots={screenshots}
                 query={query}
                 loadingStatus={loadingStatus}
+                order={order}
             />
         );
     }
@@ -42,7 +47,8 @@ const mapStateToProps = (state: IHomeProps): IHomeProps => {
         outline: state.outline,
         query: state.query,
         counter: state.counter,
-        screenshots: state.screenshots
+        screenshots: state.screenshots,
+        order: state.order
     };
 };
 

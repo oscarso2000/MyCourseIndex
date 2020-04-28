@@ -33,6 +33,11 @@ export const search = (reset?: any): void => {
     });
 };
 
+
+export const setOrder = (e: any): void => {
+    store.dispatch({ type: 'SET_ORDER', payload: e });
+};
+
 const screenGrab = (): void => {
     const arr = [] as any;
     const results: any = store.getState().results;

@@ -6,19 +6,21 @@ import { outlineReducer } from './outlineReducer';
 import { queryReducer } from './queryReducer';
 import { resultsReducer } from './resultsReducer';
 import { screenshotsReducer } from './screenshotsReducer';
+import { orderReducer } from './orderReducer';
 
 export interface IAction {
-  type: string;
-  payload?: any;
+    type: string;
+    payload?: any;
 }
 
 export const rootReducer = combineReducers({
-  results: resultsReducer,
-  loadingStatus: loadingStatusReducer,
-  outline: outlineReducer,
-  query: queryReducer,
-  counter: counterReducer,
-  screenshots: screenshotsReducer
+    results: resultsReducer,
+    loadingStatus: loadingStatusReducer,
+    outline: outlineReducer,
+    query: queryReducer,
+    counter: counterReducer,
+    screenshots: screenshotsReducer,
+    order: orderReducer
 })
 
 const middleware = applyMiddleware(thunk)
