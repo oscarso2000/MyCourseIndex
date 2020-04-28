@@ -8,7 +8,7 @@ from app.search.similarity import *
 from app.search.boolean_search import *
 import app.utils
 import app.utils.vectorizer as vecPy
-import app.utils.split_vectorizer as vecPySplit
+# import app.utils.split_vectorizer as vecPySplit
 import logging
 import html2text
 
@@ -69,8 +69,9 @@ def search_results():
 
         #search selection: Default(both),Piazza only, Resource only 
         # [Default, Piazza, Resource]
-        #searchSelection = request.args.get("searchSelection")
-        searchSelection = "Default"
+        
+        searchSelection = request.get_json()["search"]
+        # searchSelection = "Default"
         
         # if searchSelection == "Default":
         #regular cosine similarity (start commenting out here)

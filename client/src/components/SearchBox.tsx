@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import '../style/SearchBox.css';
-import { search, handleKey, setQuery } from '../actions/index';
+import { search, handleKey, setQuery, setSearchSel } from '../actions/index';
 import glass from '../images/glass.svg';
 
 export const SearchBox: React.StatelessComponent = (): JSX.Element => (
@@ -14,6 +14,11 @@ export const SearchBox: React.StatelessComponent = (): JSX.Element => (
             <h1 className="home-logo">MyCourseIndex</h1> <h1 className="home-logo-2">Search</h1>
             <input onChange={e => setQuery(e)} onKeyPress={e => handleKey(e)} autoFocus={true} />
             <img onClick={search} className="glass" alt="magnifying glass" src={glass} />
+            <div onChange = {e => setSearchSel(e)}>
+                <input type="radio" value="Default" name="searchSel" defaultChecked/> Search Everything
+                <input type="radio" value="Piazza" name="searchSel" /> Search Piazza Only
+                <input type="radio" value="Resource" name="searchSel" /> Search Resources Only
+            </div>
         </div>
     </div>
 );

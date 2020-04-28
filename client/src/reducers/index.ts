@@ -6,6 +6,7 @@ import { outlineReducer } from './outlineReducer';
 import { queryReducer } from './queryReducer';
 import { resultsReducer } from './resultsReducer';
 import { screenshotsReducer } from './screenshotsReducer';
+import { radioButtonReducer } from './radioButtonReducer';
 
 export interface IAction {
   type: string;
@@ -17,6 +18,7 @@ export const rootReducer = combineReducers({
   loadingStatus: loadingStatusReducer,
   outline: outlineReducer,
   query: queryReducer,
+  search : radioButtonReducer,
   counter: counterReducer,
   screenshots: screenshotsReducer
 })
