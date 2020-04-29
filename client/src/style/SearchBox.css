@@ -13,9 +13,9 @@
   margin: 0 auto;
 }
 .home-logo {
-  top:10px;
+  padding-top: 100px;
   font-weight: 1200;
-  font-size: 40px;
+  font-size: 45px;
   display: inline;
   text-align: center;
   background-image: linear-gradient(to right, #00688B 0%, #00CDCD 100%);
@@ -23,9 +23,9 @@
   -webkit-text-fill-color: transparent;
 }
 .home-logo-2 {
-  top:10px;
+  padding-top: 100px;
   display: inline;
-  font-size: 40px;
+  font-size: 45px;
   padding-left: 5.5px;
   text-align: center;
   color: #ffffff;
@@ -34,9 +34,8 @@
 .home input {
   width: 600px;
   height: 55px;
-  /* margin: auto; */
   font-size: inherit;
-  padding: 0 58px 0 28px;
+  padding: 0px 58px 0px 28px;
   border-radius: 30px;
   border: none;
   border: 1.3px solid #ffffff;
@@ -57,14 +56,14 @@
 }
 .help-tip{
   position: absolute;
-  top: 15px;
-  right: -15px;
+  top: 19px;
+  right: -35px;
   text-align: center;
-  background-color: rgb(29, 98, 133);
+  background-color: #00688B;
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  font-size: 30px;
+  font-size: 25px;
   line-height: 40px;
   cursor: default;
 }
@@ -73,6 +72,11 @@
   content:'?';
   font-weight: bold;
   color:#fff;
+}
+
+.help-tip:hover{
+  cursor: pointer;
+  background-color: #006F8F;
 }
 
 .help-tip:hover p{
@@ -120,7 +124,7 @@
 }
 
 .searchSel {
-  top: 16px;
+  top: 20px;
   display: block;
   position: relative;
   padding-left: 35px;
@@ -128,6 +132,7 @@
   cursor: pointer;
   font-size: 22px;
   color: #ffffff;
+  width: 350px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;

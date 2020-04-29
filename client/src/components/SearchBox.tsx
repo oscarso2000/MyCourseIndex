@@ -15,7 +15,8 @@ export const SearchBox: React.StatelessComponent = (): JSX.Element => (
                 <input onChange={e => setQuery(e)} onKeyPress={e => handleKey(e)} autoFocus={true} />
                 <img onClick={search} className="glass" alt="magnifying glass" src={glass} />
                 <div className="help-tip">
-                    <p>For Advanced Searches: 1) Use +'word/phrase' for mandatory results. 2) Use -'word/phrase' to remove from results. 3) Use 'word'^n to emphasize the particular word n times.</p>
+                    <p><b>For Advanced Searches:</b><br/>1) +’query’ for mandatory inclusion.<br/>2) -’query’ for mandatory exclusion.<br/>3) ‘query^n to emphasize n times. </p>
+                    {/* <p>Use +'word/phrase' for mandatory results. 2) Use -'word/phrase' to remove from results. 3) Use 'word'^n to emphasize the particular word n times.</p> */}
                 </div>
             </div>
             <div className ="radioButtons">
