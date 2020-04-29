@@ -38,7 +38,7 @@ export const Outline: React.StatelessComponent<IOutlineProp> = ({ outline }: IOu
     } else if (outline.data.type === "Resource") {
         return (
             <div className="outline">
-                <a href={outline.data.url}><h3>{"Textbook: " + outline.data.doc_name + " 🔗"}</h3></a>
+                <a target="_blank" rel="noopener noreferrer" href={outline.data.url}><h3>{"Textbook: " + outline.data.doc_name + " 🔗"}</h3></a>
                 {/* <object data={outline.data.url} type="application/pdf">
                     <iframe src={"https://docs.google.com/viewer?url=" + outline.data.url + "&embedded=true"}></iframe>
                 </object> */}
@@ -48,7 +48,7 @@ export const Outline: React.StatelessComponent<IOutlineProp> = ({ outline }: IOu
         );
     } else { // Piazza
         const q = outline.data.raw
-        post.push(<a href={outline.data.url}><h3>{"Piazza post: " + q.history[0].subject} 🔗</h3></a>);
+        post.push(<a target="_blank" rel="noopener noreferrer" href={outline.data.url}><h3>{"Piazza post: " + q.history[0].subject} 🔗</h3></a>);
 
         post.push(<div dangerouslySetInnerHTML={{ __html: q.history[0].content }} />);
 
