@@ -39,6 +39,7 @@ courseDocDictionary = {}
 sourceDictionary = {}
 courseRevsereIndexDictionary = {}
 tokenized_dict = {}
+svdDictionary = {}
 
 for course in fromS3:
     vec = TfidfVectorizer(tokenizer=tokenizer, lowercase=False)
@@ -61,8 +62,10 @@ for course in fromS3:
 
 
     # elif course == "INFO 1998"
+    vecArr = vec.fit_transform(documents).toarray()
     tokenized_dict[course] = documents
     sourceDictionary[course] = np.array(src)
-    docVecDictionary[course] = (vec, vec.fit_transform(documents).toarray())
+    docVecDictionary[course] = (vec, vecArr)
     courseDocDictionary[course] = np.array(rawDocs)
     courseRevsereIndexDictionary[course] = create_reverse_index(vec.get_feature_names())
+    svdDictionary[course] = np.linalg.svd(vecArr.T) #svd on tfidf documents

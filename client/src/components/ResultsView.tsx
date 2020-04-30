@@ -21,6 +21,7 @@ import Typography from '@material-ui/core/Typography';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import { createMuiTheme } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
 
 const theme1 = createMuiTheme({
   palette: {
@@ -176,7 +177,9 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
                         </Button>
                     <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
                         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                        Advanced Filters
+                          <Box fontWeight="fontWeightBold" fontSize={23}>
+                            Advanced Filters
+                          </Box>
                         </DialogTitle>
                         <DialogContent dividers>
                         <Typography gutterBottom>

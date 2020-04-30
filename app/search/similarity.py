@@ -83,21 +83,27 @@ def cosineSimSplit(query, courseVecDictionary, course): #not working
     
     return piazza_sim, piazza_sim > 0 , other_sim , other_sim > 0
     
-def LSI_SVD(query, courseVecDictionary, course):
+def LSI_SVD(query, courseVecDictionary, course, reverseIndexDictionary, svdDictionary):
     #courseVecDictionary[class selected]
     vec, docVectorizerArray = courseVecDictionary[course]
-    
+    reverse_index = reverseIndexDictionary[course]
+
     query = utils.tokenize_SpaCy(query)
     queryVectorizerArray = np.zeros((docVectorizerArray.shape[1],))
-    feature_list = vec.get_feature_names()
+    # feature_list = vec.get_feature_names()
 
     for w in query:
-        idx = feature_list.index(w)
-        queryVectorizerArray[idx] += 1.0
+        idx = reverse_index.get(w, -1)
+        if idx > 0:
+            queryVectorizerArray[idx] += 1.0
+    queryVectorizerArray *= vec.idf_
+    
+    if queryVectorizerArray.sum() == 0:
+        return [], []
         
-    #using k = 2 rn, need to develop code to see what is optimal k
-    k = 2 
-    u,s,v_t = np.linalg.svd(docVectorizerArray) #svd on tfidf documents
+    k = 500
+    # u,s,v_t = np.linalg.svd(docVectorizerArray.T) #svd on tfidf documents
+    u,s,v_t = svdDictionary[course]
     q = queryVectorizerArray
     q_hat = np.matmul(np.transpose(u[:,:k]),q)
     
@@ -107,7 +113,7 @@ def LSI_SVD(query, courseVecDictionary, course):
         denom = np.linalg.norm(np.matmul(np.diag(s[:k]),v_t[:k,i]))*np.linalg.norm(q_hat)
         sim.append(num/denom)
 
-    return np.array(sim)
+    return np.array(sim), np.array(sim) > 0
     
     
 #for local use

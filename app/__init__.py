@@ -67,7 +67,6 @@ def search_results():
         app.logger.info("User queried: {}".format(query))
         #courseSelection = request.args.get("courseSelection")
         courseSelection = "CS 4300"
-        # results, results_filter = cosineSim(query, vecPy.docVecDictionary , courseSelection, vecPy.courseRevsereIndexDictionary)
 
         #search selection: Default(both),Piazza only, Resource only 
         # [Default, Piazza, Resource]
@@ -79,16 +78,15 @@ def search_results():
         #regular cosine similarity (start commenting out here)
         updated_query = get_all_tokens(query)
         cosine_results, results_filter = cosineSim(updated_query, vecPy.docVecDictionary , courseSelection, vecPy.courseRevsereIndexDictionary)
-        boolean_results, results_filter = run(query, courseSelection)
-
-        n = 50 #top x highest
+        boolean_results, results_filter = boolean(query, courseSelection)
+        svd_results, results_filter = LSI_SVD(updated_query, vecPy.docVecDictionary, courseSelection, vecPy.courseRevsereIndexDictionary, vecPy.svdDictionary)
             
-        #source Dictionary 0.2 for resources, 1 for piazza (weighting)
         # finalresults = results #np.multiply(results,vecPy.sourceDictionary[courseSelection])
         if len(cosine_results) == 0:
             return jsonify([])
-        finalresults = np.multiply(cosine_results,boolean_results)
-        results_filter = (finalresults > 0)
+        finalresults = np.add(np.multiply(svd_results,boolean_results),np.multiply(cosine_results,boolean_results))
+        results_filter = (finalresults > 0.1)
+        n= 50 #top x highest
 
         if len(finalresults) == 0:
             return jsonify([])
@@ -147,21 +145,21 @@ def search_results():
                     # n = min(n, len(modified_results))
                     # return jsonify(modified_results[:n])   
                 
-        if (searchSelection == "Default"):
-            return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()[:n])
-        elif (searchSelection == "Piazza"):
-            modified_results = list(filter(lambda x: x["type"] != "Resource", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
-            if len(modified_results) == 0:
-                return jsonify([])
-            n = min(n, len(modified_results))
-            return jsonify(modified_results[:n])   
-        elif (searchSelection == "Resource"):
-            modified_results = list(filter(lambda x: x["type"] != "Piazza", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
-            if len(modified_results) == 0:
-                return jsonify([])
-            n = min(n, len(modified_results))
-            return jsonify(modified_results[:n])      
-        # return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()[:n])
+        # if (searchSelection == "Default"):
+        #     return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()[:n])
+        # elif (searchSelection == "Piazza"):
+        #     modified_results = list(filter(lambda x: x["type"] != "Resource", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
+        #     if len(modified_results) == 0:
+        #         return jsonify([])
+        #     n = min(n, len(modified_results))
+        #     return jsonify(modified_results[:n])   
+        # elif (searchSelection == "Resource"):
+        #     modified_results = list(filter(lambda x: x["type"] != "Piazza", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
+        #     if len(modified_results) == 0:
+        #         return jsonify([])
+        #     n = min(n, len(modified_results))
+        #     return jsonify(modified_results[:n])      
+        return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()[:n])
           
         # else:
         # # #split cosine sim between piazza and resource (or here)
@@ -191,7 +189,7 @@ def search_results():
         #         split_piazza = parsed_piazza.split("\n")
         #         piazza_token = split_piazza[0]
         #         our_token = app.config["PIAZZA_CS4300_TOKEN"]
-        #         keep_piazza = (piazza_token == our_token)
+        #         keep_spiazza = (piazza_token == our_token)
                 
         #         if keep_piazza:
         #             return jsonify(vecPySplit.courseDocDictionary[courseSelection][searchSelection][reverseList].tolist()[:n])
