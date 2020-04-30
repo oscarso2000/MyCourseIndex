@@ -4,9 +4,6 @@ from flask import Flask, render_template, request, redirect, flash, url_for, sen
 from urllib.parse import unquote
 from piazza_api import Piazza
 from app.auth import user_jwt_required, get_name, get_claims
-from app.search.similarity import *
-from app.search.boolean_search import *
-from app.utils.logging_format import CustomFormatter
 import logging
 import html2text
 
@@ -27,6 +24,9 @@ app.logger.handlers = gunicorn_logger.handlers
 app.logger.setLevel(gunicorn_logger.level)
 
 app.logger.critical("BEFORE IMPORTS")
+from app.search.similarity import *
+from app.search.boolean_search import *
+from app.utils.logging_format import CustomFormatter
 import app.utils.vectorizer as vecPy
 import app.utils.split_vectorizer as vecPySplit
 app.logger.critical("AFTER IMPORTS")
