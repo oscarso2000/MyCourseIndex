@@ -86,7 +86,7 @@ def bool_vec(pos_mat, neg_mat, mult_tokens, mult_mat, m, len_docs):
 
 
 
-def run(query, course):
+def boolean(query, course):
     pos = get_pos(query)
     neg = get_neg(query)
     mult, m = get_mult(query)
