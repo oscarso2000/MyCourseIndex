@@ -42,7 +42,7 @@ const mapStateToProps = (state: IHomeProps): IHomeProps => {
         outline: state.outline,
         query: state.query,
         counter: state.counter,
-        screenshots: state.screenshots
+        screenshots: state.screenshots,
     };
 };
 

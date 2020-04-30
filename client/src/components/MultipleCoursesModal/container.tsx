@@ -1,38 +1,52 @@
 import * as React from 'react';
 import { Modal } from './Modal';
-import TriggerButton from './TriggerButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Magd from '../../images/Magd_Bayoumi.png';
+import Corncis from '../../images/cornell-cis.jpg';
+import { setCourseSelected } from '../../actions/index';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    float: "right",
+    maxWidth: 245,
+    height: 220,
   },
   media: {
-    height: 140,
+    height: 165,
+    width: 175,
+    paddingRight: "30"
   },
+
 });
 
-const MediaCard: React.FC = (course: any) => {
+const MediaCard: React.FC<{ course: any }> = ({ course }) => {
   const classes = useStyles();
   const [isShown, setIsShown] = React.useState(false);
-  const closeButton = React.createRef();
-  const modal = React.createRef();
+  const modal = React.useRef<HTMLDivElement>(null);
+  const closeButton = React.useRef<HTMLDivElement>(null);
+  var scroll = document.querySelector('html');
+  var submitted_token = "";
   const toggleScrollLock = () => {
-    //@ts-ignore
-    document.querySelector('html').classList.toggle('scroll-lock');
+    scroll!.classList.toggle('scroll-lock');
   };
+  const someFunc = () => {
+    if (course.protected) {
+      console.log("am i gere rn ");
+      showModal();
+    }
+    else {
+      setCourseSelected(course.courseName);
+      closeModal();
+
+    }
+  }
   const showModal = () => {
     setIsShown(true);
     if (closeButton.current) {
-      //@ts-ignore
       closeButton.current.focus();
     }
     toggleScrollLock();
@@ -47,48 +61,52 @@ const MediaCard: React.FC = (course: any) => {
     }
   };
   const onClickOutside = (event: any) => {
-    //@ts-ignore
-    if (modal && modal.current.contains(event.target)) return;
+    if (modal && modal.current!.contains(event.target)) return;
     closeModal();
   };
   const onSubmit = (event: any) => {
-    console.log(event);
+    event.preventDefault(event);
+    console.log(event.target.Token.value);
+    submitted_token = event.target.Token.value;
+    if (submitted_token === "12345") {
+      setCourseSelected(course.courseName);
+      closeModal();
+    }
+    else {
+      console.log("wrong");
+    }
   }
-  const SampleModal = React.forwardRef((props, ref) => {
-    //@ts-ignore
-    const { ref1, ref2 } = ref;
-    return (
+  const SampleModal =
+    (
       <Modal
         onSubmit={onSubmit}
-        modalRef={ref1}
-        buttonRef={ref2}
+        modalRef={modal}
+        buttonRef={closeButton}
         closeModal={closeModal}
         onKeyDown={onKeyDown}
         onClickOutside={onClickOutside}
       />
     )
-  }
-  );
-  return (
-    <React.Fragment>
-      <Card className={classes.root} onClick={showModal}>
-        <CardActionArea>
-          {/* <CardMedia
-            className={classes.media}
-            image={Magd}
-          /> */}
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              {(course.course.courseName)}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-      {/* 
-      //@ts-ignore */}
-      {isShown ? <SampleModal ref={{ ref1: modal, ref2: closeButton }} /> : null}
-    </React.Fragment>
+
+  return (<React.Fragment>
+    <Card className={classes.root} onClick={someFunc}>
+      <CardActionArea>
+        <CardMedia
+          className={classes.media}
+          image={Corncis}
+        />
+        <CardContent className={classes.media}>
+          <Typography gutterBottom={false} variant="h5" component="h2" align="justify">
+            {course.courseName}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
+    {<div>
+      {isShown ? SampleModal : null}
+    </div>}
+
+  </React.Fragment >
   );
 }
-
 export default MediaCard;

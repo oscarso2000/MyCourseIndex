@@ -12,7 +12,7 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
     return (
         <div>
             <div className="top-bar">
-                <Link to="/" target="_self" style = {{textDecoration: "none"}}>
+                <Link to="/" target="_self" style={{ textDecoration: "none" }}>
                     <h3 className="heading-1">MyCourseIndex</h3>
                     <h3 className="heading-2">Search</h3>
                 </Link>
@@ -22,7 +22,7 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
                     onChange={e => setQuery(e)}
                 />
                 <img onClick={() => search('reset')} className="glass" alt="magnifying glass" src={glass} />
-                <Link to="/about" className="about-bar" style = {{textDecoration: "none"}}>
+                <Link to="/about" className="about-bar" style={{ textDecoration: "none" }}>
                     About
         </Link>
             </div>

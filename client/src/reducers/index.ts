@@ -7,6 +7,7 @@ import { queryReducer } from './queryReducer';
 import { coursesReducer } from './coursesReducer';
 import { resultsReducer } from './resultsReducer';
 import { screenshotsReducer } from './screenshotsReducer';
+import { selectedcourseReducer } from './selectedcourseReducer';
 
 export interface IAction {
   type: string;
@@ -20,7 +21,8 @@ export const rootReducer = combineReducers({
   query: queryReducer,
   counter: counterReducer,
   courses: coursesReducer,
-  screenshots: screenshotsReducer
+  screenshots: screenshotsReducer,
+  selectedcourse: selectedcourseReducer
 })
 
 const middleware = applyMiddleware(thunk)

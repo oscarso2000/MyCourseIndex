@@ -103,7 +103,6 @@ const App: React.FC = (props: any) => {
         if (allowRefresh) {
             const auth = getCourses(getToken());
             auth.then((value) => {
-                console.log(value);
                 setCourses(value);
                 setAuthorized(true);
                 setLoaded(true);

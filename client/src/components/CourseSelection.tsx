@@ -15,31 +15,36 @@ export interface ICSProps {
 export const CourseSelection: React.StatelessComponent<ICSProps> = ({
   courses
 }: ICSProps) => {
-  console.log(courses);
-  //@ts-ignore
   return (
-    <div className="home">
+    <div>
       <div className="top-bar">
         <Link to="/" target="_self" style={{ textDecoration: "none" }}>
           <h3 className="heading-1">MyCourseIndex</h3>
-          <h3 className="heading-2">Search</h3>
+          <h3 className="heading-2">Course</h3>
         </Link>
         <Link to="/about" className="about-bar" style={{ textDecoration: "none" }}>
           About
         </Link>
       </div>
-      <div>
-        {/* 
-        //@ts-ignore */}
-        {courses.map((item: any, i: any) => { return <div className={"courses"} key={i}><Mediacard course={item} /> </div> })}
+
+      <h1 className="home-logo-cs" >MyCourseIndex</h1>
+      <div className="center">
+
+        {
+          courses.map((item: any, i: any) => {
+            const cardProps = {
+              course: item
+            }
+            return <div className="courses" key={i}><Mediacard {...cardProps} /> </div>
+          })
+        }
       </div>
-    </div>
+    </div >
   );
 
 }
 
 const mapStateToProps = (state: ICSProps): ICSProps => {
-  console.log(state);
   return {
     courses: state.courses
   };
