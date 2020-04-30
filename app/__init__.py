@@ -6,37 +6,42 @@ from piazza_api import Piazza
 from app.auth import user_jwt_required, get_name, get_claims
 from app.search.similarity import *
 from app.search.boolean_search import *
-import app.utils
-import app.utils.vectorizer as vecPy
-import app.utils.split_vectorizer as vecPySplit
+from app.utils.logging_format import CustomFormatter
 import logging
 import html2text
 
 
 app = Flask(__name__, template_folder="../client/build", static_folder="../client/build/static")
-app.logger.setLevel(logging.DEBUG)
 
 if os.environ.get("deployment", False):
     app.config.from_pyfile('/etc/cs4300-volume-cfg/cs4300app.cfg')
 else:
     app.config.from_pyfile(os.path.join(os.path.join(os.getcwd(), "secrets"), "cs4300app.cfg"))
 
-p = Piazza()
-p.user_login(email=app.config["PIAZZA_USER"], password=app.config["PIAZZA_PASS"])
-coursePiazzaIDDict = {
-    "CS 4300": app.config["PIAZZA_CS4300_NID"]
-}
-
-coursePiazzaDict = {
-    "CS 4300": p.course(app.config["PIAZZA_CS4300_NID"])
-}
-
-
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 gunicorn_logger = logging.getLogger('gunicorn.error')
+for handler in gunicorn_logger.handlers:
+    handler.setFormatter(CustomFormatter())
 app.logger.handlers = gunicorn_logger.handlers
 app.logger.setLevel(gunicorn_logger.level)
+
+app.logger.critical("BEFORE IMPORTS")
+import app.utils.vectorizer as vecPy
+import app.utils.split_vectorizer as vecPySplit
+app.logger.critical("AFTER IMPORTS")
+
+p = Piazza()
+p.user_login(email=app.config["PIAZZA_USER"], password=app.config["PIAZZA_PASS"])
+coursePiazzaIDDict = {
+    "CS 4300": app.config["PIAZZA_CS4300_NID"],
+    "INFO 1998": app.config["PIAZZA_INFO1998_NID"]
+}
+
+coursePiazzaDict = {
+    "CS 4300": p.course(app.config["PIAZZA_CS4300_NID"]),
+    "INFO 1998": p.course(app.config["PIAZZA_INFO1998_NID"])
+}
 
 
 @app.route("/auth", methods=["POST"])
