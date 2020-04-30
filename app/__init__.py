@@ -81,7 +81,7 @@ def search_results():
         cosine_results, results_filter = cosineSim(updated_query, vecPy.docVecDictionary , courseSelection, vecPy.courseRevsereIndexDictionary)
         boolean_results, results_filter = run(query, courseSelection)
 
-        n = 25 #top x highest
+        n = 50 #top x highest
             
         #source Dictionary 0.2 for resources, 1 for piazza (weighting)
         # finalresults = results #np.multiply(results,vecPy.sourceDictionary[courseSelection])
@@ -117,35 +117,35 @@ def search_results():
             # app.logger.info("Keeping Piazza? {}".format(keep_piazza))
                 
             if keep_piazza:
-                if (searchSelection == "Default"):
-                    return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()[:n])
-                elif (searchSelection == "Piazza"):
-                    modified_results = list(filter(lambda x: x["type"] != "Resource", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
-                    if len(modified_results) == 0:
-                        return jsonify([])
-                    n = min(n, len(modified_results))
-                    return jsonify(modified_results[:n])   
-                elif (searchSelection == "Resource"):
-                    modified_results = list(filter(lambda x: x["type"] != "Piazza", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
-                    if len(modified_results) == 0:
-                        return jsonify([])
-                    n = min(n, len(modified_results))
-                    return jsonify(modified_results[:n])      
+                # if (searchSelection == "Default"):
+                return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()[:n])
+                # elif (searchSelection == "Piazza"):
+                    # modified_results = list(filter(lambda x: x["type"] != "Resource", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
+                    # if len(modified_results) == 0:
+                        # return jsonify([])
+                    # n = min(n, len(modified_results))
+                    # return jsonify(modified_results[:n])   
+                # elif (searchSelection == "Resource"):
+                    # modified_results = list(filter(lambda x: x["type"] != "Piazza", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
+                    # if len(modified_results) == 0:
+                        # return jsonify([])
+                    # n = min(n, len(modified_results))
+                    # return jsonify(modified_results[:n])      
             else:
-                if (searchSelection == "Default"):
-                    modified_results = list(filter(lambda x: x["type"] != "Piazza", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
-                    if len(modified_results) == 0:
-                        return jsonify([])
-                    n = min(n, len(modified_results))
-                    return jsonify(modified_results[:n])   
-                elif (searchSelection == "Piazza"):
-                    return jsonify([]) 
-                elif (searchSelection == "Resource"):
-                    modified_results = list(filter(lambda x: x["type"] != "Piazza", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
-                    if len(modified_results) == 0:
-                        return jsonify([])
-                    n = min(n, len(modified_results))
-                    return jsonify(modified_results[:n])   
+                # if (searchSelection == "Default"):
+                modified_results = list(filter(lambda x: x["type"] != "Piazza", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
+                if len(modified_results) == 0:
+                    return jsonify([])
+                n = min(n, len(modified_results))
+                return jsonify(modified_results[:n])   
+                # elif (searchSelection == "Piazza"):
+                    # return jsonify([]) 
+                # elif (searchSelection == "Resource"):
+                    # modified_results = list(filter(lambda x: x["type"] != "Piazza", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
+                    # if len(modified_results) == 0:
+                        # return jsonify([])
+                    # n = min(n, len(modified_results))
+                    # return jsonify(modified_results[:n])   
                 
         if (searchSelection == "Default"):
             return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()[:n])
