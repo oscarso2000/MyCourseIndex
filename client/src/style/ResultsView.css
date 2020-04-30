@@ -16,6 +16,7 @@
   height: 60px;
   width: 100%;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.10);
+  margin: 0 auto;
 }
 .top-bar input {
   margin-left: 4.5vw;
@@ -27,6 +28,11 @@
   border-radius: 35px;
   border: 1px solid #ffffff;
   display: inline-flex;
+}
+.filters{
+  display: inline;
+  /* background: #ffffff; */
+  color: #ffffff;
 }
 .top-bar h3 {
   display: inline;

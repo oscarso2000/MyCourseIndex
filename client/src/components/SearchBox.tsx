@@ -19,7 +19,7 @@ export const SearchBox: React.StatelessComponent = (): JSX.Element => (
                     {/* <p>Use +'word/phrase' for mandatory results. 2) Use -'word/phrase' to remove from results. 3) Use 'word'^n to emphasize the particular word n times.</p> */}
                 </div>
             </div>
-            <div className ="radioButtons">
+            {/* <div className ="radioButtons">
                 <label className="searchSel" onChange = {e => setSearchSel(e)}>Search Everything
                     <input type="radio" value="Default" name = "s" defaultChecked/>
                     <span className="checkmark"></span>
@@ -35,7 +35,6 @@ export const SearchBox: React.StatelessComponent = (): JSX.Element => (
                 {/* <input type="radio" value="Default" name="searchSel" defaultChecked/> Search Everything
                 <input type="radio" value="Piazza" name="searchSel" /> Search Piazza Only
                 <input type="radio" value="Resource" name="searchSel" /> Search Resources Only */}
-            </div>
         </div>
     </div>
 );
