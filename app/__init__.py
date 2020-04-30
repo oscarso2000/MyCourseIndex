@@ -17,6 +17,7 @@ else:
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
+from app.utils.logging_format import CustomFormatter
 gunicorn_logger = logging.getLogger('gunicorn.error')
 for handler in gunicorn_logger.handlers:
     handler.setFormatter(CustomFormatter())
@@ -26,7 +27,6 @@ app.logger.setLevel(gunicorn_logger.level)
 app.logger.critical("BEFORE IMPORTS")
 from app.search.similarity import *
 from app.search.boolean_search import *
-from app.utils.logging_format import CustomFormatter
 import app.utils.vectorizer as vecPy
 import app.utils.split_vectorizer as vecPySplit
 app.logger.critical("AFTER IMPORTS")
