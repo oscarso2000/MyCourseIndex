@@ -38,9 +38,11 @@ method, this part of the documentation is for you. This overviews all of the
 backend and the corresponding modules that have been developed.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    piazza
+   simstring
+   quickucsls
 
 
 

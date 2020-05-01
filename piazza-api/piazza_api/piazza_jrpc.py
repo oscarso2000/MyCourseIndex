@@ -46,6 +46,8 @@ class PiazzaJRPC(object):
             "logic": "https://piazza.com/logic/api",
         }
         self.session = requests.Session()
+        self.email = ""
+        self.password = ""
     
 
     def user_login(self, email, password):
@@ -73,7 +75,9 @@ class PiazzaJRPC(object):
             raise AuthenticationError(
                 "Could not authenticate.\n{}".format(r.json())
             )
-    
+        self.email = email
+        self.password = password
+
 
     def request(self, method, data=None, class_id=None,class_id_key="nid",
                 api_url="logic"):
@@ -108,17 +112,31 @@ class PiazzaJRPC(object):
                 method,
                 uuid.uuid4()
             )
-        
-        response = self.session.post(
-            endpoint,
-            data=json.dumps(
-                {
-                    "method": method,
-                    "params": dict({class_id_key: cid}, **data)
-                }
-            ),
-            headers=headers
-        )
+        try:
+            response = self.session.post(
+                endpoint,
+                data=json.dumps(
+                    {
+                        "method": method,
+                        "params": dict({class_id_key: cid}, **data)
+                    }
+                ),
+                headers=headers
+            )
+        except requests.exceptions.SSLError as e:
+            self.session = requests.Session()
+            self.user_login(self.email, self.password)
+            response = self.session.post(
+                endpoint,
+                data=json.dumps(
+                    {
+                        "method": method,
+                        "params": dict({class_id_key: cid}, **data)
+                    }
+                ),
+                headers=headers
+            )
+
 
         return response.json()
     

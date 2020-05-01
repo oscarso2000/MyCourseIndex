@@ -1,16 +1,17 @@
 CUI|STR|LAT|ISPREF
 C000001|office hours|ENG|X
+C000001|office hour|ENG|Y
 C000001|oh|ENG|X
 C000002|grading|ENG|X
-C000002|grade|ENG|X
+C000002|grade|ENG|Y
 C000002|grades|ENG|X
-C000003|cosine similarity|ENG|X
+C000003|cosine similarity|ENG|Y
 C000003|cos sim|ENG|X
 C000003|cosine sim|ENG|X
 C000003|orchini similarity|ENG|X
 C000003|tucker coefficient of congruence|ENG|X
 C000004|jaccard index|ENG|X
-C000004|jaccard similarity|ENG|X
+C000004|jaccard similarity|ENG|Y
 C000004|jaccard|ENG|X
 C000004|jaccard coefficient|ENG|X
 C000004|intersection over union|ENG|X
@@ -18,86 +19,103 @@ C000004|iou|ENG|X
 C000004|jaccard similarity coefficient|ENG|X
 C000004|generalized jaccard|ENG|X
 C000004|generalized jaccard similarity|ENG|X
-C000005|similarity measure|ENG|X
+C000005|similarity measure|ENG|Y
 C000005|measure of similarity|ENG|X
-C000006|information retrieval|ENG|X
+C000006|information retrieval|ENG|Y
 C000006|information system|ENG|X
 C000006|computer information system|ENG|X
 C000006|web search engines|ENG|X
 C000006|web search|ENG|X
 C000007|minimum edit distance|ENG|X
-C000007|edit distance|ENG|X
+C000007|edit distance|ENG|Y
 C000007|levenshtein distance|ENG|X
 C000007|wagner fischer|ENG|X
 C000007|wagner-fischer|ENG|X
 C000007|wagner-fischer algorithm|ENG|X
 C000007|wagner fischer algorithm|ENG|X
 C000008|rocchio algorithm|ENG|X
-C000008|rocchio|ENG|X
+C000008|rocchio|ENG|Y
 C000008|rocchio's algorithm|ENG|X
-C000009|relevance feedback|ENG|X
+C000009|relevance feedback|ENG|Y
 C000009|implicit feedback|ENG|X
 C000009|explicit feedback|ENG|X
 C000009|blind feedback|ENG|X
 C000009|pseudo-relevance feedback|ENG|X
 C000009|pseudo relevance feedback|ENG|X
 C000009|query expansion|ENG|X
-C000010|user intent|ENG|X
+C000010|user intent|ENG|Y
 C000010|query intent|ENG|X
 C000010|search intent|ENG|X
 C000010|info need|ENG|X
 C000010|information need|ENG|X
-C000011|stemming|ENG|X
+C000011|stemming|ENG|Y
 C000011|stemmer|ENG|X
 C000011|stem|ENG|X
-C000013|tokens|ENG|X
+C000013|tokens|ENG|Y
 C000013|tokenization|ENG|X
 C000013|word tokenization|ENG|X
-C000014|lemmatization|ENG|X
+C000014|lemmatization|ENG|Y
 C000014|lemmatizer|ENG|X
-C000015|stop words|ENG|X
-C000016|vector space model|ENG|X
+C000015|stop words|ENG|Y
+C000016|vector space model|ENG|Y
 C000016|term vector model|ENG|X
 C000016|document vector|ENG|X
-C000017|term frequency|ENG|X
+C000017|term frequency|ENG|Y
 C000017|tf|ENG|X
 C000018|idf|ENG|X
-C000018|inverse document frequency|ENG|X
+C000018|inverse document frequency|ENG|Y
 C000019|tf-idf|ENG|X
 C000019|tfidf|ENG|X
 C000019|tf idf|ENG|X
-C000019|term frequency inverse document frequency|ENG|X
+C000019|term frequency inverse document frequency|ENG|Y
 C000019|term frequency–inverse document frequency|ENG|X
-C000020|system evaluation|ENG|X
-C000021|precision|ENG|X
+C000020|system evaluation|ENG|Y
+C000021|precision|ENG|Y
 C000021|precision@k|ENG|X
 C000021|precision at k|ENG|X
 C000021|average precision|ENG|X
 C000021|mean average precision|ENG|X
-C000022|recall|ENG|X
+C000022|recall|ENG|Y
 C000022|recall@k|ENG|X
 C000022|recall at k|ENG|X
 C000023|f score|ENG|X
-C000023|f1 score|ENG|X
+C000023|f1 score|ENG|Y
 C000023|f1-score|ENG|X
 C000023|f-score|ENG|X
 C000023|f1|ENG|X
-C000024|inverted index|ENG|X
+C000024|inverted index|ENG|Y
 C000024|inverse index|ENG|X
 C000024|full inverted index|ENG|X
-C000025|postings merge algorithm|ENG|X
+C000024|postings|ENG|X
+C000024|postings file|ENG|X
+C000025|postings merge algorithm|ENG|Y
 C000025|posting merge algorithm|ENG|X
 C000025|postings-merge algorithm|ENG|X
 C000025|posting-merge algorithm|ENG|X
 C000025|merge algorithm|ENG|X
 C000025|merge postings|ENG|X
 C000025|merge posting|ENG|X
-C000026|boolean search|ENG|X
+C000026|boolean search|ENG|Y
 C000027|document-term matrix|ENG|X
-C000027|document term matrix|ENG|X
+C000027|document term matrix|ENG|Y
 C000027|term document matrix|ENG|X
 C000027|term-document matrix|ENG|X
 C000028|dcg|ENG|X
-C000028|discounted cumulative gain|ENG|X
+C000028|discounted cumulative gain|ENG|Y
 C000028|normalized discounted cumulative gain|ENG|X
 C000028|ndcg|ENG|X
+C000029|machine learning|ENG|Y
+C000029|ml|ENG|X
+C000030|naive bayes|ENG|Y
+C000030|nb|ENG|X
+C000031|singular value decomposition|ENG|Y
+C000031|svd|ENG|X
+C000032|latent semantic indexing|ENG|Y
+C000032|latent semantic index|ENG|X
+C000032|lsi|ENG|X
+C000032|latent semantic analysis|ENG|X
+C000032|lsa|ENG|X
+C000033|spectral analysis|ENG|Y
+C000034|pointwise mutual information|ENG|Y
+C000034|pmi|ENG|X
+C000034|point mutual information|ENG|X
