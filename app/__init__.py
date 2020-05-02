@@ -33,9 +33,9 @@ coursePiazzaDict = {
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-gunicorn_logger = logging.getLogger('gunicorn.error')
-app.logger.handlers = gunicorn_logger.handlers
-app.logger.setLevel(gunicorn_logger.level)
+# gunicorn_logger = logging.getLogger('gunicorn.error')
+# app.logger.handlers.extend(gunicorn_logger.handlers)
+# app.logger.setLevel(gunicorn_logger.level)
 
 
 @app.route("/auth", methods=["POST"])
@@ -63,9 +63,9 @@ def search_results():
     access_token = request.get_json()["token"]
     if user_jwt_required(access_token, app.config["APP_ID"]):
         query = unquote(request.get_json()["query"])
-        app.logger.info("User queried: {}".format(query))
-        #courseSelection = request.args.get("courseSelection")
-        courseSelection = "CS 4300"
+        # app.logger.info("User queried: {}".format(query))
+        courseSelection = request.get_json()["course"]
+        # app.logger.info("User course: {}".format(courseSelection))
         results, results_filter = cosineSim(query, vecPy.docVecDictionary , courseSelection, vecPy.courseRevsereIndexDictionary)
 
         #search selection: Default(both),Piazza only, Resource only 
@@ -209,7 +209,7 @@ def get_user_courses():
 @app.route("/tokeVerify", methods=["POST"])
 def tokeVerify():
     access_token = request.get_json()["token"]
-    course = request.get_json()["courseName"]
+    course = request.get_json()["course"]
     their_token = request.get_json()["piazzaToken"]
 
     claims = get_claims(access_token, app.config["APP_ID"])
@@ -217,7 +217,7 @@ def tokeVerify():
         return "NO"
     else:
         auth_courses = [app.config["COURSE_MAPPING"].get(claim,{"courseName": ""}).get("courseName") for claim in claims["scope"]]
-    print("HELLOR: {}".format(course not in auth_courses))
+    # print("HELLOR: {}".format(course not in auth_courses))
     if course not in auth_courses:
         return "NO"
     h = html2text.HTML2Text()
@@ -225,8 +225,10 @@ def tokeVerify():
     parsed_piazza = h.handle(coursePiazzaDict[course].get_post(app.config["PIAZZA_" +  course.replace(" ", "") + "_TOKEN_POST"])["history"][0]["content"])
     split_piazza = parsed_piazza.split("\n")
     piazza_token = split_piazza[0]
-
-    return "OK" if piazza_token == their_token else "NO"
+    if piazza_token == their_token:
+        return "OK"
+    else:
+        return "NO"
 
 
 @app.route("/manifest.json")

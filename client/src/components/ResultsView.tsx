@@ -14,7 +14,7 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
             <div className="top-bar">
                 <Link to="/" target="_self" style={{ textDecoration: "none" }}>
                     <h3 className="heading-1">MyCourseIndex</h3>
-                    <h3 className="heading-2">Search</h3>
+                    <h3 className="heading-2">Courses</h3>
                 </Link>
                 <input
                     defaultValue={decodeURI(query)}

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import '../style/CourseSelection.css';
 import Mediacard from './MultipleCoursesModal/container';
+import Mediacardnomodal from './Mediacardnomodal';
 // import { RouteComponentProps } from '@reach/router';
 // import { search, handleKey, setQuery } from '../actions/index';
 // import glass from '../images/glass.svg';
@@ -18,10 +19,10 @@ export const CourseSelection: React.StatelessComponent<ICSProps> = ({
   return (
     <div>
       <div className="top-bar">
-        <Link to="/" target="_self" style={{ textDecoration: "none" }}>
+        {/* <Link to="/" target="_self" style={{ textDecoration: "none" }}>
           <h3 className="heading-1">MyCourseIndex</h3>
           <h3 className="heading-2">Course</h3>
-        </Link>
+        </Link> */}
         <Link to="/about" className="about-bar" style={{ textDecoration: "none" }}>
           About
         </Link>
@@ -29,14 +30,19 @@ export const CourseSelection: React.StatelessComponent<ICSProps> = ({
 
       <h1 className="home-logo-cs" >MyCourseIndex</h1>
       <div className="center">
-
         {
           courses.map((item: any, i: any) => {
             const cardProps = {
               course: item
             }
-            return <div className="courses" key={i}><Mediacard {...cardProps} /> </div>
-          })
+            if (item.protected) {
+              return <div className={"courses"} key={i}><Mediacard {...cardProps} /> </div>
+            }
+            else {
+              return <div className={"courses"} key={i}><Mediacardnomodal {...cardProps} /></div>
+            }
+          }
+          )
         }
       </div>
     </div >

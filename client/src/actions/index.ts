@@ -12,7 +12,6 @@ export const setCourses = (e: any): void => {
 }
 
 export const setCourseSelected = (e: any): any => {
-    console.log(e);
     store.dispatch({
         type: 'SET_COURSE_SELECTED', payload: e
     });
@@ -43,6 +42,12 @@ export const search = (reset?: any): void => {
             });
     });
 };
+
+
+export const accessProtectedCourse: (token: string | null) => Promise<boolean> = async (token) => {
+    const response = await axios.post(`/tokeVerify`, { "token": getToken(), course: store.getState().selectedcourse, piazzaToken: token });
+    return (response.data === "OK");
+}
 
 const screenGrab = (): void => {
     const arr = [] as any;
@@ -82,6 +87,12 @@ export const nextPage = (): void => {
         //});
     });
 };
+
+// export const getConfirmation = (): void => {
+//     store.dispatch<any>((dispatch: any): any => {
+//         dispatch({ type: 'GET_CONFIRMATION' });
+//     });
+// };
 
 export const outline = (data: any): void => {
     store.dispatch<any>((dispatch: any): any => {
