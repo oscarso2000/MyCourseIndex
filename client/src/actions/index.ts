@@ -34,6 +34,9 @@ export const search = (reset?: any): void => {
                 dispatch({ type: 'LOADING_STATUS', payload: false });
                 //screenGrab();
             });
+        axios
+            .post(`/folders` , {courseSelection: "CS 4300"})
+            .then((res: any) => dispatch({type: 'SET_FOLDERS', payload: res.data}));
     });
 };
 export const search1 = (reset?: any): void => {
@@ -49,6 +52,9 @@ export const search1 = (reset?: any): void => {
                 dispatch({ type: 'LOADING_STATUS', payload: false });
                 //screenGrab();
             });
+        axios
+            .post(`/folders` , {courseSelection: "CS 4300"})
+            .then((res: any) => dispatch({type: 'SET_FOLDERS', payload: res.data}));
     });
 };
 
