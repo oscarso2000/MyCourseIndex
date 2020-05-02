@@ -4,6 +4,10 @@ from flask import Flask, render_template, request, redirect, flash, url_for, sen
 from urllib.parse import unquote
 from piazza_api import Piazza
 from app.auth import user_jwt_required, get_name, get_claims
+from app.search.similarity import *
+from app.search.boolean_search import *
+import app.utils.vectorizer as vecPy
+import app.utils.split_vectorizer as vecPySplit
 import logging
 import html2text
 
@@ -17,19 +21,10 @@ else:
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-from app.utils.logging_format import CustomFormatter
 gunicorn_logger = logging.getLogger('gunicorn.error')
-for handler in gunicorn_logger.handlers:
-    handler.setFormatter(CustomFormatter())
 app.logger.handlers = gunicorn_logger.handlers
 app.logger.setLevel(gunicorn_logger.level)
 
-app.logger.critical("BEFORE IMPORTS")
-from app.search.similarity import *
-from app.search.boolean_search import *
-import app.utils.vectorizer as vecPy
-import app.utils.split_vectorizer as vecPySplit
-app.logger.critical("AFTER IMPORTS")
 
 p = Piazza()
 p.user_login(email=app.config["PIAZZA_USER"], password=app.config["PIAZZA_PASS"])

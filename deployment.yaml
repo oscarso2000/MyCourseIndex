@@ -25,11 +25,6 @@ spec:
         ports:
         - name: https
           containerPort: 5000
-        resources:
-          requests:
-            cpu: 250m
-          limits:
-            cpu: 500m
         env:
         - name: deployment
           value: "True" 
