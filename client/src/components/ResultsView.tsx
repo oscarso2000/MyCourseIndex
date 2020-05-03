@@ -154,6 +154,12 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
     };
 
     console.log(tags);
+
+    if(typeof results === 'undefined'){
+      results = [];
+    }
+
+
     if(search === "Default"){
         // results1 = results;
         if (tags.length != 0){
