@@ -60,7 +60,7 @@ for course in fromS3:
                 src.append(1)
                 folders.extend(fromS3[course][source][content].get("raw").get("folders"))
             else:
-                folders.append("Resource")
+                # folders.append("Resource")
                 src.append(0.2) # Warning, magic number
 
     foldersDictionary[course] = list(set(folders))
