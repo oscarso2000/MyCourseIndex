@@ -16,9 +16,9 @@ export const setTags = (e: any, value: string[]): void => {
 
 export const handleKey = (e: any, reset?: string): void => {
   if (e.key === "Enter") {
-    if (reset) {
-      store.dispatch({ type: "RESET_RESULTS" });
-    }
+    // if (reset) {
+    //   store.dispatch({ type: "RESET_RESULTS" });
+    // }
     search();
   }
 };
@@ -26,9 +26,9 @@ export const handleKey = (e: any, reset?: string): void => {
 // TODO add token
 export const search = (reset?: any): void => {
   store.dispatch<any>((dispatch: any): any => {
-    if (reset) {
-      dispatch({ type: "RESET_RESULTS" });
-    }
+    // if (reset) {
+    //   dispatch({ type: "RESET_RESULTS" });
+    // }
     axios
       .post(`/folders`, { courseSelection: "CS 4300" })
       .then((res: any) => dispatch({ type: "SET_FOLDERS", payload: res.data }))
