@@ -2,7 +2,9 @@ CUI|TUI|STY
 C000001|T001|Logistics
 C000002|T001|Logistics
 C000003|T002|Similarity measure
+C000003|T011|Search Algorithm
 C000004|T002|Similarity measure
+C000004|T011|Search Algorithm
 C000005|T002|Similarity measure
 C000006|T003|Information retrieval
 C000007|T004|Edit distance
@@ -14,3 +16,27 @@ C000010|T007|User intent
 C000011|T008|Preprocessing
 C000012|T008|Preprocessing
 C000013|T008|Preprocessing
+C000014|T008|Preprocessing
+C000015|T008|Preprocessing
+C000016|T009|Model (Representation)
+C000017|T009|Model (Representation)
+C000018|T009|Model (Representation)
+C000019|T009|Model (Representation)
+C000019|T011|Search Algorithm
+C000020|T010|System Evaluation
+C000021|T010|System Evaluation
+C000022|T010|System Evaluation
+C000023|T010|System Evaluation
+C000024|T011|Search Algorithm
+C000024|T009|Model (Representation)
+C000025|T011|Search Algorithm
+C000026|T011|Search Algorithm
+C000027|T009|Model (Representation)
+C000028|T010|System Evaluation
+C000029|T012|Machine Learning
+C000030|T012|Machine Learning
+C000031|T012|Machine Learning
+C000032|T012|Machine Learning
+C000033|T012|Machine Learning
+C000034|T013|Association
+C000034|T006|Query expansion
