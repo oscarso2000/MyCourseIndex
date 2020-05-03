@@ -95,9 +95,7 @@ const FolderButtons: React.FC<string> = (text: string) => {
     style={{color: blk}}
     value="folder"
     selected={selected}
-    onChange={() => {
-      handleToggle();
-    }}
+    onChange={handleToggle}
   > {text}
   </ToggleButton>)
 }
