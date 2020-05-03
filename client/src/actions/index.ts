@@ -51,9 +51,9 @@ export const search = (reset?: any): void => {
 };
 export const search1 = (reset?: any): void => {
   store.dispatch<any>((dispatch: any): any => {
-    if (reset) {
-      dispatch({ type: "RESET_RESULTS" });
-    }
+    // if (reset) {
+    //   dispatch({ type: "RESET_RESULTS" });
+    // }
     dispatch({ type: "LOADING_STATUS", payload: true });
     axios
       .post(`/search`, {
