@@ -9,6 +9,7 @@ import { screenshotsReducer } from './screenshotsReducer';
 import { orderReducer } from './orderReducer';
 import { radioButtonReducer } from './radioButtonReducer';
 import { foldersReducer } from './foldersReducer';
+import { tagsReducer } from './tagsReducer';
 
 
 export interface IAction {
@@ -25,7 +26,8 @@ export const rootReducer = combineReducers({
     screenshots: screenshotsReducer,
     order: orderReducer,
     search: radioButtonReducer,
-    folders: foldersReducer
+    folders: foldersReducer,
+    tags: tagsReducer
 })
 
 const middleware = applyMiddleware(thunk)

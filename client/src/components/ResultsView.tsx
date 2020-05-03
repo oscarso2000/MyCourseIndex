@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ResultsList } from './ResultsList';
 import { Link } from 'react-router-dom';
 import { Outline } from './Outline';
-import { handleKey, search1, setQuery, setOrder, setSearchSel } from '../actions';
+import { handleKey, search1, setQuery, setOrder, setSearchSel, setTags } from '../actions';
 import '../style/ResultsView.css';
 import glass from '../images/glass.svg';
 import { Loader } from './Loader';
@@ -54,121 +54,6 @@ const styles = (theme: Theme) =>
     },
   });
 
-
-const InputWrapper = styled('div')`
-  width: 300px;
-  border: 1px solid #d9d9d9;
-  background-color: #fff;
-  border-radius: 4px;
-  padding: 1px;
-  display: flex;
-  flex-wrap: wrap;
-
-  &:hover {
-    border-color: #40a9ff;
-  }
-
-  &.focused {
-    border-color: #40a9ff;
-    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
-  }
-
-  & input {
-    font-size: 14px;
-    height: 30px;
-    box-sizing: border-box;
-    padding: 4px 6px;
-    width: 0;
-    min-width: 30px;
-    flex-grow: 1;
-    border: 0;
-    margin: 0;
-    outline: 0;
-  }
-`;
-
-const Tag = styled(({ label, onDelete, ...props }) => (
-  <div {...props}>
-    <span>{label}</span>
-    <CloseIcon onClick={onDelete} />
-  </div>
-))`
-  display: flex;
-  align-items: center;
-  height: 24px;
-  margin: 2px;
-  line-height: 22px;
-  background-color: #fafafa;
-  border: 1px solid #e8e8e8;
-  border-radius: 2px;
-  box-sizing: content-box;
-  padding: 0 4px 0 10px;
-  outline: 0;
-  overflow: hidden;
-
-  &:focus {
-    border-color: #40a9ff;
-    background-color: #e6f7ff;
-  }
-
-  & span {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  & svg {
-    font-size: 12px;
-    cursor: pointer;
-    padding: 4px;
-  }
-`;
-
-const Listbox = styled('ul')`
-  width: 300px;
-  margin: 2px 0 0;
-  padding: 0;
-  position: absolute;
-  list-style: none;
-  background-color: #fff;
-  overflow: auto;
-  max-height: 250px;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 1;
-
-  & li {
-    padding: 5px 12px;
-    display: flex;
-
-    & span {
-      flex-grow: 1;
-    }
-
-    & svg {
-      color: transparent;
-    }
-  }
-
-  & li[aria-selected='true'] {
-    background-color: #fafafa;
-    font-weight: 600;
-
-    & svg {
-      color: #1890ff;
-    }
-  }
-
-  & li[data-focus='true'] {
-    background-color: #e6f7ff;
-    cursor: pointer;
-
-    & svg {
-      color: #000;
-    }
-  }
-`;
-
 export interface DialogTitleProps extends WithStyles<typeof styles> {
   id: string;
   children: React.ReactNode;
@@ -213,31 +98,8 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function Tags(folder1: string[]) {
-  const classes = useStyles();
 
-  return (
-    <div className={classes.root}>
-      <Autocomplete
-        multiple
-        id="tags-standard"
-        options={folder1}
-        getOptionLabel={(option) => option}
-        defaultValue={[folder1[0]]}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            variant="standard"
-            placeholder="Add"
-          />
-        )}
-      />
-    </div>
-  );
-}
-
-
-export const ResultsView: React.StatelessComponent<any> = ({ results, outline, screenshots, query, loadingStatus, order, search, folders }: any): JSX.Element => {
+export const ResultsView: React.StatelessComponent<any> = ({ results, outline, screenshots, query, loadingStatus, order, search, folders, tags}: any): JSX.Element => {
     const mobile: string[] = ['Android', 'webOS', 'iPhone', 'iPad', 'iPod', 'BlackBerry'];
     const ASC = 'ascending';
     const DSC = 'descending';
@@ -273,6 +135,10 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
         return (a.type === "Resource");
     }
 
+    function sortTags(a:any){ //variable tags, and a.raw.folders
+      return (a.type === "Resource" || (a.type === "Piazza" && ((tags.filter( (value:string) => a.raw.folders.includes(value))).length > 0) )) //value noimplicitany
+    }
+
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -287,13 +153,35 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
         setOrder(!order);
     };
 
+    console.log(tags);
     if(search === "Default"){
-        results1 = results;
+        // results1 = results;
+        if (tags.length != 0){
+          results1 = results.filter(sortTags);
+        }else{
+          results1 = results;
+        }
     }else if (search === "Piazza"){
-        results1 = results.filter(sortPiazza);
+        // results1 = results.filter(sortPiazza);
+        if (tags.length != 0){
+          results1 = results.filter(sortTags).filter(sortPiazza);
+        }else{
+          results1 = results.filter(sortPiazza);
+        }
     }else if (search === "Resource"){
-        results1 = results.filter(sortResource);
+        // results1 = results.filter(sortResource);
+        if (tags.length != 0){
+          results1 = results.filter(sortTags).filter(sortResource);
+        }else{
+          results1 = results.filter(sortResource);
+        }
     }
+
+    // if (tags.length != 0){
+    //   results1 = results1.filter(sortTags);
+    // }else{
+    //   results1 = results1;
+    // }
 
     if (results && results.length > 0) {
         if (order) {
@@ -302,7 +190,8 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
             results1.sort((a: any, b: any) => sortByScore(a, b));
         }
     }
-    
+    const classes = useStyles();
+
     return (
         <div>
             <div className="top-bar">
@@ -354,13 +243,26 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
                           <Typography gutterBottom>
                             Piazza Folders:
                           </Typography>
-                            {/* {
-                              folders.map((item: string, i: any) => FolderButtons(item))
-                            } */}
-                            {
-                              // FolderDropdown(folders1)
-                              Tags(folders1)
-                            }
+                              <div className={classes.root}>
+                              <Autocomplete
+                                multiple
+                                id="tags-standard"
+                                options={folders1}
+                                defaultValue = {tags}
+                                onChange=
+                                  {
+                                  (e,value) => setTags(e, value)
+                                  }
+                                getOptionLabel={(option) => option}
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    variant="standard"
+                                    placeholder="Add Labels"
+                                  />
+                                )}
+                              />
+                            </div>
                         </DialogContent>
                         <DialogActions>
                         <Button autoFocus onClick={handleClose} color="secondary">

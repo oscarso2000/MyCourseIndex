@@ -8,7 +8,11 @@ export const setQuery = (e: any): void => {
 };
 
 export const setSearchSel = (e: any): void => {
-    store.dispatch({ type: 'SET_SEARCH', payload: encodeURI(e.target.value) })
+    store.dispatch({ type: 'SET_SEARCH', payload: encodeURI(e.target.value) });
+};
+
+export const setTags = (e: any, value: string[]): void => {
+    store.dispatch({type: 'SET_TAGS', payload: value });
 };
 
 export const handleKey = (e: any, reset?: string): void => {

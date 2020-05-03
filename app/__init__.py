@@ -35,12 +35,12 @@ p = Piazza()
 p.user_login(email=app.config["PIAZZA_USER"], password=app.config["PIAZZA_PASS"])
 coursePiazzaIDDict = {
     "CS 4300": app.config["PIAZZA_CS4300_NID"],
-    # "INFO 1998": app.config["PIAZZA_INFO1998_NID"]
+    "INFO 1998": app.config["PIAZZA_INFO1998_NID"]
 }
 
 coursePiazzaDict = {
     "CS 4300": p.course(app.config["PIAZZA_CS4300_NID"]),
-    # "INFO 1998": p.course(app.config["PIAZZA_INFO1998_NID"])
+    "INFO 1998": p.course(app.config["PIAZZA_INFO1998_NID"])
 }
 
 
