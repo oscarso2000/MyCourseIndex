@@ -33,7 +33,8 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
         {/* 
         // @ts-ignore */}
         return <ResultsView query={query} loadingStatus={loadingStatus} outline={outline} order={order} folders={folders} tags={tags} rv={rv} />;
-    } else if ((loadingStatus === false && !!results) || rv === true ) {
+    } else if ((loadingStatus === false && !!results)) {
+        if (rv === true ){
         return (
             <ResultsView
                 results={results}
@@ -48,6 +49,9 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
                 rv={rv}
             />
         );
+        }else{
+            return <SearchBox />;
+        }
     }
     return <SearchBox />;
 };

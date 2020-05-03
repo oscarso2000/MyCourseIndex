@@ -22,6 +22,14 @@ export const handleKey = (e: any, reset?: string): void => {
     search();
   }
 };
+export const handleKey1 = (e: any, reset?: string): void => {
+  if (e.key === "Enter") {
+    // if (reset) {
+    //   store.dispatch({ type: "RESET_RESULTS" });
+    // }
+    search1();
+  }
+};
 
 // TODO add token
 export const search = (reset?: any): void => {

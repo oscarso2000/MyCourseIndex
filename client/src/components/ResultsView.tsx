@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ResultsList } from './ResultsList';
 import { Link } from 'react-router-dom';
 import { Outline } from './Outline';
-import { handleKey, search1, setQuery, setOrder, setSearchSel, setTags } from '../actions';
+import { handleKey1, search1, setQuery, setOrder, setSearchSel, setTags } from '../actions';
 import '../style/ResultsView.css';
 import glass from '../images/glass.svg';
 import { Loader } from './Loader';
@@ -106,6 +106,7 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
     var results1 = results;
 
     const folders1:string[] = folders;
+    console.log(query);
 
     const sortByTimestamp = (a: any, b: any, sortOrder: any = DSC) => {
         // console.log(a);
@@ -154,29 +155,30 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
     };
 
     console.log(tags);
+    console.log(results);
 
     if(typeof results === 'undefined'){
       results = [];
     }
 
-
     if(search === "Default"){
         // results1 = results;
-        if (tags.length != 0){
+        if (tags.length !== 0){
           results1 = results.filter(sortTags);
+          console.log(results1);
         }else{
           results1 = results;
         }
     }else if (search === "Piazza"){
         // results1 = results.filter(sortPiazza);
-        if (tags.length != 0){
+        if (tags.length !== 0){
           results1 = results.filter(sortTags).filter(sortPiazza);
         }else{
           results1 = results.filter(sortPiazza);
         }
     }else if (search === "Resource"){
         // results1 = results.filter(sortResource);
-        if (tags.length != 0){
+        if (tags.length !== 0){
           results1 = results.filter(sortTags).filter(sortResource);
         }else{
           results1 = results.filter(sortResource);
@@ -207,7 +209,7 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
                 </Link>
                 <input
                     defaultValue={decodeURI(query)}
-                    onKeyPress={e => handleKey(e, 'reset')}
+                    onKeyPress={e => handleKey1(e, 'reset')}
                     onChange={e => setQuery(e)}
                 />
                 <img onClick={() => search1('reset')} className="glass" alt="magnifying glass" src={glass} />
