@@ -56,7 +56,7 @@ const ChipsArray: React.FC<string[]> = (concepts: string[]) => {
                             onDelete={undefined}
                             className={classes.chip}
                             variant="outlined"
-                            color="secondary"
+                            style={{ borderColor: "#00688B" }}
                         />
                     </li>
                 );

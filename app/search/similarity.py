@@ -5,6 +5,21 @@ import numpy.linalg as LA
 import app.utils as utils
 import time
 
+import os
+from flask import Flask
+import logging
+app = Flask(__name__)
+
+if os.environ.get("deployment", False):
+    app.config.from_pyfile('/etc/cs4300-volume-cfg/cs4300app.cfg')
+else:
+    app.config.from_pyfile(os.path.join(
+        os.path.join(os.getcwd(), "secrets"), "cs4300app.cfg"))
+
+gunicorn_logger = logging.getLogger('gunicorn.error')
+app.logger.handlers = gunicorn_logger.handlers
+app.logger.setLevel(gunicorn_logger.level)
+
 def cosineSim(query, courseVecDictionary, course, reverseIndexDictionary):
     #courseVecDictionary[class selected]
     vec, docVectorizerArray = courseVecDictionary[course]
@@ -100,15 +115,18 @@ def LSI_SVD(query, courseVecDictionary, course, reverseIndexDictionary, svdDicti
     
     if queryVectorizerArray.sum() == 0:
         return []
-        
-    k = 500
+
     # u,s,v_t = np.linalg.svd(docVectorizerArray.T) #svd on tfidf documents
     u,s,v_t = svdDictionary[course]
+    k = int(0.6 * v_t.shape[0]) # 500
     q = queryVectorizerArray
     q_hat = np.matmul(np.transpose(u[:,:k]),q)
     
     sim = []
     for i in range(docVectorizerArray.shape[0]):
+        # app.logger.debug("Shape of s: {}".format(np.diag(s[:k]).shape))
+        # app.logger.debug("Shape of v_t: {}".format(v_t[:k,i].shape))
+        # app.logger.debug("Shape of q_hat: {}".format(np.transpose(q_hat).shape))
         num = np.matmul(np.matmul(np.diag(s[:k]),v_t[:k,i]),np.transpose(q_hat))
         denom = np.linalg.norm(np.matmul(np.diag(s[:k]),v_t[:k,i]))*np.linalg.norm(q_hat)
         sim.append(num/denom)

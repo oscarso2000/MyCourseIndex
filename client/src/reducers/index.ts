@@ -4,13 +4,14 @@ import { counterReducer } from './counterReducer';
 import { loadingStatusReducer } from './loadingStatus';
 import { outlineReducer } from './outlineReducer';
 import { queryReducer } from './queryReducer';
+import { coursesReducer } from './coursesReducer';
 import { resultsReducer } from './resultsReducer';
 import { screenshotsReducer } from './screenshotsReducer';
 import { orderReducer } from './orderReducer';
 import { radioButtonReducer } from './radioButtonReducer';
 import { foldersReducer } from './foldersReducer';
 import { tagsReducer } from './tagsReducer';
-
+import { selectedcourseReducer } from './selectedcourseReducer';
 
 export interface IAction {
     type: string;
@@ -25,9 +26,11 @@ export const rootReducer = combineReducers({
     counter: counterReducer,
     screenshots: screenshotsReducer,
     order: orderReducer,
-    search: radioButtonReducer,
+    filter: radioButtonReducer,
     folders: foldersReducer,
-    tags: tagsReducer
+    tags: tagsReducer,
+    courses: coursesReducer,
+    selectedcourse: selectedcourseReducer
 })
 
 const middleware = applyMiddleware(thunk)

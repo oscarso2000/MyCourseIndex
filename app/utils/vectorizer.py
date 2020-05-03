@@ -4,9 +4,9 @@ import boto3
 import os
 import json
 import numpy as np
-from flask import Flask
 from tqdm import tqdm
 import io
+from flask import Flask
 import logging
 app = Flask(__name__)
 

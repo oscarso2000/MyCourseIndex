@@ -12,8 +12,18 @@ export const setSearchSel = (e: any): void => {
 };
 
 export const setTags = (e: any, value: string[]): void => {
-    store.dispatch({type: 'SET_TAGS', payload: value });
+    store.dispatch({ type: 'SET_TAGS', payload: value });
 };
+
+export const setCourses = (e: any): void => {
+    store.dispatch({ type: 'SET_COURSES', payload: e });
+}
+
+export const setCourseSelected = (e: any): any => {
+    store.dispatch({
+        type: 'SET_COURSE_SELECTED', payload: e
+    });
+}
 
 export const handleKey = (e: any, reset?: string): void => {
     if (e.key === 'Enter') {
@@ -31,33 +41,13 @@ export const search = (reset?: any): void => {
             dispatch({ type: 'RESET_RESULTS' });
         }
         axios
-            .post(`/folders` , {courseSelection: "CS 4300"})
-            .then((res: any) => dispatch({type: 'SET_FOLDERS', payload: res.data}))
-            .then( () => {
+            .post(`/folders`, { courseSelection: "CS 4300" })
+            .then((res: any) => dispatch({ type: 'SET_FOLDERS', payload: res.data }))
+            .then(() => {
                 dispatch({ type: 'LOADING_STATUS', payload: true });
             });
         axios
-            .post(`/search`, { query: store.getState().query, "token": getToken(), "search": store.getState().search })
-            .then((res: any) => dispatch({ type: 'SEND_RESULTS', payload: res.data }))
-            .then(() => {
-                dispatch({ type: 'LOADING_STATUS', payload: false });
-                //screenGrab();
-            });
-    });
-};
-export const search1 = (reset?: any): void => {
-    store.dispatch<any>((dispatch: any): any => {
-        if (reset) {
-            dispatch({ type: 'RESET_RESULTS' });
-        }
-        axios
-        .post(`/folders` , {courseSelection: "CS 4300"})
-        .then((res: any) => dispatch({type: 'SET_FOLDERS', payload: res.data}))
-        .then( () => {
-            dispatch({ type: 'LOADING_STATUS', payload: true });
-        });
-        axios
-            .post(`/search`, { query: store.getState().query, "token": getToken(), "search": store.getState().search })
+            .post(`/search`, { query: store.getState().query, token: getToken(), search: store.getState().filter, course: store.getState().selectedcourse })
             .then((res: any) => dispatch({ type: 'SEND_RESULTS', payload: res.data }))
             .then(() => {
                 dispatch({ type: 'LOADING_STATUS', payload: false });
@@ -71,6 +61,11 @@ export const setOrder = (e: any): void => {
     // console.log(e);
     store.dispatch({ type: 'SET_ORDER', payload: e });
 };
+
+export const accessProtectedCourse: (token: string | null) => Promise<boolean> = async (token) => {
+    const response = await axios.post(`/tokeVerify`, { "token": getToken(), course: store.getState().selectedcourse, piazzaToken: token });
+    return (response.data === "OK");
+}
 
 const screenGrab = (): void => {
     const arr = [] as any;
@@ -110,6 +105,12 @@ export const nextPage = (): void => {
         //});
     });
 };
+
+// export const getConfirmation = (): void => {
+//     store.dispatch<any>((dispatch: any): any => {
+//         dispatch({ type: 'GET_CONFIRMATION' });
+//     });
+// };
 
 export const outline = (data: any): void => {
     store.dispatch<any>((dispatch: any): any => {

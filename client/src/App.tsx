@@ -1,6 +1,8 @@
 import * as React from 'react';
 import FadeIn from "react-fade-in";
 import Lottie from "react-lottie";
+import CourseSelection from './components/CourseSelection';
+import { RouteComponentProps } from '@reach/router';
 import Home from './containers/Home';
 import { About } from './components/About';
 import { Switch, Route } from 'react-router-dom';
@@ -13,6 +15,7 @@ import * as legoData from "./images/legoloading.json";
 import * as doneData from "./images/doneloading.json";
 import * as errorData from "./images/errorloading.json";
 import { any } from 'prop-types';
+import { setCourses } from './actions/index';
 
 
 const defaultOptions = {
@@ -64,6 +67,15 @@ const getName: (token: string | null) => Promise<string> = (token) => {
     )
 }
 
+const getCourses: (token: string | null) => Promise<Array<object>> = (token) => {
+    return axios.post('/courses', { 'token': token }).then(
+        (response) => {
+            return response.data
+        }
+    )
+}
+
+
 const App: React.FC = (props: any) => {
 
     const [authorized, setAuthorized] = React.useState(false);
@@ -89,18 +101,20 @@ const App: React.FC = (props: any) => {
         setAllowRefresh(sessionStorage.getItem("allowRefresh") === "True");
         // console.log(allowRefresh);
         if (allowRefresh) {
-            const auth = getAuth(getToken());
+            const auth = getCourses(getToken());
             auth.then((value) => {
-                setAuthorized(value);
+                setCourses(value);
+                setAuthorized(true);
                 setLoaded(true);
                 setDone(true);
                 setTimedOut(true);
             });
         } else {
             props.setTimeout(() => {
-                const auth = getAuth(getToken());
+                const auth = getCourses(getToken());
                 auth.then((value) => {
-                    setAuthorized(value);
+                    setCourses(value);
+                    setAuthorized(true);
                     setLoaded(true);
                     setDone(true);
                     props.setTimeout(() => {
@@ -120,8 +134,10 @@ const App: React.FC = (props: any) => {
             return (
                 <div>
                     <Switch>
-                        <Route exact={true} path="/" component={Home} />
+                        {/* @ts-ignore */}
+                        <Route exact={true} path="/" component={CourseSelection} />
                         <Route path="/about" component={About} />
+                        <Route path="/home" component={Home} />
                     </Switch>
                 </div>
             )

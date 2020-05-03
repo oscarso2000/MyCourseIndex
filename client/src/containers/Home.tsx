@@ -8,7 +8,7 @@ export interface IHomeProps {
     loadingStatus?: boolean;
     outline?: any;
     query: string;
-    search: string;
+    filter: string;
     counter?: number;
     screenshots?: any;
     order: boolean
@@ -21,7 +21,7 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
     loadingStatus,
     outline,
     query,
-    search,
+    filter,
     screenshots,
     order,
     folders,
@@ -38,7 +38,7 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
                 outline={outline}
                 screenshots={screenshots}
                 query={query}
-                search={search}
+                filter={filter}
                 loadingStatus={loadingStatus}
                 order={order}
                 folders={folders}
@@ -55,7 +55,7 @@ const mapStateToProps = (state: IHomeProps): IHomeProps => {
         loadingStatus: state.loadingStatus,
         outline: state.outline,
         query: state.query,
-        search: state.search,
+        filter: state.filter,
         counter: state.counter,
         screenshots: state.screenshots,
         order: state.order,
