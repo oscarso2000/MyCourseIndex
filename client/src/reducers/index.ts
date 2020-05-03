@@ -28,7 +28,7 @@ export const rootReducer = combineReducers({
     counter: counterReducer,
     screenshots: screenshotsReducer,
     order: orderReducer,
-    filter: radioButtonReducer,
+    search: radioButtonReducer,
     folders: foldersReducer,
     tags: tagsReducer,
     courses: coursesReducer,

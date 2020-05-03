@@ -72,7 +72,7 @@ def search_results():
         orig_query = unquote(request.get_json()["query"])
         # app.logger.info("User queried: {}".format(query))
         courseSelection = request.get_json()["course"]
-        # app.logger.info("User course: {}".format(courseSelection))
+        app.logger.info("User course: {}".format(courseSelection))
         # results = cosineSim(orig_query, vecPy.docVecDictionary , courseSelection, vecPy.courseRevsereIndexDictionary)
 
         #search selection: Default(both),Piazza only, Resource only 
@@ -155,7 +155,7 @@ def get_user_courses():
 
 @app.route("/folders", methods = ["POST"])
 def getFolders():
-    courseSelection = "CS 4300"
+    courseSelection = request.get_json()["courseSelection"] #"CS 4300"
     # searchSelection = request.get_json()["courseSelection"]
     app.logger.critical("{}".format(vecPy.foldersDictionary[courseSelection]))
     return jsonify(vecPy.foldersDictionary[courseSelection])

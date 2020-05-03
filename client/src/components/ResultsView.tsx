@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-export const ResultsView: React.StatelessComponent<any> = ({ results, outline, screenshots, query, loadingStatus, order, search, folders, tags, rv }: any): JSX.Element => {
+export const ResultsView: React.StatelessComponent<any> = ({ results, outline, screenshots, query, loadingStatus, order, search, folders, tags }: any): JSX.Element => {
     const mobile: string[] = ['Android', 'webOS', 'iPhone', 'iPad', 'iPod', 'BlackBerry'];
     const ASC = 'ascending';
     const DSC = 'descending';

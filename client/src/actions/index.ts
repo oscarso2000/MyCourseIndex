@@ -48,7 +48,7 @@ export const search = (reset?: any): void => {
         //   dispatch({ type: "RESET_RESULTS" });
         // }
         axios
-            .post(`/folders`, { courseSelection: "CS 4300" })
+            .post(`/folders`, { courseSelection: store.getState().selectedcourse })
             .then((res: any) => dispatch({ type: "SET_FOLDERS", payload: res.data }))
             .then(() => {
                 dispatch({ type: "LOADING_STATUS", payload: true });
@@ -58,7 +58,7 @@ export const search = (reset?: any): void => {
             .post(`/search`, {
                 query: store.getState().query,
                 token: getToken(),
-                search: store.getState().filter,
+                search: store.getState().search,
                 course: store.getState().selectedcourse,
             })
             .then((res: any) => dispatch({ type: "SEND_RESULTS", payload: res.data }))
@@ -78,7 +78,7 @@ export const search1 = (reset?: any): void => {
             .post(`/search`, {
                 query: store.getState().query,
                 token: getToken(),
-                search: store.getState().filter,
+                search: store.getState().search,
                 course: store.getState().selectedcourse,
             })
             .then((res: any) => dispatch({ type: "SEND_RESULTS", payload: res.data }))
