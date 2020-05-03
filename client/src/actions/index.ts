@@ -7,6 +7,10 @@ export const setQuery = (e: any): void => {
     store.dispatch({ type: 'SET_QUERY', payload: encodeURI(e.target.value) });
 };
 
+export const setQueryString = (e: any): void => {
+    store.dispatch({ type: 'SET_QUERY', payload: encodeURI(e) });
+};
+
 export const setSearchSel = (e: any): void => {
     store.dispatch({ type: 'SET_SEARCH', payload: encodeURI(e.target.value) })
 };
@@ -19,6 +23,8 @@ export const handleKey = (e: any, reset?: string): void => {
         search();
     }
 };
+
+
 
 // TODO add token
 export const search = (reset?: any): void => {

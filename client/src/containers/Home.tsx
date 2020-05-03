@@ -2,7 +2,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { SearchBox } from '../components/SearchBox';
 import { ResultsView } from '../components/ResultsView';
+import { handleKey, search1, setQuery, setQueryString, setOrder, setSearchSel } from '../actions';
+import {
+  useLocation,
+  useHistory
+} from "react-router-dom";
 
+import qs from 'qs';
 export interface IHomeProps {
     results?: any[];
     loadingStatus?: boolean;
@@ -23,11 +29,18 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
     screenshots,
     order,
 }: IHomeProps) => {
+
+    let location = useLocation();
+    let history = useHistory();
+    query= qs.parse(location.search)["?query"]
+        
+
     if (loadingStatus === true) {
         {/* 
         // @ts-ignore */}
         return <ResultsView query={query} loadingStatus={loadingStatus} outline={outline} order={order} />;
-    } else if (loadingStatus === false && !!results) {
+
+    } else if (loadingStatus === false && !!results && query != undefined) {
         return (
             <ResultsView
                 results={results}
@@ -40,7 +53,16 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
             />
         );
     }
-    return <SearchBox />;
+    
+    if (query===undefined) {
+        return <SearchBox />;
+    } else {
+        setQueryString(query);
+        search1();
+        return null;
+    }
+
+    
 };
 
 const mapStateToProps = (state: IHomeProps): IHomeProps => {

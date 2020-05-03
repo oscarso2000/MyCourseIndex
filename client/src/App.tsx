@@ -2,12 +2,14 @@ import * as React from 'react';
 import FadeIn from "react-fade-in";
 import Lottie from "react-lottie";
 import Home from './containers/Home';
+import { SearchBox } from './components/SearchBox';
 import { About } from './components/About';
 import { Switch, Route } from 'react-router-dom';
 import './App.css'
 import axios from "axios";
 import { getToken } from './config/adalConfig';
 import ReactTimeout from 'react-timeout'
+import { ResultsView } from './components/ResultsView';
 
 import * as legoData from "./images/legoloading.json";
 import * as doneData from "./images/doneloading.json";

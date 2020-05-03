@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ResultsList } from './ResultsList';
 import { Link } from 'react-router-dom';
 import { Outline } from './Outline';
-import { handleKey, search1, setQuery, setOrder, setSearchSel } from '../actions';
+import { handleKey, search1, setQuery, setQueryString, setOrder, setSearchSel } from '../actions';
 import '../style/ResultsView.css';
 import glass from '../images/glass.svg';
 import { Loader } from './Loader';
@@ -83,6 +83,12 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
     const mobile: string[] = ['Android', 'webOS', 'iPhone', 'iPad', 'iPod', 'BlackBerry'];
     const ASC = 'ascending';
     const DSC = 'descending';
+
+    // if (!! results) {
+    //     // loadingStatus = true;
+    //     setQueryString("MyCourseIndex");
+    // }
+
     var results1 = results;
 
     const sortByTimestamp = (a: any, b: any, sortOrder: any = DSC) => {
@@ -124,6 +130,8 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
     //   setOrder(!order);
     };
 
+    
+
     // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     //     // event.persist();
     //     // console.log(event.target.checked);
@@ -157,6 +165,7 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
         }
     }
 
+   
     return (
         <div>
             <div className="top-bar">

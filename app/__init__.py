@@ -102,12 +102,12 @@ def search_results():
         if courseSelection == "CS 4300":
             h = html2text.HTML2Text()
             h.ignore_links = True
-            parsed_piazza = h.handle(coursePiazzaDict["CS 4300"].get_post(app.config["PIAZZA_CS4300_TOKEN_POST"])["history"][0]["content"])
-            split_piazza = parsed_piazza.split("\n")
-            piazza_token = split_piazza[0]
-            our_token = app.config["PIAZZA_CS4300_TOKEN"]
-            keep_piazza = (piazza_token == our_token)
-
+            #parsed_piazza = h.handle(coursePiazzaDict["CS 4300"].get_post(app.config["PIAZZA_CS4300_TOKEN_POST"])["history"][0]["content"])
+            #split_piazza = parsed_piazza.split("\n")
+            #piazza_token = split_piazza[0]
+            #our_token = app.config["PIAZZA_CS4300_TOKEN"]
+            #keep_piazza = (piazza_token == our_token)
+            keep_piazza = True
             # app.logger.info("Parsed Piazza: {}".format(repr(parsed_piazza)))
             # app.logger.info("Split Piazza: {}".format(repr(split_piazza)))
             # app.logger.info("Piazza Response: {}".format(repr(piazza_token)))
