@@ -58,7 +58,7 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
         return <SearchBox />;
     } else {
         setQueryString(query);
-        search1();
+        search1(history);
         return null;
     }
 

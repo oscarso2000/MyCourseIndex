@@ -10,13 +10,6 @@ import {
 
 export const SearchBox: React.StatelessComponent = (): JSX.Element => {
     let history = useHistory();
-    let query = ""
-    
-    const submit = (e: any): void => {
-        if (e.key === 'Enter') {
-            history.push("/?query="+query);
-        }
-    };
 
     return(
     <div>
@@ -26,8 +19,8 @@ export const SearchBox: React.StatelessComponent = (): JSX.Element => {
         <div className = "main">
             <div className="home">
                 <h1 className="home-logo">MyCourseIndex</h1> <h1 className="home-logo-2">Search</h1>
-                <input onChange={e => query = e.target.value} onKeyPress={e => submit(e)} autoFocus={true} />
-                <img onClick={search} className="glass" alt="magnifying glass" src={glass} />
+                <input onChange={e => setQuery(e)} onKeyPress={e =>  handleKey(e, history, 'reset')} autoFocus={true} />
+                <img onClick={() => search(history, 'reset')} className="glass" alt="magnifying glass" src={glass} />
                 <div className="help-tip">
                     <p><b>For Advanced Searches:</b><br/>1) +’query’ for mandatory inclusion.<br/>2) -’query’ for mandatory exclusion.<br/>3) ‘query^n to emphasize n times. </p>
                     {/* <p>Use +'word/phrase' for mandatory results. 2) Use -'word/phrase' to remove from results. 3) Use 'word'^n to emphasize the particular word n times.</p> */}

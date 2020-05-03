@@ -15,24 +15,25 @@ export const setSearchSel = (e: any): void => {
     store.dispatch({ type: 'SET_SEARCH', payload: encodeURI(e.target.value) })
 };
 
-export const handleKey = (e: any, reset?: string): void => {
+export const handleKey = (e: any, history: any, reset?: string): void => {
     if (e.key === 'Enter') {
         if (reset) {
             store.dispatch({ type: 'RESET_RESULTS' });
         }
-        search();
+        search(history);
     }
 };
 
 
 
 // TODO add token
-export const search = (reset?: any): void => {
+export const search = (history: any, reset?: any): void => {
     store.dispatch<any>((dispatch: any): any => {
         if (reset) {
             dispatch({ type: 'RESET_RESULTS' });
         }
         dispatch({ type: 'LOADING_STATUS', payload: true });
+        history.push("/?query="+store.getState().query);
         axios
             .post(`/search`, { query: store.getState().query, "token": getToken(), "search": store.getState().search })
             .then((res: any) => dispatch({ type: 'SEND_RESULTS', payload: res.data }))
@@ -42,12 +43,13 @@ export const search = (reset?: any): void => {
             });
     });
 };
-export const search1 = (reset?: any): void => {
+export const search1 = (history: any, reset?: any): void => {
     store.dispatch<any>((dispatch: any): any => {
         if (reset) {
             dispatch({ type: 'RESET_RESULTS' });
         }
         dispatch({ type: 'LOADING_STATUS', payload: true });
+        history.push("/?query="+store.getState().query);
         axios
             .post(`/search`, { query: store.getState().query, "token": getToken(), "search": store.getState().search })
             .then((res: any) => dispatch({ type: 'SEND_RESULTS', payload: res.data }))
