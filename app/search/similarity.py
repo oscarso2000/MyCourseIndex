@@ -26,7 +26,7 @@ def cosineSim(query, courseVecDictionary, course, reverseIndexDictionary):
     queryVectorizerArray *= vec.idf_
     
     if queryVectorizerArray.sum() == 0:
-        return [], []
+        return []
 
     # queryVectorizerArray = vec.transform(query).toarray()[0]
     
@@ -37,7 +37,7 @@ def cosineSim(query, courseVecDictionary, course, reverseIndexDictionary):
     denom = LA.norm(queryVectorizerArray)*LA.norm(docVectorizerArray,axis=1)
     sim = num/denom
 
-    return sim, sim > 0
+    return sim
 
 def cosineSimSplit(query, courseVecDictionary, course): #not working
     vec, piazzaDocVectorizerArray, otherDocVectorizerArray = courseVecDictionary[course]
@@ -99,7 +99,7 @@ def LSI_SVD(query, courseVecDictionary, course, reverseIndexDictionary, svdDicti
     queryVectorizerArray *= vec.idf_
     
     if queryVectorizerArray.sum() == 0:
-        return [], []
+        return []
         
     k = 500
     # u,s,v_t = np.linalg.svd(docVectorizerArray.T) #svd on tfidf documents
@@ -113,7 +113,7 @@ def LSI_SVD(query, courseVecDictionary, course, reverseIndexDictionary, svdDicti
         denom = np.linalg.norm(np.matmul(np.diag(s[:k]),v_t[:k,i]))*np.linalg.norm(q_hat)
         sim.append(num/denom)
 
-    return np.array(sim), np.array(sim) > 0
+    return np.array(sim)
     
     
 #for local use

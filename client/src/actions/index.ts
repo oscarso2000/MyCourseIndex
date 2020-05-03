@@ -8,7 +8,11 @@ export const setQuery = (e: any): void => {
 };
 
 export const setSearchSel = (e: any): void => {
-    store.dispatch({ type: 'SET_SEARCH', payload: encodeURI(e.target.value) })
+    store.dispatch({ type: 'SET_SEARCH', payload: encodeURI(e.target.value) });
+};
+
+export const setTags = (e: any, value: string[]): void => {
+    store.dispatch({type: 'SET_TAGS', payload: value });
 };
 
 export const handleKey = (e: any, reset?: string): void => {
@@ -26,7 +30,12 @@ export const search = (reset?: any): void => {
         if (reset) {
             dispatch({ type: 'RESET_RESULTS' });
         }
-        dispatch({ type: 'LOADING_STATUS', payload: true });
+        axios
+            .post(`/folders` , {courseSelection: "CS 4300"})
+            .then((res: any) => dispatch({type: 'SET_FOLDERS', payload: res.data}))
+            .then( () => {
+                dispatch({ type: 'LOADING_STATUS', payload: true });
+            });
         axios
             .post(`/search`, { query: store.getState().query, "token": getToken(), "search": store.getState().search })
             .then((res: any) => dispatch({ type: 'SEND_RESULTS', payload: res.data }))
@@ -41,7 +50,12 @@ export const search1 = (reset?: any): void => {
         if (reset) {
             dispatch({ type: 'RESET_RESULTS' });
         }
-        dispatch({ type: 'LOADING_STATUS', payload: true });
+        axios
+        .post(`/folders` , {courseSelection: "CS 4300"})
+        .then((res: any) => dispatch({type: 'SET_FOLDERS', payload: res.data}))
+        .then( () => {
+            dispatch({ type: 'LOADING_STATUS', payload: true });
+        });
         axios
             .post(`/search`, { query: store.getState().query, "token": getToken(), "search": store.getState().search })
             .then((res: any) => dispatch({ type: 'SEND_RESULTS', payload: res.data }))
