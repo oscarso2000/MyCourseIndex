@@ -1,5 +1,5 @@
 # MyCourseIndex
-Improving the Piazza search algorithm
+MyCourseIndex is a project for CS/INFO 4300: Language and Information that acts as an essential search engine for Cornell students and their courses with the initial goal to improve the Piazza search user experience. This search gathers all information from Piazza posts to Textbook and Notes Resources and returns valid results for the student to utilize. 
 
 [![Build Status](https://travis-ci.org/oscarso2000/MyCourseIndex.svg?branch=master)](https://travis-ci.org/oscarso2000/MyCourseIndex)
 
