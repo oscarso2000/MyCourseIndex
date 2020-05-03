@@ -272,7 +272,9 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
                     </Dialog>
                     </ThemeProvider>
                 </div>
-
+                <div className="help-tip2">
+                    <p><b>For Advanced Searches:</b><br/>1) +’query’ for mandatory inclusion.<br/>2) -’query’ for mandatory exclusion.<br/>3) ‘query^n to emphasize n times. </p>
+                </div>
                 <Link to="/about" className="about-bar" style={{ textDecoration: "none" }}>
                     About
                 </Link>
