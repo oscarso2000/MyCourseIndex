@@ -168,14 +168,14 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
         } else {
             results1 = results;
         }
-    } else if (filter === "Piazza") {
+    } else if (search === "Piazza") {
         // results1 = results.filter(sortPiazza);
         if (tags.length !== 0) {
             results1 = results.filter(sortTags).filter(sortPiazza);
         } else {
             results1 = results.filter(sortPiazza);
         }
-    } else if (filter === "Resource") {
+    } else if (search === "Resource") {
         // results1 = results.filter(sortResource);
         if (tags.length !== 0) {
             results1 = results.filter(sortTags).filter(sortResource);
@@ -211,7 +211,7 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
                     onKeyPress={e => handleKey1(e, 'reset')}
                     onChange={e => setQuery(e)}
                 />
-                <img onClick={() => search('reset')} className="glass" alt="magnifying glass" src={glass} />
+                <img onClick={() => search1('reset')} className="glass" alt="magnifying glass" src={glass} />
                 <div className="filters">
                     <ThemeProvider theme={theme1}>
                         <Button variant="contained" color="secondary" onClick={handleClickOpen}>
@@ -241,10 +241,10 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
                                     Resource Filter:
                           </Typography>
                                 <ThemeProvider theme={theme1}>
-                                    <RadioGroup aria-label="SearchFilters" color="secondary" name="gender1" onChange={e => setSearchSel(e)}>
-                                        <FormControlLabel value="Default" control={<Radio />} label="Search All" checked={filter === "Default"} />
-                                        <FormControlLabel value="Piazza" control={<Radio />} label="Search Piazza Only" checked={filter === "Piazza"} />
-                                        <FormControlLabel value="Resource" control={<Radio />} label="Search Resources Only" checked={filter === "Resource"} />
+                                    <RadioGroup aria-label="SearchFilters" color="secondary" name="gender1" onChange={(e: any) => setSearchSel(e)}>
+                                        <FormControlLabel value="Default" control={<Radio />} label="Search All" checked={search === "Default"} />
+                                        <FormControlLabel value="Piazza" control={<Radio />} label="Search Piazza Only" checked={search === "Piazza"} />
+                                        <FormControlLabel value="Resource" control={<Radio />} label="Search Resources Only" checked={search === "Resource"} />
                                     </RadioGroup>
                                 </ThemeProvider>
                                 <Typography gutterBottom>

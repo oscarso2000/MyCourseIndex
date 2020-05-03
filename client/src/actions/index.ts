@@ -58,7 +58,7 @@ export const search = (reset?: any): void => {
             .post(`/search`, {
                 query: store.getState().query,
                 token: getToken(),
-                search: store.getState().search,
+                search: store.getState().filter,
                 course: store.getState().selectedcourse,
             })
             .then((res: any) => dispatch({ type: "SEND_RESULTS", payload: res.data }))
@@ -78,7 +78,7 @@ export const search1 = (reset?: any): void => {
             .post(`/search`, {
                 query: store.getState().query,
                 token: getToken(),
-                search: store.getState().search,
+                search: store.getState().filter,
                 course: store.getState().selectedcourse,
             })
             .then((res: any) => dispatch({ type: "SEND_RESULTS", payload: res.data }))

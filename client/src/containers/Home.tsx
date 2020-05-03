@@ -8,7 +8,7 @@ export interface IHomeProps {
     loadingStatus?: boolean;
     outline?: any;
     query: string;
-    filter: string;
+    search: string;
     counter?: number;
     screenshots?: any;
     order: boolean;
@@ -22,7 +22,7 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
     loadingStatus,
     outline,
     query,
-    filter,
+    search,
     screenshots,
     order,
     folders,
@@ -32,24 +32,24 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
     if (loadingStatus === true) {
         {/* 
         // @ts-ignore */}
-        return <ResultsView query={query} loadingStatus={loadingStatus} outline={outline} order={order} folders={folders} tags={tags} rv={rv} />;
+        return <ResultsView query={query} loadingStatus={loadingStatus} outline={outline} order={order} search={search} tags={tags} rv={rv} />;
     } else if ((loadingStatus === false && !!results)) {
-        if (rv === true ){
-        return (
-            <ResultsView
-                results={results}
-                outline={outline}
-                screenshots={screenshots}
-                query={query}
-                filter={filter}
-                loadingStatus={loadingStatus}
-                order={order}
-                folders={folders}
-                tags={tags}
-                rv={rv}
-            />
-        );
-        }else{
+        if (rv === true) {
+            return (
+                <ResultsView
+                    results={results}
+                    outline={outline}
+                    screenshots={screenshots}
+                    query={query}
+                    search={search}
+                    loadingStatus={loadingStatus}
+                    order={order}
+                    folders={folders}
+                    tags={tags}
+                    rv={rv}
+                />
+            );
+        } else {
             return <SearchBox />;
         }
     }
@@ -62,7 +62,7 @@ const mapStateToProps = (state: IHomeProps): IHomeProps => {
         loadingStatus: state.loadingStatus,
         outline: state.outline,
         query: state.query,
-        filter: state.filter,
+        search: state.search,
         counter: state.counter,
         screenshots: state.screenshots,
         order: state.order,
