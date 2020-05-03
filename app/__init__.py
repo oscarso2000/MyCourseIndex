@@ -77,12 +77,13 @@ def search_results():
         # if searchSelection == "Default":
         #regular cosine similarity (start commenting out here)
         updated_query = get_all_tokens(query)
-        cosine_results, results_filter = cosineSim(updated_query, vecPy.docVecDictionary , courseSelection, vecPy.courseRevsereIndexDictionary)
-        boolean_results, results_filter = boolean(query, courseSelection)
-        svd_results, results_filter = LSI_SVD(updated_query, vecPy.docVecDictionary, courseSelection, vecPy.courseRevsereIndexDictionary, vecPy.svdDictionary)
+        cosine_results= cosineSim(updated_query, vecPy.docVecDictionary , courseSelection, vecPy.courseRevsereIndexDictionary)
+        boolean_results= boolean(query, courseSelection)
+        svd_results= LSI_SVD(updated_query, vecPy.docVecDictionary, courseSelection, vecPy.courseRevsereIndexDictionary, vecPy.svdDictionary)
+    
             
         # finalresults = results #np.multiply(results,vecPy.sourceDictionary[courseSelection])
-        if len(cosine_results) == 0:
+        if (len(cosine_results) == 0 or len(svd_results) == 0):
             return jsonify([])
         finalresults = np.add(np.multiply(svd_results,boolean_results),np.multiply(cosine_results,boolean_results))
         results_filter = (finalresults > 0.1)
@@ -115,91 +116,17 @@ def search_results():
             # app.logger.info("Keeping Piazza? {}".format(keep_piazza))
                 
             if keep_piazza:
-                # if (searchSelection == "Default"):
                 return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()[:n])
-                # elif (searchSelection == "Piazza"):
-                    # modified_results = list(filter(lambda x: x["type"] != "Resource", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
-                    # if len(modified_results) == 0:
-                        # return jsonify([])
-                    # n = min(n, len(modified_results))
-                    # return jsonify(modified_results[:n])   
-                # elif (searchSelection == "Resource"):
-                    # modified_results = list(filter(lambda x: x["type"] != "Piazza", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
-                    # if len(modified_results) == 0:
-                        # return jsonify([])
-                    # n = min(n, len(modified_results))
-                    # return jsonify(modified_results[:n])      
+
             else:
-                # if (searchSelection == "Default"):
                 modified_results = list(filter(lambda x: x["type"] != "Piazza", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
                 if len(modified_results) == 0:
                     return jsonify([])
                 n = min(n, len(modified_results))
                 return jsonify(modified_results[:n])   
-                # elif (searchSelection == "Piazza"):
-                    # return jsonify([]) 
-                # elif (searchSelection == "Resource"):
-                    # modified_results = list(filter(lambda x: x["type"] != "Piazza", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
-                    # if len(modified_results) == 0:
-                        # return jsonify([])
-                    # n = min(n, len(modified_results))
-                    # return jsonify(modified_results[:n])   
-                
-        # if (searchSelection == "Default"):
-        #     return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()[:n])
-        # elif (searchSelection == "Piazza"):
-        #     modified_results = list(filter(lambda x: x["type"] != "Resource", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
-        #     if len(modified_results) == 0:
-        #         return jsonify([])
-        #     n = min(n, len(modified_results))
-        #     return jsonify(modified_results[:n])   
-        # elif (searchSelection == "Resource"):
-        #     modified_results = list(filter(lambda x: x["type"] != "Piazza", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
-        #     if len(modified_results) == 0:
-        #         return jsonify([])
-        #     n = min(n, len(modified_results))
-        #     return jsonify(modified_results[:n])      
+    
         return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()[:n])
-          
-        # else:
-        # # #split cosine sim between piazza and resource (or here)
-        # # #uses split_vectorizer.py instead
-        #     piazza_results, piazza_results_filter, resource_results, resource_results_filter = cosineSimSplit(query, vecPySplit.docVecDictionary , courseSelection)
-        #     n = 25
-            
-        #     if searchSelection == "Piazza":
-        #         finalresults = piazza_results
-        #         results_filter = piazza_results_filter
-        #     elif searchSelection == "Resource":
-        #         finalresults = resource_results
-        #         results_filter = resource_results_filter
-            
-        #     if len(finalresults) == 0:
-        #         return jsonify([])
-            
-        #     reverseList = (-finalresults).argsort() #[:n]
-        #     reverseList_filter = results_filter[reverseList]
-
-        #     n = min(sum(reverseList_filter), n)
-
-        #     if courseSelection == "CS 4300":
-        #         h = html2text.HTML2Text()
-        #         h.ignore_links = True
-        #         parsed_piazza = h.handle(coursePiazzaDict["CS 4300"].get_post(app.config["PIAZZA_CS4300_TOKEN_POST"])["history"][0]["content"])
-        #         split_piazza = parsed_piazza.split("\n")
-        #         piazza_token = split_piazza[0]
-        #         our_token = app.config["PIAZZA_CS4300_TOKEN"]
-        #         keep_spiazza = (piazza_token == our_token)
-                
-        #         if keep_piazza:
-        #             return jsonify(vecPySplit.courseDocDictionary[courseSelection][searchSelection][reverseList].tolist()[:n])
-        #         else:
-        #             modified_results = list(filter(lambda x: x["type"] != "Piazza", vecPySplit.courseDocDictionary[courseSelection][searchSelection][reverseList][reverseList_filter].tolist()))
-        #             n = min(n, len(modified_results))
-        #             return jsonify(modified_results[:n])     
-                
-        #     return jsonify(vecPySplit.courseDocDictionary[courseSelection][searchSelection][reverseList][reverseList_filter].tolist()[:n])
-          
+        
     else:
         return "Not Authorized"
 
@@ -212,6 +139,12 @@ def get_user_courses():
     else:
         return jsonify([app.config["COURSE_MAPPING"].get(claim,"") for claim in claims["scope"]])
 
+@app.route("/folders", methods = ["POST"])
+def getFolders():
+    courseSelection = "CS 4300"
+    # searchSelection = request.get_json()["courseSelection"]
+    app.logger.critical("{}".format(vecPy.foldersDictionary[courseSelection]))
+    return jsonify(vecPy.foldersDictionary[courseSelection])
 
 @app.route("/tokeVerify", methods=["POST"])
 def tokeVerify():

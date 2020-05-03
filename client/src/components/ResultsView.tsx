@@ -2,14 +2,14 @@ import * as React from 'react';
 import { ResultsList } from './ResultsList';
 import { Link } from 'react-router-dom';
 import { Outline } from './Outline';
-import { handleKey, search1, setQuery, setOrder, setSearchSel } from '../actions';
+import { handleKey, search1, setQuery, setOrder, setSearchSel, setTags } from '../actions';
 import '../style/ResultsView.css';
 import glass from '../images/glass.svg';
 import { Loader } from './Loader';
 import Switch from '@material-ui/core/Switch';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { createStyles, Theme, withStyles, WithStyles, ThemeProvider } from '@material-ui/core/styles';
+import { createStyles, Theme, withStyles, WithStyles, ThemeProvider, makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -22,6 +22,14 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
+import grey from '@material-ui/core/colors/grey';
+import cyan from '@material-ui/core/colors/cyan';
+import styled from 'styled-components';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
+
+const blk = grey[900];
+const cyn = cyan[400];
 
 const theme1 = createMuiTheme({
   palette: {
@@ -79,11 +87,25 @@ const DialogActions = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogActions);
 
-export const ResultsView: React.StatelessComponent<any> = ({ results, outline, screenshots, query, loadingStatus, order, search }: any): JSX.Element => {
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: 350,
+      '& > * + *': {
+        marginTop: theme.spacing(3),
+      },
+    },
+  }),
+);
+
+
+export const ResultsView: React.StatelessComponent<any> = ({ results, outline, screenshots, query, loadingStatus, order, search, folders, tags}: any): JSX.Element => {
     const mobile: string[] = ['Android', 'webOS', 'iPhone', 'iPad', 'iPod', 'BlackBerry'];
     const ASC = 'ascending';
     const DSC = 'descending';
     var results1 = results;
+
+    const folders1:string[] = folders;
 
     const sortByTimestamp = (a: any, b: any, sortOrder: any = DSC) => {
         // console.log(a);
@@ -113,6 +135,10 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
         return (a.type === "Resource");
     }
 
+    function sortTags(a:any){ //variable tags, and a.raw.folders
+      return (a.type === "Resource" || (a.type === "Piazza" && ((tags.filter( (value:string) => a.raw.folders.includes(value))).length > 0) )) //value noimplicitany
+    }
+
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -120,34 +146,42 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
     };
     const handleClose = () => {
       setOpen(false);
-    //   search();
-    //   setOrder(!order);
     };
-
-    // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     // event.persist();
-    //     // console.log(event.target.checked);
-    //     console.log("Clicked");
-    //     setOrder(!order);
-    // };
 
     const handleChange = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        // event.persist();
-        // console.log(event.target.checked);
-        // console.log("Clicked");
-
         //ordered sort
         setOrder(!order);
-        //search selection
     };
 
+    console.log(tags);
     if(search === "Default"){
-        results1 = results;
+        // results1 = results;
+        if (tags.length != 0){
+          results1 = results.filter(sortTags);
+        }else{
+          results1 = results;
+        }
     }else if (search === "Piazza"){
-        results1 = results.filter(sortPiazza);
+        // results1 = results.filter(sortPiazza);
+        if (tags.length != 0){
+          results1 = results.filter(sortTags).filter(sortPiazza);
+        }else{
+          results1 = results.filter(sortPiazza);
+        }
     }else if (search === "Resource"){
-        results1 = results.filter(sortResource);
+        // results1 = results.filter(sortResource);
+        if (tags.length != 0){
+          results1 = results.filter(sortTags).filter(sortResource);
+        }else{
+          results1 = results.filter(sortResource);
+        }
     }
+
+    // if (tags.length != 0){
+    //   results1 = results1.filter(sortTags);
+    // }else{
+    //   results1 = results1;
+    // }
 
     if (results && results.length > 0) {
         if (order) {
@@ -156,6 +190,7 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
             results1.sort((a: any, b: any) => sortByScore(a, b));
         }
     }
+    const classes = useStyles();
 
     return (
         <div>
@@ -182,29 +217,52 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
                           </Box>
                         </DialogTitle>
                         <DialogContent dividers>
-                        <Typography gutterBottom>
-                            Sort:
-                        </Typography>
-                        <ThemeProvider theme={theme1}>
-                        <FormControlLabel
-                        control = {<Switch
-                            checked={order}
-                            onClick={handleChange}
-                            name="checkedB"
-                            color="secondary" //to change also radio group below
-                        />}
-                        label = "Sort by Most Recent"/>
-                        </ThemeProvider>
-                        <Typography gutterBottom>
-                            Resource Filter:
-                        </Typography>
-                        <ThemeProvider theme={theme1}>
-                            <RadioGroup aria-label="SearchFilters" color = "secondary" name="gender1" onChange={e=>setSearchSel(e)}>
-                                <FormControlLabel value="Default" control={<Radio />} label="Search All" checked = {search === "Default"} />
-                                <FormControlLabel value="Piazza" control={<Radio />} label="Search Piazza Only" checked = {search === "Piazza"}/>
-                                <FormControlLabel value="Resource" control={<Radio />} label="Search Resources Only" checked = {search === "Resource"}/>
-                            </RadioGroup>
-                        </ThemeProvider>
+                          <Typography gutterBottom>
+                              Sort:
+                          </Typography>
+                          <ThemeProvider theme={theme1}>
+                          <FormControlLabel
+                          control = {<Switch
+                              checked={order}
+                              onClick={handleChange}
+                              name="checkedB"
+                              color="secondary" //to change also radio group below
+                          />}
+                          label = "Sort by Most Recent"/>
+                          </ThemeProvider>
+                          <Typography gutterBottom>
+                              Resource Filter:
+                          </Typography>
+                          <ThemeProvider theme={theme1}>
+                              <RadioGroup aria-label="SearchFilters" color = "secondary" name="gender1" onChange={e=>setSearchSel(e)}>
+                                  <FormControlLabel value="Default" control={<Radio />} label="Search All" checked = {search === "Default"} />
+                                  <FormControlLabel value="Piazza" control={<Radio />} label="Search Piazza Only" checked = {search === "Piazza"}/>
+                                  <FormControlLabel value="Resource" control={<Radio />} label="Search Resources Only" checked = {search === "Resource"}/>
+                              </RadioGroup>
+                          </ThemeProvider>
+                          <Typography gutterBottom>
+                            Piazza Folders:
+                          </Typography>
+                              <div className={classes.root}>
+                              <Autocomplete
+                                multiple
+                                id="tags-standard"
+                                options={folders1}
+                                defaultValue = {tags}
+                                onChange=
+                                  {
+                                  (e,value) => setTags(e, value)
+                                  }
+                                getOptionLabel={(option) => option}
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    variant="standard"
+                                    placeholder="Add Labels"
+                                  />
+                                )}
+                              />
+                            </div>
                         </DialogContent>
                         <DialogActions>
                         <Button autoFocus onClick={handleClose} color="secondary">

@@ -107,7 +107,7 @@ def boolean(query, course):
     #tokens is in order of rows in matrix
     #doc_ids is in order of columns in matrix
     bool_sim = bool_vec(pos_mat, neg_mat, mult, mult_mat, m, len(z))
-    return bool_sim, bool_sim > 0
+    return bool_sim
 
 # query = "+'cumulative'"
 # run(query)
