@@ -98,8 +98,8 @@ def LSI_SVD(query, courseVecDictionary, course, reverseIndexDictionary, svdDicti
             queryVectorizerArray[idx] += 1.0
     queryVectorizerArray *= vec.idf_
     
-    if queryVectorizerArray.sum() == 0:
-        return [], []
+    # if queryVectorizerArray.sum() == 0:
+    #     return [], []
         
     k = 500
     # u,s,v_t = np.linalg.svd(docVectorizerArray.T) #svd on tfidf documents

@@ -9,7 +9,7 @@ import { Loader } from './Loader';
 import Switch from '@material-ui/core/Switch';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { createStyles, Theme, withStyles, WithStyles, ThemeProvider} from '@material-ui/core/styles';
+import { createStyles, Theme, withStyles, WithStyles, ThemeProvider, makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -22,13 +22,11 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
-import ToggleButton from '@material-ui/lab/ToggleButton';
 import grey from '@material-ui/core/colors/grey';
 import cyan from '@material-ui/core/colors/cyan';
-import useAutocomplete from '@material-ui/lab/useAutocomplete';
-import NoSsr from '@material-ui/core/NoSsr';
-import CheckIcon from '@material-ui/icons/Check';
 import styled from 'styled-components';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
 
 const blk = grey[900];
 const cyn = cyan[400];
@@ -56,11 +54,6 @@ const styles = (theme: Theme) =>
     },
   });
 
-  const Label = styled('label')`
-  padding: 0 0 4px;
-  line-height: 1.5;
-  display: block;
-`;
 
 const InputWrapper = styled('div')`
   width: 300px;
@@ -209,18 +202,38 @@ const DialogActions = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogActions);
 
-const FolderButtons: React.FC<string> = (text: string) => {
-  const[selected,setSelected] = React.useState(false);
-  const handleToggle = () => {
-    setSelected(!selected);
-  }
-  return (<ToggleButton
-    style={{color: blk}}
-    value="folder"
-    selected={selected}
-    onChange={handleToggle}
-  > {text}
-  </ToggleButton>)
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: 350,
+      '& > * + *': {
+        marginTop: theme.spacing(3),
+      },
+    },
+  }),
+);
+
+export default function Tags(folder1: string[]) {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.root}>
+      <Autocomplete
+        multiple
+        id="tags-standard"
+        options={folder1}
+        getOptionLabel={(option) => option}
+        defaultValue={[folder1[0]]}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            variant="standard"
+            placeholder="Add"
+          />
+        )}
+      />
+    </div>
+  );
 }
 
 
@@ -289,24 +302,6 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
             results1.sort((a: any, b: any) => sortByScore(a, b));
         }
     }
-
-    const {
-      getRootProps,
-      getInputProps,
-      getTagProps,
-      getListboxProps,
-      getOptionProps,
-      value,
-      groupedOptions,
-      focused,
-      setAnchorEl,
-    } = useAutocomplete({
-      id: 'customized-hook-demo',
-      defaultValue: [folders1[0]],
-      multiple: true,
-      options: folders1,
-      getOptionLabel: (option) => option,
-    });
     
     return (
         <div>
@@ -362,26 +357,10 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
                             {/* {
                               folders.map((item: string, i: any) => FolderButtons(item))
                             } */}
-                                  <div>
-                                    <div {...getRootProps()}>
-                                      <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
-                                        {value.map((option: string, index: number) => (
-                                          <Tag label={option} {...getTagProps({ index })} />
-                                        ))}
-                                        <input {...getInputProps()} />
-                                      </InputWrapper>
-                                    </div>
-                                    {groupedOptions.length > 0 ? (
-                                      <Listbox {...getListboxProps()}>
-                                        {groupedOptions.map((option, index) => (
-                                          <li {...getOptionProps({ option, index })}>
-                                            <span>{option}</span>
-                                            <CheckIcon fontSize="small" />
-                                          </li>
-                                        ))}
-                                      </Listbox>
-                                    ) : null}
-                                  </div>
+                            {
+                              // FolderDropdown(folders1)
+                              Tags(folders1)
+                            }
                         </DialogContent>
                         <DialogActions>
                         <Button autoFocus onClick={handleClose} color="secondary">
