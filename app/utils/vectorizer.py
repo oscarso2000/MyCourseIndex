@@ -51,19 +51,19 @@ for course in fromS3:
     # typeOfDoc = []
     # docIDName = []
     rawDocs = []
-    folders = set()
+    folders = []
     for source in fromS3[course]:
         for content in fromS3[course][source]:
             documents.append(fromS3[course][source][content].pop("tokenized"))
             rawDocs.append(fromS3[course][source][content])
             if source == "Piazza":
                 src.append(1)
-                folders.add(documents.append(fromS3[course][source][content].get("raw").get("folders")))
+                folders.extend(fromS3[course][source][content].get("raw").get("folders"))
             else:
-                folders.add("Resource")
+                folders.append("Resource")
                 src.append(0.2) # Warning, magic number
 
-    foldersDictionary[course] = list(folders)
+    foldersDictionary[course] = list(set(folders))
     vecArr = vec.fit_transform(documents).toarray()
     tokenized_dict[course] = documents
     sourceDictionary[course] = np.array(src)

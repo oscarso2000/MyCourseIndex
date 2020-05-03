@@ -88,12 +88,15 @@ const DialogActions = withStyles((theme: Theme) => ({
 
 const FolderButtons: React.FC<string> = (text: string) => {
   const[selected,setSelected] = React.useState(false);
+  const handleToggle = () => {
+    setSelected(!selected);
+  }
   return (<ToggleButton
     style={{color: blk}}
     value="folder"
     selected={selected}
     onChange={() => {
-      setSelected(!selected);
+      handleToggle();
     }}
   > {text}
   </ToggleButton>)
