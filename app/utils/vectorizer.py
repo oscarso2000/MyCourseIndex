@@ -56,7 +56,7 @@ secret = app.config["AWS_SECRET"]
 # P03Data.json
 app.logger.debug("Things initialized")
 s3 = boto3.client('s3', aws_access_key_id=key, aws_secret_access_key=secret)
-s3.download_file('cs4300-data-models', 'P03Data_mod.json', 'P03Data.json')
+s3.download_file('cs4300-data-models', 'P03Data_mod_concepts.json', 'P03Data.json')
 app.logger.debug("Data downloaded")
 
 # S3 JSON Format:
