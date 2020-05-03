@@ -26,7 +26,12 @@ export const search = (reset?: any): void => {
         if (reset) {
             dispatch({ type: 'RESET_RESULTS' });
         }
-        dispatch({ type: 'LOADING_STATUS', payload: true });
+        axios
+            .post(`/folders` , {courseSelection: "CS 4300"})
+            .then((res: any) => dispatch({type: 'SET_FOLDERS', payload: res.data}))
+            .then( () => {
+                dispatch({ type: 'LOADING_STATUS', payload: true });
+            });
         axios
             .post(`/search`, { query: store.getState().query, "token": getToken(), "search": store.getState().search })
             .then((res: any) => dispatch({ type: 'SEND_RESULTS', payload: res.data }))
@@ -34,9 +39,6 @@ export const search = (reset?: any): void => {
                 dispatch({ type: 'LOADING_STATUS', payload: false });
                 //screenGrab();
             });
-        axios
-            .post(`/folders` , {courseSelection: "CS 4300"})
-            .then((res: any) => dispatch({type: 'SET_FOLDERS', payload: res.data}));
     });
 };
 export const search1 = (reset?: any): void => {
@@ -44,7 +46,12 @@ export const search1 = (reset?: any): void => {
         if (reset) {
             dispatch({ type: 'RESET_RESULTS' });
         }
-        dispatch({ type: 'LOADING_STATUS', payload: true });
+        axios
+        .post(`/folders` , {courseSelection: "CS 4300"})
+        .then((res: any) => dispatch({type: 'SET_FOLDERS', payload: res.data}))
+        .then( () => {
+            dispatch({ type: 'LOADING_STATUS', payload: true });
+        });
         axios
             .post(`/search`, { query: store.getState().query, "token": getToken(), "search": store.getState().search })
             .then((res: any) => dispatch({ type: 'SEND_RESULTS', payload: res.data }))
@@ -52,9 +59,6 @@ export const search1 = (reset?: any): void => {
                 dispatch({ type: 'LOADING_STATUS', payload: false });
                 //screenGrab();
             });
-        axios
-            .post(`/folders` , {courseSelection: "CS 4300"})
-            .then((res: any) => dispatch({type: 'SET_FOLDERS', payload: res.data}));
     });
 };
 

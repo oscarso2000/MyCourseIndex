@@ -149,6 +149,7 @@ def get_user_courses():
 def getFolders():
     courseSelection = "CS 4300"
     # searchSelection = request.get_json()["courseSelection"]
+    app.logger.critical("{}".format(vecPy.foldersDictionary[courseSelection]))
     return jsonify(vecPy.foldersDictionary[courseSelection])
 
 @app.route("/tokeVerify", methods=["POST"])
