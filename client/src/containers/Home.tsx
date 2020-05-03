@@ -11,9 +11,10 @@ export interface IHomeProps {
     search: string;
     counter?: number;
     screenshots?: any;
-    order: boolean
+    order: boolean;
     folders: string[];
     tags: string[];
+    rv: boolean;
 }
 
 export const Home: React.StatelessComponent<IHomeProps> = ({
@@ -26,12 +27,13 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
     order,
     folders,
     tags,
+    rv,
 }: IHomeProps) => {
     if (loadingStatus === true) {
         {/* 
         // @ts-ignore */}
-        return <ResultsView query={query} loadingStatus={loadingStatus} outline={outline} order={order} folders={folders} tags={tags} />;
-    } else if (loadingStatus === false && !!results) {
+        return <ResultsView query={query} loadingStatus={loadingStatus} outline={outline} order={order} folders={folders} tags={tags} rv={rv} />;
+    } else if ((loadingStatus === false && !!results) || rv === true ) {
         return (
             <ResultsView
                 results={results}
@@ -43,6 +45,7 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
                 order={order}
                 folders={folders}
                 tags={tags}
+                rv={rv}
             />
         );
     }
@@ -60,7 +63,8 @@ const mapStateToProps = (state: IHomeProps): IHomeProps => {
         screenshots: state.screenshots,
         order: state.order,
         folders: state.folders,
-        tags: state.tags
+        tags: state.tags,
+        rv: state.rv
     };
 };
 
