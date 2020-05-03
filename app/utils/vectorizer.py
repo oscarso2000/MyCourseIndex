@@ -96,7 +96,7 @@ for course in tqdm(fromS3, file=tqdm_out, mininterval=30,desc="Course"):
                 # folders.append("Resource")
                 src.append(0.2) # Warning, magic number
 
-    foldersDictionary[course] = list(set(folders))
+    foldersDictionary[course] = sorted(list(set(folders)))
     vecArr = vec.fit_transform(documents).toarray()
     tokenized_dict[course] = documents
     sourceDictionary[course] = np.array(src)

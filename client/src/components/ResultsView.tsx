@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ResultsList } from './ResultsList';
 import { Link } from 'react-router-dom';
 import { Outline } from './Outline';
-import { handleKey, search, setQuery, setOrder, setSearchSel, setTags } from '../actions';
+import { handleKey1, search1, setQuery, setOrder, setSearchSel, setTags } from '../actions';
 import '../style/ResultsView.css';
 import glass from '../images/glass.svg';
 import { Loader } from './Loader';
@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-export const ResultsView: React.StatelessComponent<any> = ({ results, outline, screenshots, query, loadingStatus, order, filter, folders, tags }: any): JSX.Element => {
+export const ResultsView: React.StatelessComponent<any> = ({ results, outline, screenshots, query, loadingStatus, order, search, folders, tags, rv }: any): JSX.Element => {
     const mobile: string[] = ['Android', 'webOS', 'iPhone', 'iPad', 'iPod', 'BlackBerry'];
     const ASC = 'ascending';
     const DSC = 'descending';
@@ -154,23 +154,30 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
     };
 
     console.log(tags);
-    if (filter === "Default") {
+    console.log(results);
+
+    if (typeof results === 'undefined') {
+        results = [];
+    }
+
+    if (search === "Default") {
         // results1 = results;
-        if (tags.length != 0) {
+        if (tags.length !== 0) {
             results1 = results.filter(sortTags);
+            console.log(results1);
         } else {
             results1 = results;
         }
     } else if (filter === "Piazza") {
         // results1 = results.filter(sortPiazza);
-        if (tags.length != 0) {
+        if (tags.length !== 0) {
             results1 = results.filter(sortTags).filter(sortPiazza);
         } else {
             results1 = results.filter(sortPiazza);
         }
     } else if (filter === "Resource") {
         // results1 = results.filter(sortResource);
-        if (tags.length != 0) {
+        if (tags.length !== 0) {
             results1 = results.filter(sortTags).filter(sortResource);
         } else {
             results1 = results.filter(sortResource);
@@ -201,7 +208,7 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
                 </Link>
                 <input
                     defaultValue={decodeURI(query)}
-                    onKeyPress={e => handleKey(e, 'reset')}
+                    onKeyPress={e => handleKey1(e, 'reset')}
                     onChange={e => setQuery(e)}
                 />
                 <img onClick={() => search('reset')} className="glass" alt="magnifying glass" src={glass} />
@@ -272,7 +279,9 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
                         </Dialog>
                     </ThemeProvider>
                 </div>
-
+                <div className="help-tip2">
+                    <p><b>For Advanced Searches:</b><br />1) +’query’ for mandatory inclusion.<br />2) -’query’ for mandatory exclusion.<br />3) ‘query^n to emphasize n times. </p>
+                </div>
                 <Link to="/about" className="about-bar" style={{ textDecoration: "none" }}>
                     About
                 </Link>

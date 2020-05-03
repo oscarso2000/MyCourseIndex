@@ -12,6 +12,8 @@ import { radioButtonReducer } from './radioButtonReducer';
 import { foldersReducer } from './foldersReducer';
 import { tagsReducer } from './tagsReducer';
 import { selectedcourseReducer } from './selectedcourseReducer';
+import { rvReducer } from './rvReducer';
+
 
 export interface IAction {
     type: string;
@@ -30,7 +32,8 @@ export const rootReducer = combineReducers({
     folders: foldersReducer,
     tags: tagsReducer,
     courses: coursesReducer,
-    selectedcourse: selectedcourseReducer
+    selectedcourse: selectedcourseReducer,
+    rv: rvReducer
 })
 
 const middleware = applyMiddleware(thunk)
