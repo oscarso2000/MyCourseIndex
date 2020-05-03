@@ -85,6 +85,7 @@ def search_results():
         cosine_results= cosineSim(updated_query, vecPy.docVecDictionary , courseSelection, vecPy.courseRevsereIndexDictionary)
         boolean_results= boolean(query, courseSelection)
         svd_results= LSI_SVD(updated_query, vecPy.docVecDictionary, courseSelection, vecPy.courseRevsereIndexDictionary, vecPy.svdDictionary)
+    
             
         # finalresults = results #np.multiply(results,vecPy.sourceDictionary[courseSelection])
         if (len(cosine_results) == 0 or len(svd_results) == 0):
@@ -98,8 +99,6 @@ def search_results():
         
         reverseList = (-finalresults).argsort() #[:n]
         reverseList_filter = results_filter[reverseList]
-        app.logger.critical("rl {}".format(reverseList.shape))
-        app.logger.critical("rlf {}".format(reverseList_filter.shape))
         
         n = min(sum(reverseList_filter), n)
 

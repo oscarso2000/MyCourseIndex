@@ -26,7 +26,7 @@ def cosineSim(query, courseVecDictionary, course, reverseIndexDictionary):
     queryVectorizerArray *= vec.idf_
     
     if queryVectorizerArray.sum() == 0:
-        return [], []
+        return []
 
     # queryVectorizerArray = vec.transform(query).toarray()[0]
     
@@ -98,8 +98,8 @@ def LSI_SVD(query, courseVecDictionary, course, reverseIndexDictionary, svdDicti
             queryVectorizerArray[idx] += 1.0
     queryVectorizerArray *= vec.idf_
     
-    # if queryVectorizerArray.sum() == 0:
-    #     return [], []
+    if queryVectorizerArray.sum() == 0:
+        return []
         
     k = 500
     # u,s,v_t = np.linalg.svd(docVectorizerArray.T) #svd on tfidf documents
