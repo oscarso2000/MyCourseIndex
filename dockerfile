@@ -20,12 +20,13 @@ WORKDIR /app
 COPY poetry.lock pyproject.toml /app/
 copy piazza-api/dist/piazza_api-0.1.0-py3-none-any.whl /app/piazza-api/dist/
 RUN apt-get update -y && apt-get install -y gcc g++
-RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi --no-dev --no-root && python -m spacy download en_core_web_lg
+RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi --no-dev --no-root && python -m spacy download en_core_web_lg && python -m spacy download en
 
 COPY --from=builder /app/build /app/client/build
 
 COPY app.py /app
 COPY app /app/app
+COPY concept_matching /app/concept_matching/
 
 # DEV ONLY
 # copy secrets /app/secrets

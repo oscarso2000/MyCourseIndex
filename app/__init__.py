@@ -1,15 +1,20 @@
 import os
+import time
 from flask import Flask, render_template, request, redirect, flash, url_for, send_from_directory, jsonify
 #from db_setup import init_db, db_session
 from urllib.parse import unquote
 from piazza_api import Piazza
 from app.auth import user_jwt_required, get_name, get_claims
+start_import = time.time()
 from app.search.similarity import *
 from app.search.boolean_search import *
 import app.utils.vectorizer as vecPy
 import app.utils.split_vectorizer as vecPySplit
+end_import = time.time()
 import logging
 import html2text
+
+from app.search import concept_modify_query
 
 
 app = Flask(__name__, template_folder="../client/build", static_folder="../client/build/static")
@@ -25,6 +30,7 @@ gunicorn_logger = logging.getLogger('gunicorn.error')
 app.logger.handlers = gunicorn_logger.handlers
 app.logger.setLevel(gunicorn_logger.level)
 
+app.logger.debug("Total import runtime: {} seconds".format(end_import - start_import))
 
 p = Piazza()
 p.user_login(email=app.config["PIAZZA_USER"], password=app.config["PIAZZA_PASS"])
@@ -63,8 +69,8 @@ def whoami():
 def search_results():
     access_token = request.get_json()["token"]
     if user_jwt_required(access_token, app.config["APP_ID"]):
-        query = unquote(request.get_json()["query"])
-        app.logger.info("User queried: {}".format(query))
+        orig_query = unquote(request.get_json()["query"])
+        app.logger.info("User queried: {}".format(orig_query))
         #courseSelection = request.args.get("courseSelection")
         courseSelection = "CS 4300"
 
@@ -73,6 +79,9 @@ def search_results():
         
         searchSelection = request.get_json()["search"]
         # searchSelection = "Default"
+
+        # Modify query based on concepts
+        query = concept_modify_query(orig_query)
         
         # if searchSelection == "Default":
         #regular cosine similarity (start commenting out here)
