@@ -11,6 +11,11 @@ import { setCourseSelected, accessProtectedCourse } from '../../actions/index';
 import { Redirect } from 'react-router-dom';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import {
+  useLocation,
+  useHistory
+} from "react-router-dom";
+import qs from 'qs';
 
 const useStyles = makeStyles({
     root: {
@@ -37,19 +42,25 @@ const MediaCard: React.FC<{ course: any }> = ({ course }) => {
     var scroll = document.querySelector('html');
     var temp = false;
     var submitted_token = "";
-    // const toggleScrollLock = () => {
-    //     scroll!.classList.toggle('scroll-lock');
-    // };
+  
+    //const toggleScrollLock = () => {
+    //    scroll!.classList.toggle('scroll-lock');
+    //};
+  
+    let location = useLocation();
+    let courseInURL = qs.parse(location.search)["course"]
+    
     const showModal = () => {
         setIsShown(true);
         if (closeButton.current) {
             closeButton.current.focus();
         }
-        // toggleScrollLock();
+        //toggleScrollLock();
     };
     const closeModal = () => {
         setIsShown(false);
-        // toggleScrollLock();
+        //toggleScrollLock();
+
     };
     const onKeyDown = (event: any) => {
         if (event.keyCode === 27) {
@@ -63,6 +74,7 @@ const MediaCard: React.FC<{ course: any }> = ({ course }) => {
     const onSubmit = (event: any) => {
         event.preventDefault(event);
         setCourseSelected(course.courseName);
+
         submitted_token = event.target.Token.value;
         const namePromise = accessProtectedCourse(submitted_token);
         namePromise.then((value) => {
@@ -115,9 +127,15 @@ const MediaCard: React.FC<{ course: any }> = ({ course }) => {
         {<div>
             {isShown ? SampleModal : null}
         </div>}
+        {console.log(course.courseName)}
+        {console.log("course in url in container:" + courseInURL)}
         {
+
             (allowRedirect) ?
-                (<Redirect to="/home"></Redirect>) :
+                (courseInURL === course.courseName ? 
+                    <Redirect to={"/browse"+location.search}></Redirect>
+                    : <Redirect to={"/browse"}></Redirect>
+            ) :
                 <div style={{ fontSize: "40px" }}>
                     <Snackbar open={badAlert} autoHideDuration={6000} onClose={handleClose}>
                         <Alert onClose={handleClose} severity="error">
