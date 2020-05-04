@@ -5,15 +5,20 @@
   justify-content: center;
   flex-direction: row;
 }
+.MuiTypography-h5{
+  color: #00688B;
+}
+.courses h2{
+  text-align:center;
+}
 .home-logo-cs {
   position: absolute;
   top: 30%;
   left: 50%;
   margin-right: -50%;
   transform: translate(-50%, -50%);
-  line-height: bold;
-  font-weight: 10000000000;
-  /* font-size: 150%; */
+  font-size: 50px;
+  margin-block-start: auto;
   display: inline;
   text-align: center;
   background-image: linear-gradient(to right, #00688B 0%, #00CDCD 100%);

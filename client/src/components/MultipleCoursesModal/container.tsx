@@ -37,19 +37,19 @@ const MediaCard: React.FC<{ course: any }> = ({ course }) => {
     var scroll = document.querySelector('html');
     var temp = false;
     var submitted_token = "";
-    const toggleScrollLock = () => {
-        scroll!.classList.toggle('scroll-lock');
-    };
+    // const toggleScrollLock = () => {
+    //     scroll!.classList.toggle('scroll-lock');
+    // };
     const showModal = () => {
         setIsShown(true);
         if (closeButton.current) {
             closeButton.current.focus();
         }
-        toggleScrollLock();
+        // toggleScrollLock();
     };
     const closeModal = () => {
         setIsShown(false);
-        toggleScrollLock();
+        // toggleScrollLock();
     };
     const onKeyDown = (event: any) => {
         if (event.keyCode === 27) {
