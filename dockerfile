@@ -28,10 +28,11 @@ COPY app.py /app
 COPY app /app/app
 COPY concept_matching /app/concept_matching/
 
-RUN python concept_matching/install_quickdb.py
+# RUN python concept_matching/install_quickdb.py
 
 # DEV ONLY
 # copy secrets /app/secrets
+
 
 EXPOSE 5000
 
