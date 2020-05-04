@@ -30,8 +30,8 @@ HEADERS_MRCONSO = [
 ]
 HEADERS_MRSTY = [
     'cui',
-    'tui',
     'sty',
+    'tui',
 ]
 
 class InstallConfig:
