@@ -60,6 +60,7 @@ const MediaCard: React.FC<{ course: any }> = ({ course }) => {
     const closeModal = () => {
         setIsShown(false);
         //toggleScrollLock();
+
     };
     const onKeyDown = (event: any) => {
         if (event.keyCode === 27) {
