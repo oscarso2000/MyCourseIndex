@@ -1,15 +1,20 @@
 import os
+import time
 from flask import Flask, render_template, request, redirect, flash, url_for, send_from_directory, jsonify
 #from db_setup import init_db, db_session
 from urllib.parse import unquote
 from piazza_api import Piazza
 from app.auth import user_jwt_required, get_name, get_claims
+start_import = time.time()
 from app.search.similarity import *
 from app.search.boolean_search import *
 import app.utils.vectorizer as vecPy
 import app.utils.split_vectorizer as vecPySplit
+end_import = time.time()
 import logging
 import html2text
+
+from app.search import concept_modify_query_bool as concept_modify_query
 
 
 app = Flask(__name__, template_folder="../client/build", static_folder="../client/build/static")
@@ -25,6 +30,7 @@ gunicorn_logger = logging.getLogger('gunicorn.error')
 app.logger.handlers = gunicorn_logger.handlers
 app.logger.setLevel(gunicorn_logger.level)
 
+app.logger.debug("Total import runtime: {} seconds".format(end_import - start_import))
 
 p = Piazza()
 p.user_login(email=app.config["PIAZZA_USER"], password=app.config["PIAZZA_PASS"])
@@ -63,23 +69,27 @@ def whoami():
 def search_results():
     access_token = request.get_json()["token"]
     if user_jwt_required(access_token, app.config["APP_ID"]):
-        query = unquote(request.get_json()["query"])
-        app.logger.info("User queried: {}".format(query))
-        #courseSelection = request.args.get("courseSelection")
-        courseSelection = "CS 4300"
+        orig_query = unquote(request.get_json()["query"])
+        # app.logger.info("User queried: {}".format(query))
+        courseSelection = request.get_json()["course"]
+        app.logger.info("User course: {}".format(courseSelection))
+        # results = cosineSim(orig_query, vecPy.docVecDictionary , courseSelection, vecPy.courseRevsereIndexDictionary)
 
         #search selection: Default(both),Piazza only, Resource only 
         # [Default, Piazza, Resource]
         
         searchSelection = request.get_json()["search"]
         # searchSelection = "Default"
+
+        # Modify query based on concepts
+        query = concept_modify_query(orig_query)
         
         # if searchSelection == "Default":
         #regular cosine similarity (start commenting out here)
         updated_query = get_all_tokens(query)
-        cosine_results= cosineSim(updated_query, vecPy.docVecDictionary , courseSelection, vecPy.courseRevsereIndexDictionary)
-        boolean_results= boolean(query, courseSelection)
-        svd_results= LSI_SVD(updated_query, vecPy.docVecDictionary, courseSelection, vecPy.courseRevsereIndexDictionary, vecPy.svdDictionary)
+        cosine_results = cosineSim(updated_query, vecPy.docVecDictionary , courseSelection, vecPy.courseRevsereIndexDictionary)
+        boolean_results = boolean(query, courseSelection)
+        svd_results = LSI_SVD(updated_query, vecPy.docVecDictionary, courseSelection, vecPy.courseRevsereIndexDictionary, vecPy.svdDictionary)
     
             
         # finalresults = results #np.multiply(results,vecPy.sourceDictionary[courseSelection])
@@ -137,11 +147,15 @@ def get_user_courses():
     if claims["scope"] == "Unauthorized":
         return jsonify([])
     else:
-        return jsonify([app.config["COURSE_MAPPING"].get(claim,"") for claim in claims["scope"]])
+        to_json = []
+        for claim in claims["scope"]:
+            if app.config["COURSE_MAPPING"].get(claim,"")!="":
+                to_json.append(app.config["COURSE_MAPPING"].get(claim,""))
+        return jsonify(to_json)
 
 @app.route("/folders", methods = ["POST"])
 def getFolders():
-    courseSelection = "CS 4300"
+    courseSelection = request.get_json()["courseSelection"] #"CS 4300"
     # searchSelection = request.get_json()["courseSelection"]
     app.logger.critical("{}".format(vecPy.foldersDictionary[courseSelection]))
     return jsonify(vecPy.foldersDictionary[courseSelection])
@@ -149,7 +163,7 @@ def getFolders():
 @app.route("/tokeVerify", methods=["POST"])
 def tokeVerify():
     access_token = request.get_json()["token"]
-    course = request.get_json()["courseName"]
+    course = request.get_json()["course"]
     their_token = request.get_json()["piazzaToken"]
 
     claims = get_claims(access_token, app.config["APP_ID"])
@@ -157,7 +171,7 @@ def tokeVerify():
         return "NO"
     else:
         auth_courses = [app.config["COURSE_MAPPING"].get(claim,{"courseName": ""}).get("courseName") for claim in claims["scope"]]
-    print("HELLOR: {}".format(course not in auth_courses))
+    # print("HELLOR: {}".format(course not in auth_courses))
     if course not in auth_courses:
         return "NO"
     h = html2text.HTML2Text()
@@ -165,8 +179,10 @@ def tokeVerify():
     parsed_piazza = h.handle(coursePiazzaDict[course].get_post(app.config["PIAZZA_" +  course.replace(" ", "") + "_TOKEN_POST"])["history"][0]["content"])
     split_piazza = parsed_piazza.split("\n")
     piazza_token = split_piazza[0]
-
-    return "OK" if piazza_token == their_token else "NO"
+    if piazza_token == their_token:
+        return "OK"
+    else:
+        return "NO"
 
 
 @app.route("/manifest.json")

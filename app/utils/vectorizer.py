@@ -4,9 +4,9 @@ import boto3
 import os
 import json
 import numpy as np
-from flask import Flask
 from tqdm import tqdm
 import io
+from flask import Flask
 import logging
 app = Flask(__name__)
 
@@ -56,7 +56,7 @@ secret = app.config["AWS_SECRET"]
 # P03Data.json
 app.logger.debug("Things initialized")
 s3 = boto3.client('s3', aws_access_key_id=key, aws_secret_access_key=secret)
-s3.download_file('cs4300-data-models', 'P03Data_mod.json', 'P03Data.json')
+s3.download_file('cs4300-data-models', 'P03Data_mod_concepts.json', 'P03Data.json')
 app.logger.debug("Data downloaded")
 
 # S3 JSON Format:

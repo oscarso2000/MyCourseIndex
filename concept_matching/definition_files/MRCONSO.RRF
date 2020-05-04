@@ -10,8 +10,8 @@ C000003|cos sim|ENG|X
 C000003|cosine sim|ENG|X
 C000003|orchini similarity|ENG|X
 C000003|tucker coefficient of congruence|ENG|X
-C000004|jaccard index|ENG|X
-C000004|jaccard similarity|ENG|Y
+C000004|jaccard index|ENG|Y
+C000004|jaccard similarity|ENG|X
 C000004|jaccard|ENG|X
 C000004|jaccard coefficient|ENG|X
 C000004|intersection over union|ENG|X
@@ -29,6 +29,8 @@ C000006|web search|ENG|X
 C000007|minimum edit distance|ENG|X
 C000007|edit distance|ENG|Y
 C000007|levenshtein distance|ENG|X
+C000007|edit cost|ENG|X
+C000007|minimum edit cost|ENG|X
 C000007|wagner fischer|ENG|X
 C000007|wagner-fischer|ENG|X
 C000007|wagner-fischer algorithm|ENG|X
@@ -119,3 +121,6 @@ C000033|spectral analysis|ENG|Y
 C000034|pointwise mutual information|ENG|Y
 C000034|pmi|ENG|X
 C000034|point mutual information|ENG|X
+C000035|q|ENG|X
+C000035|question|ENG|Y
+C000036|project|ENG|Y

@@ -32,24 +32,23 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
     if (loadingStatus === true) {
         {/* 
         // @ts-ignore */}
-        return <ResultsView query={query} loadingStatus={loadingStatus} outline={outline} order={order} folders={folders} tags={tags} rv={rv} />;
+        return <ResultsView query={query} loadingStatus={loadingStatus} outline={outline} order={order} folders={folders} tags={tags} />;
     } else if ((loadingStatus === false && !!results)) {
-        if (rv === true ){
-        return (
-            <ResultsView
-                results={results}
-                outline={outline}
-                screenshots={screenshots}
-                query={query}
-                search={search}
-                loadingStatus={loadingStatus}
-                order={order}
-                folders={folders}
-                tags={tags}
-                rv={rv}
-            />
-        );
-        }else{
+        if (rv === true) {
+            return (
+                <ResultsView
+                    results={results}
+                    outline={outline}
+                    screenshots={screenshots}
+                    query={query}
+                    search={search}
+                    loadingStatus={loadingStatus}
+                    order={order}
+                    folders={folders}
+                    tags={tags}
+                />
+            );
+        } else {
             return <SearchBox />;
         }
     }

@@ -7,6 +7,15 @@ __pycache__/
 .darglint
 .flake8
 .pre-commit-config.yaml
+generate_textbooks.py
+info1998DATA/**
+info1998Resources/**
+irbookprint.pdf
+profiled2_w.png
+profiled_1w.png
+ramDB.pkl
+sample_live.json
+simple_profiles.py
 
 # Secrets
 deployment-setup/build_scripts/kube-secrets.txt

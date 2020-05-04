@@ -4,12 +4,14 @@ import { counterReducer } from './counterReducer';
 import { loadingStatusReducer } from './loadingStatus';
 import { outlineReducer } from './outlineReducer';
 import { queryReducer } from './queryReducer';
+import { coursesReducer } from './coursesReducer';
 import { resultsReducer } from './resultsReducer';
 import { screenshotsReducer } from './screenshotsReducer';
 import { orderReducer } from './orderReducer';
 import { radioButtonReducer } from './radioButtonReducer';
 import { foldersReducer } from './foldersReducer';
 import { tagsReducer } from './tagsReducer';
+import { selectedcourseReducer } from './selectedcourseReducer';
 import { rvReducer } from './rvReducer';
 
 
@@ -29,6 +31,8 @@ export const rootReducer = combineReducers({
     search: radioButtonReducer,
     folders: foldersReducer,
     tags: tagsReducer,
+    courses: coursesReducer,
+    selectedcourse: selectedcourseReducer,
     rv: rvReducer
 })
 
