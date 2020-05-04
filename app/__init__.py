@@ -14,7 +14,7 @@ end_import = time.time()
 import logging
 import html2text
 
-from app.search import concept_modify_query
+from app.search import concept_modify_query_bool as concept_modify_query
 
 
 app = Flask(__name__, template_folder="../client/build", static_folder="../client/build/static")

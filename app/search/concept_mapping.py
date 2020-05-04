@@ -3,6 +3,12 @@ import os
 from quickumls import QuickUMLS as QuickUCSLS
 from flask import Flask
 import logging
+from app.search.boolean_search import (
+    get_pos,
+    get_neg,
+    get_mult,
+    remove
+)
 app = Flask(__name__)
 
 if os.environ.get("deployment", False):
@@ -47,4 +53,37 @@ def concept_modify_query(query):
         app.logger.debug("match: {}".format(match))
         term = preferred_term[concept]
         mod_query = mod_query.replace(ngram, term)
+    return mod_query
+
+
+def concept_modify_query_bool(query):
+    pos = get_pos(query)
+    neg = get_neg(query)
+    mult, m = get_mult(query)
+    phrases = []
+    phrases.extend(pos); phrases.extend(neg); phrases.extend(mult)
+    mod_query = query
+    for word in phrases:
+        matches = concept_matcher.match(word)
+        matches = list(map(lambda x: x[0], matches))
+        for match in matches:
+            ngram = match["ngram"]
+            concept = match["cui"]
+            term = preferred_term[concept]
+            mod_query = mod_query.replace(ngram, term)
+
+    clean_query = remove(mod_query)
+
+    matches = concept_matcher.match(clean_query)
+    matches = list(map(lambda x: x[0], matches))
+    # mod_query = query
+
+    for match in matches:
+        ngram = match["ngram"]
+        app.logger.debug("ngram: {}".format(ngram))
+        concept = match["cui"]
+        app.logger.debug("match: {}".format(match))
+        term = preferred_term[concept]
+        mod_query = mod_query.replace(ngram, term)
+
     return mod_query
