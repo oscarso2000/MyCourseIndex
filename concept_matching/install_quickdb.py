@@ -90,7 +90,7 @@ with open(flag_fp, 'w') as f:
 mrconso_path = os.path.join(opts.umls_installation_path, 'MRCONSO.RRF')
 mrsty_path = os.path.join(opts.umls_installation_path, 'MRSTY.RRF')
 
-mrconso_iterator = extract_from_mrconso(mrconso_path, mrsty_path, opts)
+mrconso_iterator = extract_from_mrconso(mrconso_path, mrsty_path, opts, mrconso_header=HEADERS_MRCONSO, mrsty_header=HEADERS_MRSTY)
 
 simstring_dir = os.path.join(opts.destination_path, 'umls-simstring.db')
 cuisty_dir = os.path.join(opts.destination_path, 'cui-semtypes.db')
