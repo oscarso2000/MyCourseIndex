@@ -26,6 +26,7 @@ os.system("cp -r concept_matching/quickUCSLS concept_matching/quickUCSLS_{}".for
 app.logger.debug("PID: {}".format(os.getpid()))
 
 concept_matcher = QuickUCSLS("./concept_matching/quickUCSLS_{}".format(os.getpid()), accepted_semtypes={"T{:03d}".format(i) for i in range(1,35)}, threshold=0.5)
+app.logger.debug("Matcher res: {}".format(concept_matcher.match("cos sim")))
 app.logger.debug("Matcher Ready")
 
 def get_preferred_terms():
@@ -63,6 +64,7 @@ def concept_modify_query_bool(query):
     phrases = []
     phrases.extend(pos); phrases.extend(neg); phrases.extend(mult)
     mod_query = query
+    app.logger.debug("Phrases {}".format(phrases))
     for word in phrases:
         matches = concept_matcher.match(word)
         matches = list(map(lambda x: x[0], matches))
@@ -72,10 +74,13 @@ def concept_modify_query_bool(query):
             term = preferred_term[concept]
             mod_query = mod_query.replace(ngram, term)
 
+    app.logger.debug("mod query: {}".format(repr(mod_query)))
     clean_query = remove(mod_query)
+    app.logger.debug("clean query: {}".format(repr(clean_query)))
 
     matches = concept_matcher.match(clean_query)
     matches = list(map(lambda x: x[0], matches))
+    app.logger.debug("Matches: {}".format(matches))
     # mod_query = query
 
     for match in matches:

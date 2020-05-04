@@ -70,7 +70,7 @@ def search_results():
     access_token = request.get_json()["token"]
     if user_jwt_required(access_token, app.config["APP_ID"]):
         orig_query = unquote(request.get_json()["query"])
-        # app.logger.info("User queried: {}".format(query))
+        app.logger.info("User queried: {}".format(orig_query))
         courseSelection = request.get_json()["course"]
         app.logger.info("User course: {}".format(courseSelection))
         # results = cosineSim(orig_query, vecPy.docVecDictionary , courseSelection, vecPy.courseRevsereIndexDictionary)
@@ -83,6 +83,7 @@ def search_results():
 
         # Modify query based on concepts
         query = concept_modify_query(orig_query)
+        app.logger.info("Modified Query: {}".format(query))
         
         # if searchSelection == "Default":
         #regular cosine similarity (start commenting out here)
@@ -150,7 +151,8 @@ def get_user_courses():
         to_json = []
         for claim in claims["scope"]:
             if app.config["COURSE_MAPPING"].get(claim,"")!="":
-                to_json.append(app.config["COURSE_MAPPING"].get(claim,""))
+                to_json.append(app.config["COURSE_MAPPING"].get(claim))
+        to_json = sorted(to_json, key=lambda x: x["courseName"])
         return jsonify(to_json)
 
 @app.route("/folders", methods = ["POST"])
