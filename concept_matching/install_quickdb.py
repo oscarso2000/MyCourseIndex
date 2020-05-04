@@ -46,7 +46,7 @@ opts = InstallConfig()
 if not os.path.exists(opts.destination_path):
     msg = ('Directory "{}" does not exists; should I create it? [y/N] '
                ''.format(opts.destination_path))
-    create = input(msg).lower().strip() == 'y'
+    create = True#input(msg).lower().strip() == 'y'
 
     if create:
         os.makedirs(opts.destination_path)
@@ -57,7 +57,7 @@ if not os.path.exists(opts.destination_path):
 if len(os.listdir(opts.destination_path)) > 0:
     msg = ('Directory "{}" is not empty; should I empty it? [y/N] '
             ''.format(opts.destination_path))
-    empty = input(msg).lower().strip() == 'y'
+    empty = True #input(msg).lower().strip() == 'y'
     if empty:
         shutil.rmtree(opts.destination_path)
         os.mkdir(opts.destination_path)
