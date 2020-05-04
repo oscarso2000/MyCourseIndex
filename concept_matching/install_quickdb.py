@@ -35,10 +35,10 @@ HEADERS_MRSTY = [
 ]
 
 class InstallConfig:
-    destination_path = "./quickUCSLS"
+    destination_path = "./concept_matching/quickUCSLS"
     normalize_unicode = False
     lowercase = True
-    umls_installation_path = "./definition_files"
+    umls_installation_path = "./concept_matching/definition_files"
     language = "ENG"
 
 opts = InstallConfig()
