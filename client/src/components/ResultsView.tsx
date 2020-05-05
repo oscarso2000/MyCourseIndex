@@ -27,6 +27,11 @@ import cyan from '@material-ui/core/colors/cyan';
 import styled from 'styled-components';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import {
+  useLocation,
+  useHistory
+} from "react-router-dom";
+import qs from 'qs';
 
 const blk = grey[900];
 const cyn = cyan[400];
@@ -103,6 +108,11 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
     const mobile: string[] = ['Android', 'webOS', 'iPhone', 'iPad', 'iPod', 'BlackBerry'];
     const ASC = 'ascending';
     const DSC = 'descending';
+
+    let history= useHistory();
+    let location = useLocation();
+    let urlQuery= qs.parse(location.search)["?query"]
+
     var results1 = results;
 
     const folders1: string[] = folders;
@@ -207,11 +217,11 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
                     <h3 className="heading-2">Courses</h3>
                 </Link>
                 <input
-                    defaultValue={decodeURI(query)}
-                    onKeyPress={e => handleKey1(e, 'reset')}
+                    defaultValue={urlQuery}
+                    onKeyPress={e => handleKey1(e,history, 'reset')}
                     onChange={e => setQuery(e)}
                 />
-                <img onClick={() => search1('reset')} className="glass" alt="magnifying glass" src={glass} />
+                <img onClick={() => search1(history,'reset')} className="glass" alt="magnifying glass" src={glass} />
                 <div className="filters">
                     <ThemeProvider theme={theme1}>
                         <Button variant="contained" color="secondary" onClick={handleClickOpen}>

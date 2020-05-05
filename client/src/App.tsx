@@ -137,7 +137,7 @@ const App: React.FC = (props: any) => {
                         {/* @ts-ignore */}
                         <Route exact={true} path="/" component={CourseSelection} />
                         <Route path="/about" component={About} />
-                        <Route path="/home" component={Home} />
+                        <Route path="/browse" component={Home} />
                     </Switch>
                 </div>
             )

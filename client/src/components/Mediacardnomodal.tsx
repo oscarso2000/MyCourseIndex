@@ -8,6 +8,12 @@ import Typography from '@material-ui/core/Typography';
 import Corncis from '../images/cornell-cis.jpg';
 import { setCourseSelected } from '../actions/index';
 import { Link } from 'react-router-dom';
+import {
+  useLocation,
+  useHistory
+} from "react-router-dom";
+import qs from 'qs';
+
 const useStyles = makeStyles({
   root: {
     // float: "right",
@@ -24,9 +30,10 @@ const useStyles = makeStyles({
 
 const Mediacardnomodal: React.FC<{ course: any }> = ({ course }) => {
   const classes = useStyles();
-
+  let location = useLocation();
+  let courseInURL = qs.parse(location.search)["course"]
   return (
-    <Link to="/home"><Card className={classes.root} onClick={() => setCourseSelected(course.courseName)}>
+    <Link to={(courseInURL === course.courseName ? "/browse"+location.search : "/browse")}><Card className={classes.root} onClick={() => setCourseSelected(course.courseName)}>
       <CardActionArea>
         {/* <CardMedia
           className={classes.media}
