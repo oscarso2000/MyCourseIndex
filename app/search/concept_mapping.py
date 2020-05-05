@@ -25,7 +25,7 @@ app.logger.setLevel(gunicorn_logger.level)
 os.system("cp -r concept_matching/quickUCSLS concept_matching/quickUCSLS_{}".format(os.getpid()))
 app.logger.debug("PID: {}".format(os.getpid()))
 
-concept_matcher = QuickUCSLS("./concept_matching/quickUCSLS_{}".format(os.getpid()), accepted_semtypes={"T{:03d}".format(i) for i in range(1,35)}, threshold=0.5)
+concept_matcher = QuickUCSLS("./concept_matching/quickUCSLS_{}".format(os.getpid()), accepted_semtypes={"T{:03d}".format(i) for i in range(1,35)}, threshold=0.5, min_match_length=0)
 app.logger.debug("Matcher res: {}".format(concept_matcher.match("cos sim")))
 app.logger.debug("Matcher Ready")
 
