@@ -14,6 +14,9 @@ MyCourseIndex is a project for CS/INFO 4300: Language and Information that acts 
 
 ![Boolean Search](demo/Boolean.gif)
 
+![Link](demo/Link.gif)
+
+![Abouts Page](demo/About.gif)
 
 ## TOC
 1. [Getting Started](#getting-started)
