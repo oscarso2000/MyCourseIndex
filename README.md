@@ -6,13 +6,13 @@ MyCourseIndex is a project for CS/INFO 4300: Language and Information that acts 
 ## Preview 
 ![Login Sequence](demo/Login.gif)
 
-![Class Search](demo/INFO_1998.gif)
+![Class Search](demo/1998.gif)
 
-![Concept Matching](demo/CS_4300_Wagner_Fischer.gif)
+![Concept Matching](demo/4300.gif)
 
 ![Sorting](demo/Sorts.gif)
 
-![Boolean Search](demo/Boolean_Search.gif)
+![Boolean Search](demo/Boolean.gif)
 
 
 ## TOC
