@@ -4,7 +4,7 @@ MyCourseIndex is a project for CS/INFO 4300: Language and Information that acts 
 [![Build Status](https://travis-ci.org/oscarso2000/MyCourseIndex.svg?branch=master)](https://travis-ci.org/oscarso2000/MyCourseIndex)
 
 ## Links
-Note: You must have a Cornell Emaiil to utilize this website due to security reasons.
+Note: You must have a Cornell Email to utilize this website due to security reasons.
 
 * [Website Link: www.mycourseindex.com](https://www.mycourseindex.com)
 * [Prototype 2: v2.mycourseindex.com](https://v2.mycourseindex.com)
