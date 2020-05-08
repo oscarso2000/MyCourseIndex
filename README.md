@@ -4,7 +4,12 @@ MyCourseIndex is a project for CS/INFO 4300: Language and Information that acts 
 [![Build Status](https://travis-ci.org/oscarso2000/MyCourseIndex.svg?branch=master)](https://travis-ci.org/oscarso2000/MyCourseIndex)
 
 ## Preview 
-**TODO:** Demo Gif
+![Login Sequence](demo/Login.gif)
+![Class Search](demo/CS 4300 Wagner Fischer.gif)
+![Concept Matching](demo/Login.gif)
+![Sorting](demo/Sorts.gif)
+![Boolean Search](demo/Boolean Search.gif)
+
 
 ## TOC
 1. [Getting Started](#getting-started)
@@ -40,8 +45,17 @@ git clone
 Describe structure of project in terms of generic folders and poetry (and other python tools) usage
 
 ### Backend
+```poetry install
+poetry run python app.py
+```
+Website should be on browser @ localhost:5000
 
 ### Frontend
+```cd client
+yarn install
+yarn build
+cd ..
+```
 
 ## System Design
 
