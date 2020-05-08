@@ -49,13 +49,15 @@ git clone
 Describe structure of project in terms of generic folders and poetry (and other python tools) usage
 
 ### Backend
-```poetry install
+```
+poetry install
 poetry run python app.py
 ```
 Website should be on browser @ localhost:5000
 
 ### Frontend
-```cd client
+```
+cd client
 yarn install
 yarn build
 cd ..
