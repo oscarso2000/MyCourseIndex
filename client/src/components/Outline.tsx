@@ -25,7 +25,7 @@ export const Outline: React.StatelessComponent<IOutlineProp> = ({ outline }: IOu
     if (outline.data === undefined) {
         return (
             <div className="outline">
-                <h4 className="placeholder">{!!outline ? null : 'Results go here'}</h4>
+                <h4 className="placeholder">{!!outline ? null : 'Select Result to Display Here'}</h4>
             </div>
         )
     } else if (outline.data.type === "Failure") {

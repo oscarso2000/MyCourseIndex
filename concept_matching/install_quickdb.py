@@ -95,4 +95,4 @@ mrconso_iterator = extract_from_mrconso(mrconso_path, mrsty_path, opts, mrconso_
 simstring_dir = os.path.join(opts.destination_path, 'umls-simstring.db')
 cuisty_dir = os.path.join(opts.destination_path, 'cui-semtypes.db')
 
-parse_and_encode_ngrams(mrconso_iterator, simstring_dir, cuisty_dir)
+parse_and_encode_ngrams(mrconso_iterator, simstring_dir, cuisty_dir, "leveldb")
