@@ -57,6 +57,7 @@ export const search = (history: any, reset?: any): void => {
             .then(() => {
                 dispatch({ type: "LOADING_STATUS", payload: true });
                 dispatch({ type: "RV_STATUS", payload: true });
+                dispatch({ type: "OUTLINE", payload: '' });
             });
         axios
             .post(`/search`, {
@@ -80,6 +81,7 @@ export const search1 = (history: any, reset?: any): void => {
         // }
         dispatch({ type: "LOADING_STATUS", payload: true });
         dispatch({ type: "RV_STATUS", payload: true });
+        dispatch({ type: "OUTLINE", payload: '' });
         axios
             .post(`/search`, {
                 query: store.getState().query,
