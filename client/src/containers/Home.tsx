@@ -44,7 +44,7 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
     query= qs.parse(location.search)["?query"]
 
     if ((course !== "" && course !== undefined && course!==selectedcourse) || selectedcourse === undefined || selectedcourse==="") {
-        console.log("No authorization! /"+location.search);
+        // console.log("No authorization! /"+location.search);
         history.push("/"+location.search);
     }
     
@@ -71,7 +71,7 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
         } else {
             
             if (query !== undefined && !loadingStatus) {
-                console.log("search" + query);
+                // console.log("search" + query);
                 setQueryString(query);
                 search_fn(history);
                 return null;
