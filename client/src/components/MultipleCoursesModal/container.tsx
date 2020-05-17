@@ -127,8 +127,6 @@ const MediaCard: React.FC<{ course: any }> = ({ course }) => {
         {<div>
             {isShown ? SampleModal : null}
         </div>}
-        {console.log(course.courseName)}
-        {console.log("course in url in container:" + courseInURL)}
         {
 
             (allowRedirect) ?

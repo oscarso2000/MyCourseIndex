@@ -12,7 +12,7 @@ h4 a:visited {
 .card {
   display: flex;
   position: relative;
-  height: 200px;
+  /*height: 200px;*/
   width: 50.5vw;
   border-radius: 20px;
   margin: 15px;
@@ -34,10 +34,10 @@ h4 a:visited {
   overflow: hidden;
 }
 .concepts {
-    float: right;
+    /*float: right;
     position: absolute;
     bottom:0;
-    right:0;
+    right:0;*/
 }
 .title {
   color: #00CDCD;
@@ -74,7 +74,7 @@ h4 {
 .description {
   color: #545454; /*ffffff*/
   min-height: 0;
-  padding: 0 10px 10px 10px;
+  padding: 0 10px 0px 10px;
 }
 .icon {
   position: relative;

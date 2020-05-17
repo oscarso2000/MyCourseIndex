@@ -163,8 +163,8 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
         setOrder(!order);
     };
 
-    console.log(tags);
-    console.log(results);
+    // console.log(tags);
+    // console.log(results);
 
     if (typeof results === 'undefined') {
         results = [];

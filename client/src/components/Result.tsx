@@ -38,8 +38,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ChipsArray: React.FC<string[]> = (concepts: string[]) => {
     const classes = useStyles();
-    console.log(typeof concepts);
-    console.log(concepts);
 
     return (
         <Paper component="ul" className={classes.root} elevation={0}>
