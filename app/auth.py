@@ -21,7 +21,7 @@ JWK_KEYS = res.json()
 
 
 SCOPES = {
-    "User": ["SU5GTyAxOTk4Cg==", "View"],
+    "User": ["Q1MgNDMwMAo=", "SU5GTyAxOTk4Cg==", "View"],
     "Developer": ["Q1MgNDMwMAo=", "SU5GTyAxOTk4Cg==", "View"]
 }
 
