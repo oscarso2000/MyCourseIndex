@@ -9,7 +9,6 @@ start_import = time.time()
 from app.search.similarity import *
 from app.search.boolean_search import *
 import app.utils.vectorizer as vecPy
-import app.utils.split_vectorizer as vecPySplit
 end_import = time.time()
 import logging
 import html2text
