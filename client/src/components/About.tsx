@@ -21,7 +21,7 @@ export const About: React.StatelessComponent = (): JSX.Element => (
             <h3 className="home-1">MyCourseIndex</h3>
             <h3 className="home-2">Search</h3>
         </Link>
-        <div className="centerAbout">
+        <div className="center">
             <h4>About</h4>
 
             <p>MyCourseIndex was initially a project started for CS/INFO 4300: Language and Information that acts as an essential search engine for Cornell students and their courses. This search gathers all information from Piazza posts to Textbook and Notes Resources and returns valid results for the student to utilize. It is now being maintained and improved by members of <a href="https://cornelldata.science">Cornell Data Science Project Team</a>.</p>
