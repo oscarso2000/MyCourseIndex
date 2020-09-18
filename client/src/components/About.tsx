@@ -10,6 +10,8 @@ import David from '../images/David_Kim.jpg';
 import Julia from '../images/Julia_Ng.jpg';
 import Katie from '../images/Katie_Yang.jpg';
 import Jessie from '../images/Jessie_Lee.png';
+import John from '../images/John_O.jpg'
+// import Elva from '../images/Elva_Gao.jpg'
 
 import '../style/About.css';
 
@@ -77,10 +79,11 @@ export const About: React.StatelessComponent = (): JSX.Element => (
                 </div>
                 <div className="item">
                     <img src={Jenna} />
+                    {/* <img src={Elva} /> */}
                     <span className="caption"><a href="https://github.com/elvagao66">Elva Gao (yg357)</a></span>
                 </div>
                 <div className="item">
-                    <img src={Souleiman} />
+                    <img src={John} />
                     <span className="caption"><a href="https://github.com/jodonnell77">John O'Donnell (jro79)</a></span>
                 </div>
             </div>
