@@ -11,6 +11,17 @@
 .courses h2{
   text-align:center;
 }
+
+.center {
+  position: absolute;
+  margin-top: 22%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  width: 45vw;
+  color: #ffffff;
+}
+
 .home-logo-cs {
   position: absolute;
   top: 30%;

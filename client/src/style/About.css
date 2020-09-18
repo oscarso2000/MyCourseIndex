@@ -15,7 +15,7 @@
   color: #ffffff;
   padding-left: 5.5px;
 }
-.center {
+.centerAbout {
   position: absolute;
   /* top: 50%; */
   margin-top: 35%;
@@ -25,13 +25,13 @@
   width: 45vw;
   color: #ffffff;
 }
-.center a {
+.centerAbout a {
   color: #ffffff;
 }
-.center a:hover {
+.centerAbout a:hover {
   text-decoration: underline;
 }
-.center h4 {
+.centerAbout h4 {
   display: block;
 }
 
