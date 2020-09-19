@@ -79,3 +79,61 @@ spec:
         backend:
           serviceName: cs4300piazza
           servicePort: 443
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: cs4300piazza-mci
+  namespace: ingress-basic
+  annotations:
+    kubernetes.io/tls-acme: 'true'
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.allow-http: "false"
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    certmanager.k8s.io/acme-challenge-type: dns01
+    certmanager.k8s.io/acme-dns01-provider: route53
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: 200m
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  tls:
+  - hosts:
+    - mci.cis.cornell.edu
+    secretName: tls-secret2
+  rules:
+  - host: mci.cis.cornell.edu
+    http:
+      paths:
+      - path: /?(.*)
+        backend:
+          serviceName: cs4300piazza
+          servicePort: 443
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: cs4300piazza-mci2
+  namespace: ingress-basic
+  annotations:
+    kubernetes.io/tls-acme: 'true'
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.allow-http: "false"
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    certmanager.k8s.io/acme-challenge-type: dns01
+    certmanager.k8s.io/acme-dns01-provider: route53
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: 200m
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  tls:
+  - hosts:
+    - mycourseindex.cis.cornell.edu
+    secretName: tls-secret3
+  rules:
+  - host: mycourseindex.cis.cornell.edu
+    http:
+      paths:
+      - path: /?(.*)
+        backend:
+          serviceName: cs4300piazza
+          servicePort: 443
