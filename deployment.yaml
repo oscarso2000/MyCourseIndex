@@ -99,7 +99,7 @@ spec:
   tls:
   - hosts:
     - mci.cis.cornell.edu
-    secretName: tls-secret2
+    secretName: tls-secret4
   rules:
   - host: mci.cis.cornell.edu
     http:
