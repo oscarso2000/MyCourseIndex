@@ -91,17 +91,17 @@ export const About: React.StatelessComponent = (): JSX.Element => (
 
             <p></p>
 
-            <a href="https://v1.mycourseindex.com" target="_blank">
+            <a href="https://v1.mycourseindex.com" target="_blank" rel="noopener noreferrer">
                 <h3 className="home-1">MyCourseIndex</h3>
                 <h3 className="home-2">Search V1</h3>
             </a>
 
-            <a href="https://v2.mycourseindex.com" target="_blank">
+            <a href="https://v2.mycourseindex.com" target="_blank" rel="noopener noreferrer">
                 <h3 className="home-1">MyCourseIndex</h3>
                 <h3 className="home-2">Search V2</h3>
             </a>
 
-            <a href="https://github.com/oscarso2000/mycourseindex" target="_blank">
+            <a href="https://github.com/oscarso2000/mycourseindex" target="_blank" rel="noopener noreferrer">
                 <h3 className="home-1">GitHub</h3>
                 <h3 className="home-2">Source Code</h3>
             </a>
