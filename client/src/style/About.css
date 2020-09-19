@@ -17,7 +17,8 @@
 }
 .center {
   position: absolute;
-  top: 50%;
+  /* top: 50%; */
+  margin-top: 35%;
   left: 50%;
   margin-right: -50%;
   transform: translate(-50%, -50%);
@@ -32,6 +33,15 @@
 }
 .center h4 {
   display: block;
+}
+
+.innerimage{
+  text-align: center;
+  display: block;
+}
+
+.centertext{
+  text-align: center;
 }
 
 .item {
