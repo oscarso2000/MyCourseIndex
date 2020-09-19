@@ -216,6 +216,9 @@ def ColorMCIfavicon():
 def oidc_callback():
     return redirect(url_for("index"))
 
+@app.route('/null', methods=['GET'])
+def null_callback():
+    return redirect(url_for("index"))
 
 @app.route('/', methods=['GET'], defaults={'path': ''})
 @app.route('/<path:path>')
