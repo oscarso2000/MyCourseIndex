@@ -1,9 +1,12 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import '../style/CourseSelection.css';
+
+import * as React from 'react';
+
+import { Link } from 'react-router-dom';
 import Mediacard from './MultipleCoursesModal/container';
 import Mediacardnomodal from './Mediacardnomodal';
+import { connect } from 'react-redux';
+
 // import { RouteComponentProps } from '@reach/router';
 // import { search, handleKey, setQuery } from '../actions/index';
 // import glass from '../images/glass.svg';
@@ -17,33 +20,37 @@ export const CourseSelection: React.StatelessComponent<ICSProps> = ({
     courses
 }: ICSProps) => {
     return (
-        <div>
+        <div className="mainContainer">
             <div className="top-bar">
                 {/* <Link to="/" target="_self" style={{ textDecoration: "none" }}>
           <h3 className="heading-1">MyCourseIndex</h3>
           <h3 className="heading-2">Course</h3>
         </Link> */}
-                <Link to="/about" className="about-bar" style={{ textDecoration: "none" }}>
+                <Link to="/about" className="main-about-bar" style={{ textDecoration: "none" }}>
                     About
         </Link>
             </div>
 
-            <h1 className="home-logo-cs" >MyCourseIndex</h1>
-            <div className="center">
-                {
-                    courses.map((item: any, i: any) => {
-                        const cardProps = {
-                            course: item
+            <div className="contentContainer">
+                <div className="header">
+                    <h1 className="home-logo-cs" >MyCourseIndex</h1>
+                </div>
+                <div className="courses">
+                    {
+                        courses.map((item: any, i: any) => {
+                            const cardProps = {
+                                course: item
+                            }
+                            if (item.protected) {
+                                return <div className={"mediacard"} key={i}><Mediacard {...cardProps} /> </div>
+                            }
+                            else {
+                                return <div className={"nomodalmediacard"} key={i}><Mediacardnomodal {...cardProps} /></div>
+                            }
                         }
-                        if (item.protected) {
-                            return <div className={"courses"} key={i}><Mediacard {...cardProps} /> </div>
-                        }
-                        else {
-                            return <div className={"courses"} key={i}><Mediacardnomodal {...cardProps} /></div>
-                        }
+                        )
                     }
-                    )
-                }
+                </div>
             </div>
         </div >
     );

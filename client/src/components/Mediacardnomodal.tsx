@@ -1,31 +1,26 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {
+  useHistory,
+  useLocation
+} from "react-router-dom";
+
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
 import Corncis from '../images/cornell-cis.jpg';
-import { setCourseSelected } from '../actions/index';
 import { Link } from 'react-router-dom';
-import {
-  useLocation,
-  useHistory
-} from "react-router-dom";
+import React from 'react';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 import qs from 'qs';
+import { setCourseSelected } from '../actions/index';
 
 const useStyles = makeStyles({
   root: {
-    // float: "right",
     maxWidth: 245,
-    height: 63,
+    maxHeight: 63,
+    marginBottom: 20,
   },
-  media: {
-    height: 165,
-    width: 175,
-    paddingRight: "30"
-  },
-
 });
 
 const Mediacardnomodal: React.FC<{ course: any }> = ({ course }) => {
@@ -39,7 +34,7 @@ const Mediacardnomodal: React.FC<{ course: any }> = ({ course }) => {
           className={classes.media}
           image={Corncis}
         /> */}
-        <CardContent className={classes.media} >
+        <CardContent className={classes.root}>
           <Typography gutterBottom variant="h5" component="h2">
             {course.courseName}
           </Typography>
