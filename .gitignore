@@ -272,3 +272,6 @@ dist
 #Please Ignore
 PO3Data.json
 P03Data.json
+
+# Mac junk
+.DS_Store
