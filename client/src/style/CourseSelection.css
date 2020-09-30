@@ -1,9 +1,16 @@
-.courses{
-  padding:20px;
-  /* float:left; */
-  display: flex;
+.mainContainer{
+  height:900;
+}
+.contentContainer{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  flex-direction: row;
+  height: 700;
+}
+.courses{
+  display: flex;
+  flex-direction: column;
 }
 .MuiTypography-h5{
   color: #00688B;
@@ -23,15 +30,12 @@
 }
 
 .home-logo-cs {
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
   font-size: 50px;
-  margin-block-start: auto;
-  display: inline;
   text-align: center;
+  margin-top: 180px;
+  margin-bottom: 70px;
+  transform: translate(-50%, -50%);
+  -webkit-transform: none;
   background-image: linear-gradient(to right, #00688B 0%, #00CDCD 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -61,9 +65,26 @@
   cursor: pointer;
   text-decoration: none;
 }
+.main-about-bar{
+  font-size: 16px;
+}
+.main-about-bar {
+  float: right;
+  padding: 15px;
+  color: #ffffff;
+}
+.main-about-bar:hover {
+  font-weight: bold;
+  color: #ffffff;
+}
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   * {
     max-width: 100%;
   }
+  .home-logo-cs{
+     font-size: 30px; 
+     margin-top: 90px;
+  }
 }
+
