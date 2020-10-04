@@ -1,4 +1,4 @@
-import { AuthenticationContext, AdalConfig } from 'react-adal';
+import { AdalConfig, AuthenticationContext } from 'react-adal';
 
 const tenantSubdomain = 'cornellprod';
 const clientId = '41e533e7-b473-4087-86a1-c00f86b39487';
@@ -8,7 +8,7 @@ var redirect = '';
 
 if (local === "localhost") {
     redirect = 'http://localhost:5000/oidc/callback';
-    //redirect = 'http://localhost:3000/oidc/callback';
+    // redirect = 'http://localhost:3000/oidc/callback';
 } else {
     redirect = 'https://www.mycourseindex.com/oidc/callback';
 }

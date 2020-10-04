@@ -1,34 +1,30 @@
 import * as React from 'react';
-import { Modal } from './Modal';
-import { makeStyles } from '@material-ui/core/styles';
+
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import { accessProtectedCourse, setCourseSelected } from '../../actions/index';
+import {
+  useHistory,
+  useLocation
+} from "react-router-dom";
+
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
 import Corncis from '../../images/cornell-cis.jpg';
-import { setCourseSelected, accessProtectedCourse } from '../../actions/index';
+import { Modal } from './Modal';
 import { Redirect } from 'react-router-dom';
 import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
-import {
-  useLocation,
-  useHistory
-} from "react-router-dom";
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 import qs from 'qs';
 
 const useStyles = makeStyles({
     root: {
-        // float: "right",
         maxWidth: 245,
-        height: 63,
+        maxHeight: 63,
+        marginBottom: 20,
     },
-    media: {
-        height: 165,
-        width: 175,
-        paddingRight: "30"
-    },
-
 });
 
 const MediaCard: React.FC<{ course: any }> = ({ course }) => {
@@ -117,7 +113,7 @@ const MediaCard: React.FC<{ course: any }> = ({ course }) => {
           className={classes.media}
           image={Corncis}
         /> */}
-                <CardContent className={classes.media}>
+                <CardContent className={classes.root}>
                     <Typography gutterBottom={false} variant="h5" component="h2" align="justify">
                         {course.courseName}
                     </Typography>
