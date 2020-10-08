@@ -29,36 +29,42 @@
   color: #ffffff;
   padding-left: 5.5px;
 }
+.home-logo-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: 25px;
+}
 .home-logo {
-    padding-top: 100px;
     font-weight: 1200;
-    font-size: 45px;
-    display: inline;
     text-align: center;
     background-image: linear-gradient(to right, #00688B 0%, #00CDCD 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 .home-logo-2 {
-    padding-top: 100px;
     display: inline;
-    font-size: 45px;
     padding-left: 5.5px;
     text-align: center;
     color: #ffffff;
     margin-right: 50px;
 }
 .home input {
-    width: 600px;
+    width: auto;
+    min-width: 500px;
     height: 55px;
     font-size: inherit;
     padding: 0px 58px 0px 28px;
+    margin-top: 50px;
     border-radius: 30px;
     border: none;
     border: 1.3px solid #ffffff;
     outline: 0;
     box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.15);
     transition: all 300ms ease;
+}
+.home-search-section{
+    display: flex;
 }
 .glass {
     display: inline-block;
@@ -72,11 +78,9 @@
     cursor: pointer;
 }
 .help-tip{
-    position: absolute;
-    top: 19px;
-    right: -35px;
     text-align: center;
     background-color: #00688B;
+    margin-top: 58px;
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -139,7 +143,16 @@
   left:0;
 }
 
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+@media only screen and (min-device-width: 220px) and (max-device-width: 570px) {
+    .home-logo-header{
+        font-size: 20px;
+    }
+    .home input{
+        min-width: 350px;
+    }
+}
+
+@media only screen and (min-device-width: 220px) and (max-device-width: 480px) {
     * {
         max-width: 100%;
     }
@@ -147,12 +160,12 @@
         text-align: center;
     }
     input {
-        width: 61vw;
-        margin-top: 2vh;
+        height: 35px;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
     }
+
 }
 /* CSS animation */
 
