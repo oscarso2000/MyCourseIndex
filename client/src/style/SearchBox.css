@@ -143,12 +143,26 @@
   left:0;
 }
 
+@media only screen and (min-device-width: 601px) and (max-device-width: 1030px)  {
+    .home-logo-header {
+        font-size: 3.3vw;
+    }
+    .home input {
+        width: 70vw;
+        width: 60vw;
+        height: 6vh;
+    }
+    .help-tip{
+        margin-top: 4vh;
+    }
+}
+
 @media only screen and (min-device-width: 220px) and (max-device-width: 600px) {
     * {
         max-width: 100%;
     }
     .home {
-        text-align: center;
+        margin-left: 30px;
     }
     .home-logo-header{
         font-size: 4vw;
