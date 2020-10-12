@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mciDev
+  namespace: ingress-basic
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  selector:
+    matchLabels:
+      app: mciDev
+  template:
+    metadata:
+      labels:
+        app: mciDev
+    spec:
+      containers:
+      - name: mciDev
+        image: oscarso2000/mciDev:
+        imagePullPolicy: Always
+        ports:
+        - name: https
+          containerPort: 5000
+        env:
+        - name: deployment
+          value: "True" 
+        volumeMounts:
+          - mountPath: /etc/cs4300-volume-cfg
+            name: cs4300-volume-cfg
+      volumes:
+      - name: cs4300-volume-cfg
+        secret:
+          defaultMode: 420
+          secretName: mycourseindex-cfg
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mciDev
+  namespace: ingress-basic
+spec:
+  type: ClusterIP
+  ports:
+  - name: https
+    port: 443
+    targetPort: https
+  selector:
+    app: mciDev
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: mciDev
+  namespace: ingress-basic
+  annotations:
+    kubernetes.io/tls-acme: 'true'
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.allow-http: "false"
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    certmanager.k8s.io/acme-challenge-type: dns01
+    certmanager.k8s.io/acme-dns01-provider: route53
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: 200m
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  tls:
+  - hosts:
+    - dev.mycourseindex.com
+    secretName: tls-secret
+  rules:
+  - host: dev.mycourseindex.com
+    http:
+      paths:
+      - path: /?(.*)
+        backend:
+          serviceName: mciDev
+          servicePort: 443

@@ -12,6 +12,7 @@ CLEAR="\033[0K"
 export PATH=$PATH:$(pwd)
 
 # echo "nameserver 34.230.68.125" | sudo tee -a /etc/resolv.conf
+branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
 
 echo -e "${YELLOW}==== TESTING NAMESERVER RESOLUTION ====${NC}"
 dummyempty=$(dig +short api.cs4300.k8s.mycourseindex.com)
@@ -64,20 +65,34 @@ echo -e "${YELLOW}==== DONE TESTING KUBECTL CONNECTION ====${NC}"
 # for f in $(find ./ -name '*.yaml' -or -name '*.yml'); do kubectl apply -f $f --validate=false; done
 # echo -e "${GREEN}==== Done deploying external dns ====${NC}"
 # echo ''
-echo -e "${GREEN}==== Updating deployment to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
-sed -i 's|oscarso2000/cs4300piazza:|oscarso2000/cs4300piazza:'$TRAVIS_BUILD_NUMBER'|g' deployment.yaml
-echo -e "${GREEN}==== Updated deployment to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
+if ["$branch" = "master"]
+then
+    echo -e "${GREEN}==== Updating deployment to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
+    sed -i 's|oscarso2000/cs4300piazza:|oscarso2000/cs4300piazza:'$TRAVIS_BUILD_NUMBER'|g' deployment.yaml
+    echo -e "${GREEN}==== Updated deployment to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
 
-echo -e "${GREEN}==== Deploying Updated Application ====${NC}"
-kubectl apply -f deployment.yaml
-echo -e "${GREEN}==== Done deploying external dns ====${NC}"
-echo ''
+    echo -e "${GREEN}==== Deploying Updated Application ====${NC}"
+    kubectl apply -f deployment.yaml
+    echo -e "${GREEN}==== Done deploying external dns ====${NC}"
+    echo ''
 
-echo -e "${GREEN}==== Updating docs to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
-sed -i 's|oscarso2000/cs4300docs:|oscarso2000/cs4300docs:'$TRAVIS_BUILD_NUMBER'|g' docs/doc_deployment.yaml
-echo -e "${GREEN}==== Updated docs to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
+    echo -e "${GREEN}==== Updating docs to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
+    sed -i 's|oscarso2000/cs4300docs:|oscarso2000/cs4300docs:'$TRAVIS_BUILD_NUMBER'|g' docs/doc_deployment.yaml
+    echo -e "${GREEN}==== Updated docs to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
 
-echo -e "${GREEN}==== Deploying Docs ====${NC}"
-kubectl apply -f docs/doc_deployment.yaml
-echo -e "${GREEN}==== Done Docs ====${NC}"
-echo ''
+    echo -e "${GREEN}==== Deploying Docs ====${NC}"
+    kubectl apply -f docs/doc_deployment.yaml
+    echo -e "${GREEN}==== Done Docs ====${NC}"
+    echo ''
+elif ["$branch" = "dev"]
+then
+    echo -e "${GREEN}==== Updating deployment to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
+    sed -i 's|oscarso2000/mciDev:|oscarso2000/mciDev:'$TRAVIS_BUILD_NUMBER'|g' deployment.dev.yaml
+    echo -e "${GREEN}==== Updated deployment to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
+
+    echo -e "${GREEN}==== Deploying Updated Application ====${NC}"
+    kubectl apply -f deployment.dev.yaml
+    echo -e "${GREEN}==== Done deploying external dns ====${NC}"
+    echo ''
+else
+    echo 'Nothing deployed.'
