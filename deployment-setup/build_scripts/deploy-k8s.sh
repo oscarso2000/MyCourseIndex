@@ -12,7 +12,7 @@ CLEAR="\033[0K"
 export PATH=$PATH:$(pwd)
 
 # echo "nameserver 34.230.68.125" | sudo tee -a /etc/resolv.conf
-branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+branch="$TRAVIS_BRANCH" #$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
 
 echo -e "${YELLOW}==== TESTING NAMESERVER RESOLUTION ====${NC}"
 dummyempty=$(dig +short api.cs4300.k8s.mycourseindex.com)
