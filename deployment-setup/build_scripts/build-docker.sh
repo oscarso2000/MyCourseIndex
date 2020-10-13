@@ -18,8 +18,8 @@ then
     docker build -t mciDev .
     docker tag mciDev oscarso2000/mci-dev:latest
     docker tag mciDev oscarso2000/mci-dev:$TRAVIS_BUILD_NUMBER
-    docker push oscarso2000/mciDev:latest
-    docker push oscarso2000/mciDev:$TRAVIS_BUILD_NUMBER
+    docker push oscarso2000/mci-dev:latest
+    docker push oscarso2000/mci-dev:$TRAVIS_BUILD_NUMBER
 else
     docker build -t mciTest .
 fi
