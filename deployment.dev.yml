@@ -70,7 +70,7 @@ spec:
   tls:
   - hosts:
     - dev.mycourseindex.com
-    secretName: tls-secret
+    secretName: tls-secret-dev
   rules:
   - host: dev.mycourseindex.com
     http:
