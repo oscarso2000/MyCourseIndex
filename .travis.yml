@@ -1,6 +1,7 @@
 branches:
   only:
   - master
+  - dev
 sudo: required
 os: linux
 dist: bionic
