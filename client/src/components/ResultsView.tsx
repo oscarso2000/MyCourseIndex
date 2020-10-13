@@ -1,37 +1,40 @@
-import * as React from 'react';
-import { ResultsList } from './ResultsList';
-import { Link } from 'react-router-dom';
-import { Outline } from './Outline';
-import { handleKey1, search1, setQuery, setOrder, setSearchSel, setTags } from '../actions';
 import '../style/ResultsView.css';
-import glass from '../images/glass.svg';
-import { Loader } from './Loader';
-import Switch from '@material-ui/core/Switch';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { createStyles, Theme, withStyles, WithStyles, ThemeProvider, makeStyles } from '@material-ui/core/styles';
+
+import * as React from 'react';
+
+import { Theme, ThemeProvider, WithStyles, createStyles, makeStyles, withStyles } from '@material-ui/core/styles';
+import { handleKey1, search1, setOrder, setQuery, setSearchSel, setTags } from '../actions';
+import {
+  useHistory,
+  useLocation
+} from "react-router-dom";
+
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import MuiDialogContent from '@material-ui/core/DialogContent';
-import MuiDialogActions from '@material-ui/core/DialogActions';
-import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
+import Dialog from '@material-ui/core/Dialog';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import IconButton from '@material-ui/core/IconButton';
+import { Link } from 'react-router-dom';
+import { Loader } from './Loader';
+import MuiDialogActions from '@material-ui/core/DialogActions';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import { Outline } from './Outline';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import { createMuiTheme } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import grey from '@material-ui/core/colors/grey';
-import cyan from '@material-ui/core/colors/cyan';
-import styled from 'styled-components';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import { ResultsList } from './ResultsList';
+import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
-import {
-  useLocation,
-  useHistory
-} from "react-router-dom";
+import Typography from '@material-ui/core/Typography';
+import { createMuiTheme } from '@material-ui/core/styles';
+import cyan from '@material-ui/core/colors/cyan';
+import glass from '../images/glass.svg';
+import grey from '@material-ui/core/colors/grey';
 import qs from 'qs';
+import styled from 'styled-components';
 
 const blk = grey[900];
 const cyn = cyan[400];
@@ -212,7 +215,7 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
     return (
         <div>
             <div className="top-bar">
-                <Link to="/" target="_self" style={{ textDecoration: "none" }}>
+                <Link className="header" to="/" target="_self" style={{ textDecoration: "none"}}>
                     <h3 className="heading-1">MyCourseIndex</h3>
                     <h3 className="heading-2">Courses</h3>
                 </Link>
@@ -225,7 +228,7 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
                 <div className="filters">
                     <ThemeProvider theme={theme1}>
                         <Button variant="contained" color="secondary" onClick={handleClickOpen}>
-                            Advanced Filters
+                            Filter By
                         </Button>
                         <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
                             <DialogTitle id="customized-dialog-title" onClose={handleClose}>
