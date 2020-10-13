@@ -16,8 +16,8 @@ then
 elif [ "$branch" == "dev" ]
 then
     docker build -t mci-dev .
-    docker tag mciDev oscarso2000/mci-dev:latest
-    docker tag mciDev oscarso2000/mci-dev:$TRAVIS_BUILD_NUMBER
+    docker tag mci-dev oscarso2000/mci-dev:latest
+    docker tag mci-dev oscarso2000/mci-dev:$TRAVIS_BUILD_NUMBER
     docker push oscarso2000/mci-dev:latest
     docker push oscarso2000/mci-dev:$TRAVIS_BUILD_NUMBER
 else
