@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: mci-dev
-        image: oscarso2000/mciDev:
+        image: oscarso2000/mci-dev:
         imagePullPolicy: Always
         ports:
         - name: https

@@ -87,7 +87,7 @@ then
 elif [ "$branch" == "dev" ]
 then
     echo -e "${GREEN}==== Updating deployment to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
-    sed -i 's|oscarso2000/mciDev:|oscarso2000/mciDev:'$TRAVIS_BUILD_NUMBER'|g' deployment.dev.yaml
+    sed -i 's|oscarso2000/mci-dev:|oscarso2000/mci-dev:'$TRAVIS_BUILD_NUMBER'|g' deployment.dev.yaml
     echo -e "${GREEN}==== Updated deployment to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
 
     echo -e "${GREEN}==== Deploying Updated Application ====${NC}"
