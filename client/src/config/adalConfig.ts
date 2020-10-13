@@ -10,7 +10,7 @@ if (local === "localhost") {
     redirect = 'http://localhost:5000/oidc/callback';
     // redirect = 'http://localhost:3000/oidc/callback';
 } else {
-    redirect = 'https://www.mycourseindex.com/oidc/callback';
+    redirect = 'https://' + local + '/oidc/callback';
 }
 
 const adalConfig: AdalConfig = {

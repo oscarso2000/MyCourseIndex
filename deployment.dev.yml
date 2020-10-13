@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mciDev
+  name: mci-dev
   namespace: ingress-basic
 spec:
   replicas: 1
@@ -12,15 +12,15 @@ spec:
   minReadySeconds: 5
   selector:
     matchLabels:
-      app: mciDev
+      app: mci-dev
   template:
     metadata:
       labels:
-        app: mciDev
+        app: mci-dev
     spec:
       containers:
-      - name: mciDev
-        image: oscarso2000/mciDev:
+      - name: mci-dev
+        image: oscarso2000/mci-dev:
         imagePullPolicy: Always
         ports:
         - name: https
@@ -40,7 +40,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mciDev
+  name: mci-dev
   namespace: ingress-basic
 spec:
   type: ClusterIP
@@ -49,12 +49,12 @@ spec:
     port: 443
     targetPort: https
   selector:
-    app: mciDev
+    app: mci-dev
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: mciDev
+  name: mci-dev
   namespace: ingress-basic
   annotations:
     kubernetes.io/tls-acme: 'true'
@@ -77,5 +77,5 @@ spec:
       paths:
       - path: /?(.*)
         backend:
-          serviceName: mciDev
+          serviceName: mci-dev
           servicePort: 443
