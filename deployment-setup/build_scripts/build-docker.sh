@@ -1,6 +1,6 @@
-branch=$TRAVIS_BRANCH #$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+export branch=$TRAVIS_BRANCH #$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
 
-if ["$TRAVIS_BRANCH" = "master"]
+if ["$branch" = "master"]
 then
     docker build -t cs4300piazza .
     docker tag cs4300piazza oscarso2000/cs4300piazza:latest
@@ -13,7 +13,7 @@ then
     docker tag cs4300docs oscarso2000/cs4300docs:$TRAVIS_BUILD_NUMBER
     docker push oscarso2000/cs4300docs:latest
     docker push oscarso2000/cs4300docs:$TRAVIS_BUILD_NUMBER
-elif ["$TRAVIS_BRANCH" = "dev"]
+elif ["$branch" = "dev"]
 then
     docker build -t mciDev .
     docker tag mciDev oscarso2000/mciDev:latest
