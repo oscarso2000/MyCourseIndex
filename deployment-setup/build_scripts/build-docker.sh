@@ -15,7 +15,7 @@ then
     docker push oscarso2000/cs4300docs:$TRAVIS_BUILD_NUMBER
 elif [ "$branch" == "dev" ]
 then
-    docker build -t mciDev .
+    docker build -t mci-dev .
     docker tag mciDev oscarso2000/mci-dev:latest
     docker tag mciDev oscarso2000/mci-dev:$TRAVIS_BUILD_NUMBER
     docker push oscarso2000/mci-dev:latest
