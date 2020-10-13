@@ -96,3 +96,5 @@ then
     echo ''
 else
     echo 'Nothing deployed.'
+
+echo 'Successfully deployed'
