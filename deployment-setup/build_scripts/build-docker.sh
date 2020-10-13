@@ -22,5 +22,6 @@ then
     docker push oscarso2000/mciDev:$TRAVIS_BUILD_NUMBER
 else
     docker build -t mciTest .
+fi
 
 echo 'Successfully built'
