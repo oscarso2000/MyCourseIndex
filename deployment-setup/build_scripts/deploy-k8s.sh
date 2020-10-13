@@ -65,7 +65,7 @@ echo -e "${YELLOW}==== DONE TESTING KUBECTL CONNECTION ====${NC}"
 # for f in $(find ./ -name '*.yaml' -or -name '*.yml'); do kubectl apply -f $f --validate=false; done
 # echo -e "${GREEN}==== Done deploying external dns ====${NC}"
 # echo ''
-if ["$branch" == "master"]
+if [ "$branch" == "master" ]
 then
     echo -e "${GREEN}==== Updating deployment to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
     sed -i 's|oscarso2000/cs4300piazza:|oscarso2000/cs4300piazza:'$TRAVIS_BUILD_NUMBER'|g' deployment.yaml
@@ -84,7 +84,7 @@ then
     kubectl apply -f docs/doc_deployment.yaml
     echo -e "${GREEN}==== Done Docs ====${NC}"
     echo ''
-elif ["$branch" == "dev"]
+elif [ "$branch" == "dev" ]
 then
     echo -e "${GREEN}==== Updating deployment to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
     sed -i 's|oscarso2000/mciDev:|oscarso2000/mciDev:'$TRAVIS_BUILD_NUMBER'|g' deployment.dev.yaml
