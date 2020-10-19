@@ -28,6 +28,26 @@ export const setCourseSelected = (e: any): any => {
     });
 }
 
+export const setFormCourseName = (e:any): void =>{
+    store.dispatch({ type: 'SET_FORM_CN', payload: encodeURI(e.target.value)});
+}
+
+export const setFormPiazzaLink = (e:any): void =>{
+    store.dispatch({ type: 'SET_FORM_PL', payload: encodeURI(e.target.value)});
+}
+
+export const setFormCanvasLink = (e:any): void =>{
+    store.dispatch({ type: 'SET_FORM_CL', payload: encodeURI(e.target.value)});
+}
+
+export const setFormCSVLink = (e:any): void =>{
+    store.dispatch({ type: 'SET_FORM_CSV', payload: encodeURI(e.target.value)});
+}
+
+export const setFormEmail = (e:any): void =>{
+    store.dispatch({ type: 'SET_FORM_EMAIL', payload: encodeURI(e.target.value)});
+}
+
 export const handleKey = (e: any, history: any, reset?: string): void => {
     if (e.key === "Enter") {
         // if (reset) {
@@ -44,6 +64,16 @@ export const handleKey1 = (e: any, history: any, reset?: string): void => {
         search1(history);
     }
 };
+
+export const uploadForm = () =>{
+    axios.post( '/addcourse',
+        {formCSV: store.getState().formCSV, 
+        formCL: store.getState().formCL, 
+        formCN: store.getState().formCN,
+        formPL: store.getState().formPL,
+        formEmail: store.getState().formEmail}
+    )
+}
 
 // TODO add token
 export const search = (history: any, reset?: any): void => {
