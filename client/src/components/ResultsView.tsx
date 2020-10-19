@@ -220,7 +220,7 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
                     <h3 className="heading-2">Courses</h3>
                 </Link>
                 <input
-                    defaultValue={urlQuery}
+                    defaultValue={urlQuery as string}
                     onKeyPress={e => handleKey1(e,history, 'reset')}
                     onChange={e => setQuery(e)}
                 />

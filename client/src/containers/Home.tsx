@@ -41,7 +41,7 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
     let location = useLocation();
     let history = useHistory();
     let course = qs.parse(location.search)["course"]
-    query= qs.parse(location.search)["?query"]
+    query= qs.parse(location.search)["?query"] as string
 
     if ((course !== "" && course !== undefined && course!==selectedcourse) || selectedcourse === undefined || selectedcourse==="") {
         // console.log("No authorization! /"+location.search);
