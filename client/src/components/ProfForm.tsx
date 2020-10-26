@@ -22,17 +22,17 @@ export const ProfForm: React.StatelessComponent = (): JSX.Element => (
             <form id="class-signup-form">
                 <div className="form-field">
                     <label htmlFor="email" className="form-label">Email:</label>
-                    <input type="text" className="form-input" name="email" onChange={setFormEmail} required/>
+                    <input type="email" className="form-input" name="email" pattern=".+@cornell.edu" title="Please use an @cornell.edu email" onChange={setFormEmail} required/>
                 </div>
 
                 <div className="form-field">
                     <label htmlFor="class-name" className="form-label">Class name:</label>
-                    <input type="text" className="form-input" name="class-name" onChange={setFormCourseName} required/>
+                    <input type="text" className="form-input" name="class-name" pattern="[A-Z]+ [0-9]+" title="Class Name should be formatted like this: INFO 1998" onChange={setFormCourseName} required/>
                 </div>
 
                 <div className="form-field">
                     <label htmlFor="piazza-link" className="form-label">Piazza link:</label>
-                    <input type="text" className="form-input" name="piazza-link" onChange={setFormPiazzaLink} required/>
+                    <input type="text" className="form-input" name="piazza-link" pattern=".*piazza.com\/class\/+[A-Za-z0-9]+" onChange={setFormPiazzaLink} required/>
                 </div>
 
                 <div className="form-field">
@@ -51,7 +51,7 @@ export const ProfForm: React.StatelessComponent = (): JSX.Element => (
                 </div> */}
                 
                 <input type="checkbox" name="terms-and-conds" value="2" required/>
-                <label htmlFor="terms-and-conds">I agree to the terms and conditions of MyCourseIndex</label>
+                <label htmlFor="terms-and-conds">I agree to the <a href="Terms" target="_blank"><u>terms and conditions</u></a> of MyCourseIndex</label>
             </form>
             <button type="submit" form="class-signup-form" onClick={uploadForm}>Submit</button>
         </div>

@@ -4,6 +4,7 @@ import Lottie from "react-lottie";
 import CourseSelection from './components/CourseSelection';
 import { RouteComponentProps } from '@reach/router';
 import Home from './containers/Home';
+import { Terms } from './components/Terms';
 import { About } from './components/About';
 import { Switch, Route } from 'react-router-dom';
 import { ProfForm } from './components/ProfForm'
@@ -141,6 +142,7 @@ const App: React.FC = (props: any) => {
                         <Route path="/browse" component={Home} />
                         {/* TODO1: Need to check if prof for this one too just in case */}
                         <Route path="/form" component={ProfForm} />
+                        <Route path="/terms" component={Terms} />
                     </Switch>
                 </div>
             )
