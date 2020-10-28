@@ -50,10 +50,10 @@ export const ProfForm: React.StatelessComponent = (): JSX.Element => (
                     <input type="file" className="form-input" name="student-list-csv" onChange={validateFileInput} accept=".csv" required/>
                 </div> */}
                 
-                <input type="checkbox" name="terms-and-conds" value="2" required/>
+                <input id="terms-checkbox" type="checkbox" name="terms-and-conds" value="2" required/>
                 <label htmlFor="terms-and-conds">I agree to the <a href="Terms" target="_blank"><u>terms and conditions</u></a> of MyCourseIndex</label>
             </form>
-            <button type="submit" form="class-signup-form" onClick={uploadForm}>Submit</button>
+            <button id="prof-submit-button" type="submit" form="class-signup-form" onClick={uploadForm}>Submit</button>
         </div>
     </div>
 );
