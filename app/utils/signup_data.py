@@ -51,7 +51,7 @@ def add_course(email, course_name, piazza_link, canvas_link, csv):
     # TODO3: check canvas link or external website or valid
     # TODO4: check piazza_link is valid
     try:
-        s3.downloadFile('mci-prof-form',
+        s3.download_file('mci-prof-form',
                         'class-signup-data.json', 'signupData.json')
         with open('signupData.json', "r") as fp:
             signup_data = json.load(fp)
