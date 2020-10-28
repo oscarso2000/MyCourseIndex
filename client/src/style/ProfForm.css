@@ -1,0 +1,64 @@
+.home1,
+.home2{
+    display: inline-block;
+}
+
+.home1 {
+  font-size: 1rem;
+  background-image: linear-gradient(to right, #00688b 0%, #00cdcd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-left: 23px;
+}
+
+.home2 {
+  font-size: 1rem;
+  padding-top: 19px;
+  color: #ffffff;
+  padding-left: 5.5px;
+}
+
+.hl {
+  font-size: 50px;
+  text-align: center;
+  margin-top: 180px;
+  margin-bottom: 70px;
+  transform: translate(-50%, -50%);
+  -webkit-transform: none;
+  background-image: linear-gradient(to right, #00688b 0%, #00cdcd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.inputForm {
+    margin: auto;
+    width: 45vw;
+    color: #ffffff;
+}
+
+/* Each label-input pair is a flexbox container for alignment purposes. */
+.form-field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.form-label {
+    align-self: center;
+    margin-top: 0.5rem; /* To counter the SCSS 0.5rem margin-bottom */
+}
+
+.form-input {
+    margin-left: 1rem;
+    flex-grow: 2; /* Give priority to the input size > label size */
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  * {
+    max-width: 100%;
+  }
+  .hl {
+    font-size: 30px;
+    margin-top: 90px;
+  }
+}

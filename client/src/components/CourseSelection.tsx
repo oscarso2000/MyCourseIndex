@@ -22,13 +22,11 @@ export const CourseSelection: React.StatelessComponent<ICSProps> = ({
     return (
         <div className="mainContainer">
             <div className="top-bar">
-                {/* <Link to="/" target="_self" style={{ textDecoration: "none" }}>
-          <h3 className="heading-1">MyCourseIndex</h3>
-          <h3 className="heading-2">Course</h3>
-        </Link> */}
-                <Link to="/about" className="main-about-bar" style={{ textDecoration: "none" }}>
+                {/* TODO1 */}
+                {/* <Link to="/about" className="main-about-bar" style={{ textDecoration: "none" }}> */}
+                <Link to="/form" className="main-about-bar" style={{ textDecoration: "none" }}>
                     About
-        </Link>
+                </Link>
             </div>
 
             <div className="contentContainer">
@@ -51,6 +49,7 @@ export const CourseSelection: React.StatelessComponent<ICSProps> = ({
                         )
                     }
                 </div>
+                {/* Check to see if prof => Display "Add Course" Button that redirects to Forms Page */}
             </div>
         </div >
     );

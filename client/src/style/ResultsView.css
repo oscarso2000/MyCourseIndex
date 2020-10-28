@@ -13,21 +13,27 @@
   top: 0px;
   z-index: 500;
   background: #282c34;
-  height: 60px;
-  width: 100%;
+  height: 65px;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.10);
   margin: 0 auto;
 }
 .top-bar input {
   margin-left: 4.5vw;
-  height: 5.5vh;
-  width: 600px;
+  height: 40px;
+  width: 50%;
   margin-top: 7px;
   padding: 0 58px 0 28px;
   box-shadow: none;
   border-radius: 35px;
   border: 1px solid #ffffff;
   display: inline-flex;
+}
+.top-bar .glass{
+  display:inline-block;
+  position: relative;
+  right:50px;
+  width:30px;
+  height:30px;
 }
 .filters{
   display: inline;
@@ -231,4 +237,26 @@
 @keyframes fadeIn {
   0% { opacity:0; }
   100% { opacity:100%; }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 1024px) {
+  .help-tip2{
+    display: none;
+  }
+  .about-bar{
+    display:none;
+  }
+  .MuiButtonBase-root .MuiButton-root .MuiButton-contained .MuiButton-containedSecondary {
+    padding: 2px;
+    margin-bottom: 12px;
+  }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 707px) {
+  .top-bar{
+    height: 80px;
+  }
+  .header{
+    display:block;
+  }
 }

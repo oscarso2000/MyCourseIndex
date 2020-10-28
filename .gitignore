@@ -272,6 +272,11 @@ dist
 #Please Ignore
 PO3Data.json
 P03Data.json
+<<<<<<< HEAD
 
 # Mac junk
 .DS_Store
+=======
+signupData.json
+concept_matching/
+>>>>>>> 2e7333555e4b851593e5aec335d07fc8c4361b85
