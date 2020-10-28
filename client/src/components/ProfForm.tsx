@@ -32,7 +32,7 @@ export const ProfForm: React.StatelessComponent = (): JSX.Element => (
 
                 <div className="form-field">
                     <label htmlFor="piazza-link" className="form-label">Piazza link:</label>
-                    <input type="text" className="form-input" name="piazza-link" pattern=".*piazza.com\/class\/+[A-Za-z0-9]+" onChange={setFormPiazzaLink} required/>
+                    <input type="text" className="form-input" name="piazza-link" pattern=".*piazza.com\/class\/[A-Za-z0-9]+" onChange={setFormPiazzaLink} required/>
                 </div>
 
                 <div className="form-field">
