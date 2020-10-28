@@ -3,6 +3,7 @@ from torch.utils.data import TensorDataset, DataLoader, RandomSampler, Sequentia
 from tqdm import tqdm, trange
 import pandas as pd
 import io
+import json
 import os
 import numpy as np
 import random
@@ -27,8 +28,30 @@ def passed_arguments():
 											type=int,
 											required=True,
 											help="Baseline model to test on. \n0 = BERT\n1=DistilBERT")
+
+	parser.add_argument("--data_path",
+											type=str,
+											required=True,
+											help="Path to evaluation dataset")
 	args = parser.parse_args()
 	return args
+
+def process_json(data_path):
+  question = []
+  text = []
+  answer = []
+  is_impossible = []
+  with open(data_path) as f:
+    data = json.load(f)["data"]
+  
+  for d in data:
+    question.append(d["question"])
+    text.append(d["context"])
+    answer.append(d["answer"])
+    is_impossible.append(d["is_impossible"])
+  
+  return question, text, answer, is_impossible
+
 
 #list of question, text
 #question, text = "What day is it today?", "My name is Mike and I live in Ithaca."
@@ -44,8 +67,9 @@ def process_data(question, text):
 # 0 = bert
 # 1 = distilbert
 def model_pick(id):
-  tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
-  model = BertForQuestionAnswering.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
+  if (id == 0):
+    tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
+    model = BertForQuestionAnswering.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
   if (id == 1):
     tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased-distilled-squad")
     model = AutoModelForQuestionAnswering.from_pretrained("distilbert-base-uncased-distilled-squad")
@@ -55,7 +79,7 @@ def model_pick(id):
 
 #pre-trained bert runs on evaluation sets
 #return list of tokens for each question id
-def predictions(model_id, input_id, input_text, print_some_outputs = True):
+def predictions(model_id, input_text, print_some_outputs = True):
 
   tokenizer, model = model_pick(model_id)
  
@@ -64,13 +88,25 @@ def predictions(model_id, input_id, input_text, print_some_outputs = True):
   preds = []
   for text in input_text:
 
-    input_ids = tokenizer.encode(text)
-    token_type_ids = [0 if i <= input_ids.index(102) else 1 
-      for i in range(len(input_ids))]
-  
-    start_scores, end_scores = model(torch.tensor([input_ids]), token_type_ids=torch.tensor([token_type_ids]))    
-    all_tokens = tokenizer.convert_ids_to_tokens(input_ids)
-    preds.append((all_tokens[torch.argmax(start_scores) : torch.argmax(end_scores)+1]))
+    if model_id == 0:
+
+      input_ids = tokenizer.encode(text)
+      token_type_ids = [0 if i <= input_ids.index(102) else 1 
+        for i in range(len(input_ids))]
+    
+      start_scores, end_scores = model(torch.tensor([input_ids]), token_type_ids=torch.tensor([token_type_ids]))    
+      all_tokens = tokenizer.convert_ids_to_tokens(input_ids)
+      preds.append((all_tokens[torch.argmax(start_scores) : torch.argmax(end_scores)+1]))
+
+    elif model_id == 1:
+      input_ids = tokenizer.encode(text)
+      token_type_ids = [0 if i <= input_ids.index(102) else 1 
+        for i in range(len(input_ids))]
+    
+      start_scores, end_scores = model(torch.tensor([input_ids]))    
+      all_tokens = tokenizer.convert_ids_to_tokens(input_ids)
+      preds.append((all_tokens[torch.argmax(start_scores) : torch.argmax(end_scores)+1]))
+
     #print('result: ', ' '.join(all_tokens[torch.argmax(start_scores) : torch.argmax(end_scores)+1]))
 
   return preds
@@ -108,11 +144,13 @@ def evaluate(preds, labels, model_id):
       common_toks = Counter(p) & Counter(l)
       intersection = 1.0 * sum(common_toks.values())
       #calculate precision
-      precision += intersection/ len(p)
+      pr = intersection/ len(p)
+      re = intersection / len(l)
+      precision += pr
       #calculate recall
-      recall += intersection / len(l)
+      recall += re
       #calculate f1
-      f1 += 0 if (precision == 0 or recall == 0) else 2*precision*recall/(precision+recall)
+      f1 += 0 if (pr == 0 or re == 0) else (2*pr*re)/(pr+re)
 
   #average over all samples
   precision = precision/n
@@ -123,16 +161,26 @@ def evaluate(preds, labels, model_id):
 
 
 
-def main(model_id):
+def main(model_id, data_path):
   print('Starting baseline evaluation\n')
-  question = ['Where does Bob live??']
-  text = ['Bob lives in Ithaca with his mom.']
-  labels = ['Ithaca']
-  input_id = 0
+
+  if model_id == 0:
+    print("Picked bert")
+  elif model_id ==1:
+    print("Picked distilbert")
+
+
+
+  question, text, labels, _ = process_json(data_path)
   input_text = process_data(question, text)
 
-  preds = predictions(model_id, input_id, input_text)
+  print("Starting predictions")
+  preds = predictions(model_id, input_text)
+
+  print("Evaluating predictions")
   p, r, f1 = evaluate(preds, labels, model_id) 
+
+  #print some stats
   print('Evaluation Stats are: ')
   print('\tPrecision: ', p)
   print('\tRecall: ', r)
@@ -141,4 +189,5 @@ def main(model_id):
 if __name__ == '__main__':
   args = passed_arguments()
   model_id = args.model
-  main(model_id)
+  data_path = args.data_path
+  main(model_id, data_path)
