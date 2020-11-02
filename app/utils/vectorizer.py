@@ -104,7 +104,7 @@ for course in tqdm(fromS3, file=tqdm_out, mininterval=30,desc="Course"):
     courseDocDictionary[course] = np.array(rawDocs)
     courseRevsereIndexDictionary[course] = create_reverse_index(vec.get_feature_names())
     app.logger.debug("All but SVD")
-    svdDictionary[course] = np.linalg.svd(vecArr.T) #svd on tfidf documents
+    # svdDictionary[course] = np.linalg.svd(vecArr.T) #svd on tfidf documents
     app.logger.debug("SVD Complete")
 
 app.logger.debug("End Vectorizer")
