@@ -28,24 +28,24 @@ export const setCourseSelected = (e: any): any => {
     });
 }
 
-export const setFormCourseName = (e:any): void =>{
-    store.dispatch({ type: 'SET_FORM_CN', payload: encodeURI(e.target.value)});
+export const setFormCourseName = (e: any): void => {
+    store.dispatch({ type: 'SET_FORM_CN', payload: encodeURI(e.target.value) });
 }
 
-export const setFormPiazzaLink = (e:any): void =>{
-    store.dispatch({ type: 'SET_FORM_PL', payload: encodeURI(e.target.value)});
+export const setFormPiazzaLink = (e: any): void => {
+    store.dispatch({ type: 'SET_FORM_PL', payload: encodeURI(e.target.value) });
 }
 
-export const setFormCanvasLink = (e:any): void =>{
-    store.dispatch({ type: 'SET_FORM_CL', payload: encodeURI(e.target.value)});
+export const setFormCanvasLink = (e: any): void => {
+    store.dispatch({ type: 'SET_FORM_CL', payload: encodeURI(e.target.value) });
 }
 
-export const setFormCSVLink = (e:any): void =>{
-    store.dispatch({ type: 'SET_FORM_CSV', payload: encodeURI(e.target.value)});
+export const setFormCSVLink = (e: any): void => {
+    store.dispatch({ type: 'SET_FORM_CSV', payload: encodeURI(e.target.value) });
 }
 
-export const setFormEmail = (e:any): void =>{
-    store.dispatch({ type: 'SET_FORM_EMAIL', payload: encodeURI(e.target.value)});
+export const setFormEmail = (e: any): void => {
+    store.dispatch({ type: 'SET_FORM_EMAIL', payload: encodeURI(e.target.value) });
 }
 
 export const handleKey = (e: any, history: any, reset?: string): void => {
@@ -65,13 +65,16 @@ export const handleKey1 = (e: any, history: any, reset?: string): void => {
     }
 };
 
-export const uploadForm = () =>{
-    axios.post( '/addcourse',
-        {formCSV: store.getState().formCSV, 
-        formCL: store.getState().formCL, 
-        formCN: store.getState().formCN,
-        formPL: store.getState().formPL,
-        formEmail: store.getState().formEmail}
+export const uploadForm = () => {
+    axios.post('/addcourse',
+        {
+            token: getToken(),
+            formCSV: store.getState().formCSV,
+            formCL: store.getState().formCL,
+            formCN: store.getState().formCN,
+            formPL: store.getState().formPL,
+            formEmail: store.getState().formEmail,
+        }
     )
 }
 
@@ -99,7 +102,7 @@ export const search = (history: any, reset?: any): void => {
             .then((res: any) => dispatch({ type: "SEND_RESULTS", payload: res.data }))
             .then(() => {
                 dispatch({ type: "LOADING_STATUS", payload: false });
-                history.push("/browse?query="+store.getState().query+"&course="+store.getState().selectedcourse);
+                history.push("/browse?query=" + store.getState().query + "&course=" + store.getState().selectedcourse);
                 //screenGrab();
             });
     });
@@ -122,7 +125,7 @@ export const search1 = (history: any, reset?: any): void => {
             .then((res: any) => dispatch({ type: "SEND_RESULTS", payload: res.data }))
             .then(() => {
                 dispatch({ type: "LOADING_STATUS", payload: false });
-                history.push("/browse?query="+store.getState().query+"&course="+store.getState().selectedcourse);
+                history.push("/browse?query=" + store.getState().query + "&course=" + store.getState().selectedcourse);
                 //screenGrab();
             });
     });

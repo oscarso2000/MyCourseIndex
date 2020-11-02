@@ -21,8 +21,9 @@ JWK_KEYS = res.json()
 
 
 SCOPES = {
-    "User": ["Q1MgNDMwMAo=", "SU5GTyAxOTk4Cg==", "View"],
-    "Developer": ["Q1MgNDMwMAo=", "SU5GTyAxOTk4Cg==", "View"]
+    "User": ["Q1MgNDMwMAo=", "SU5GTyAxOTk4Cg==", "View", "AddCourse",],
+    "Developer": ["Q1MgNDMwMAo=", "SU5GTyAxOTk4Cg==", "View",],
+    "Professor": ["Q1MgNDMwMAo=", "SU5GTyAxOTk4Cg==", "View", "AddCourse",],
 }
 
 def make_scope_assignments(
@@ -151,6 +152,9 @@ def get_name(token: str, app_id: str) -> str:
 def get_claims(access_token, app_id):
     get_scopes_for_role = make_scope_assignments(SCOPES)
     return verify_token(access_token, app_id, get_scopes_for_role)
+
+def can_add_course(access_token, app_id):
+    return "AddCourse" in get_claims(access_token, app_id)
 
 
 def user_jwt_required(access_token, app_id):

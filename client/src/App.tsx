@@ -77,6 +77,13 @@ const getCourses: (token: string | null) => Promise<Array<object>> = (token) => 
     )
 }
 
+const getProfessor: (token: string | null) => Promise<Array<object>> = (token) => {
+    return axios.post('/isprof', { 'token': token }).then(
+        (response) => {
+            return response.data
+        }
+    )
+}
 
 const App: React.FC = (props: any) => {
 
