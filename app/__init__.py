@@ -89,13 +89,13 @@ def search_results():
         updated_query = get_all_tokens(query)
         cosine_results = cosineSim(updated_query, vecPy.docVecDictionary , courseSelection, vecPy.courseRevsereIndexDictionary)
         boolean_results = boolean(query, courseSelection)
-        svd_results = LSI_SVD(updated_query, vecPy.docVecDictionary, courseSelection, vecPy.courseRevsereIndexDictionary, vecPy.svdDictionary)
+        # svd_results = LSI_SVD(updated_query, vecPy.docVecDictionary, courseSelection, vecPy.courseRevsereIndexDictionary, vecPy.svdDictionary)
     
             
         # finalresults = results #np.multiply(results,vecPy.sourceDictionary[courseSelection])
         if (len(cosine_results) == 0 or len(svd_results) == 0):
             return jsonify([])
-        finalresults = np.add(np.multiply(svd_results,boolean_results),np.multiply(cosine_results,boolean_results))
+        finalresults = np.multiply(cosine_results,boolean_results) # np.add(np.multiply(svd_results,boolean_results),np.multiply(cosine_results,boolean_results))
         results_filter = (finalresults > 0.1)
         n= 50 #top x highest
 
