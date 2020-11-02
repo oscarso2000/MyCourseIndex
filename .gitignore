@@ -274,3 +274,6 @@ PO3Data.json
 P03Data.json
 signupData.json
 concept_matching/
+
+# Mac junk
+.DS_Store

@@ -23,9 +23,7 @@ export const CourseSelection: React.StatelessComponent<ICSProps> = ({
     return (
         <div className="mainContainer">
             <div className="top-bar">
-                {/* TODO1 */}
-                {/* <Link to="/about" className="main-about-bar" style={{ textDecoration: "none" }}> */}
-                <Link to="/form" className="main-about-bar" style={{ textDecoration: "none" }}>
+                <Link to="/about" className="main-about-bar" style={{ textDecoration: "none" }}>
                     About
                 </Link>
             </div>

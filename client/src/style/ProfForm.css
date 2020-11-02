@@ -1,6 +1,6 @@
 .home1,
 .home2{
-    display: inline-block;
+  display: inline-block;
 }
 
 .home1 {
@@ -31,26 +31,45 @@
 }
 
 .inputForm {
-    margin: auto;
-    width: 45vw;
-    color: #ffffff;
+  margin: auto;
+  width: 700px;
+  color: #ffffff;
 }
 
-/* Each label-input pair is a flexbox container for alignment purposes. */
+/* Each label-input pair is a grid container for alignment purposes. */
 .form-field {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: grid;
+  grid-template-columns: 8em auto;
+  justify-items: stretch;
+  align-items: center;
 }
 
 .form-label {
-    align-self: center;
-    margin-top: 0.5rem; /* To counter the SCSS 0.5rem margin-bottom */
+  align-self: center;
+  margin-top: 0.5rem; /* To counter the SCSS 0.5rem margin-bottom */
+  font-size: 130%;
 }
 
 .form-input {
-    margin-left: 1rem;
-    flex-grow: 2; /* Give priority to the input size > label size */
+  margin-left: 1rem;
+  height: 75%;
+  border-radius: 4px;
+  border-color: transparent;
+  border-width: 0.5px;
+}
+
+#terms-checkbox {
+  margin-right: 10px;
+}
+
+#prof-submit-button {
+  width: 200px;
+  margin-top: 10px;
+  float: right;
+  height: 50px;
+  font-size: 150%;
+  border-radius: 5px;
+  border-color: transparent;
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {

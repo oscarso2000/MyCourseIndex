@@ -10,7 +10,7 @@ export const Terms: React.StatelessComponent = (): JSX.Element => (
             <h3 className="home-2">Search</h3>
         </Link>
         <div className="center">
-            <h4>Terms and Conditions</h4>
+            <h4>Terms and Conditions (TBD)</h4>
             <p></p>
             <p>1. Term 1</p>
             <p>2. Term 2</p>
