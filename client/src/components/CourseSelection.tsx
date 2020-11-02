@@ -5,6 +5,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Mediacard from './MultipleCoursesModal/container';
 import Mediacardnomodal from './Mediacardnomodal';
+import AddCourseCard from './addCourseCard';
 import { connect } from 'react-redux';
 
 // import { RouteComponentProps } from '@reach/router';
@@ -22,13 +23,9 @@ export const CourseSelection: React.StatelessComponent<ICSProps> = ({
     return (
         <div className="mainContainer">
             <div className="top-bar">
-                {/* <Link to="/" target="_self" style={{ textDecoration: "none" }}>
-          <h3 className="heading-1">MyCourseIndex</h3>
-          <h3 className="heading-2">Course</h3>
-        </Link> */}
                 <Link to="/about" className="main-about-bar" style={{ textDecoration: "none" }}>
                     About
-        </Link>
+                </Link>
             </div>
 
             <div className="contentContainer">
@@ -41,16 +38,21 @@ export const CourseSelection: React.StatelessComponent<ICSProps> = ({
                             const cardProps = {
                                 course: item
                             }
-                            if (item.protected) {
-                                return <div className={"mediacard"} key={i}><Mediacard {...cardProps} /> </div>
-                            }
-                            else {
-                                return <div className={"nomodalmediacard"} key={i}><Mediacardnomodal {...cardProps} /></div>
+                            if (item.add) {
+                                return <div className={"nomodalmediacard"} key={i}><AddCourseCard {...cardProps} /></div>
+                            } else {
+                                if (item.protected) {
+                                    return <div className={"mediacard"} key={i}><Mediacard {...cardProps} /> </div>
+                                }
+                                else {
+                                    return <div className={"nomodalmediacard"} key={i}><Mediacardnomodal {...cardProps} /></div>
+                                }
                             }
                         }
                         )
                     }
                 </div>
+                {/* Check to see if prof => Display "Add Course" Button that redirects to Forms Page */}
             </div>
         </div >
     );
