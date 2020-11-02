@@ -10,11 +10,17 @@ import requests
 import typing
 import logging
 
+no_config = True
+while no_config:
+    try:
+        res = requests.get(
+            "https://login.microsoftonline.com/5d7e4366-1b9b-45cf-8e79-b14b27df46e1/.well-known/openid-configuration"
+            # "https://login.microsoftonline.com/common/.well-known/openid-configuration"
+        )
+        no_config = False
+    except requests.exceptions.ConnectionError as e:
+        print(f"Error: {e}")
 
-res = requests.get(
-    "https://login.microsoftonline.com/5d7e4366-1b9b-45cf-8e79-b14b27df46e1/.well-known/openid-configuration"
-    # "https://login.microsoftonline.com/common/.well-known/openid-configuration"
-)
 JWKS_URI = res.json()["jwks_uri"]
 res = requests.get(JWKS_URI)
 JWK_KEYS = res.json()
