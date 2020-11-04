@@ -17,9 +17,9 @@
 }
 .center {
   position: absolute;
-  margin-top: 550px;
+  margin-top: 10%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 0%);
   color: #ffffff;
   width: 45vw;
 }

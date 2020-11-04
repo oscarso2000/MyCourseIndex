@@ -12,9 +12,9 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
         <div className="center">
             <div className="awesome" >
                 {/* //style={{ border: '1px solid red' }}> */}
-                <style dangerouslySetInnerHTML={{ __html: "\n\t[data-custom-class='body'],\n\t[data-custom-class='body'] * {\n\t\tbackground: transparent !important;\n\t}\n\t\n\t[data-custom-class='title'],\n\t[data-custom-class='title'] * {\n\t\tfont-family: Arial !important;\n\t\tfont-size: 26px !important;\n\t\tcolor: #000000 !important;\n\t}\n\t\n\t[data-custom-class='subtitle'],\n\t[data-custom-class='subtitle'] * {\n\t\tfont-family: Arial !important;\n\t\tcolor: #595959 !important;\n\t\tfont-size: 14px !important;\n\t}\n\t\n\t[data-custom-class='heading_1'],\n\t[data-custom-class='heading_1'] * {\n\t\tfont-family: Arial !important;\n\t\tfont-size: 19px !important;\n\t\tcolor: #000000 !important;\n\t}\n\t\n\t[data-custom-class='heading_2'],\n\t[data-custom-class='heading_2'] * {\n\t\tfont-family: Arial !important;\n\t\tfont-size: 17px !important;\n\t\tcolor: #000000 !important;\n\t}\n\t\n\t[data-custom-class='body_text'],\n\t[data-custom-class='body_text'] * {\n\t\tcolor: #595959 !important;\n\t\tfont-size: 14px !important;\n\t\tfont-family: Arial !important;\n\t}\n\t\n\t[data-custom-class='link'],\n\t[data-custom-class='link'] * {\n\t\tcolor: #3030F1 !important;\n\t\tfont-size: 14px !important;\n\t\tfont-family: Arial !important;\n\t\tword-break: break-word !important;\n\t}\n\t" }} />
+                <style dangerouslySetInnerHTML={{ __html: "\n\t[data-custom-class='body'],\n\t[data-custom-class='body'] * {\n\t\tbackground: transparent !important;\n\t}\n\t\n\t[data-custom-class='title'],\n\t[data-custom-class='title'] * {\n\t\tfont-family: Arial !important;\n\t\tfont-size: 26px !important;\n\t}\n\t\n\t[data-custom-class='subtitle'],\n\t[data-custom-class='subtitle'] * {\n\t\tfont-family: Arial !important;\n\t\tfont-size: 14px !important;\n\t}\n\t\n\t[data-custom-class='heading_1'],\n\t[data-custom-class='heading_1'] * {\n\t\tfont-family: Arial !important;\n\t\tfont-size: 19px !important;\n\t}\n\t\n\t[data-custom-class='heading_2'],\n\t[data-custom-class='heading_2'] * {\n\t\tfont-family: Arial !important;\n\t\tfont-size: 17px !important;\n\t}\n\t\n\t[data-custom-class='body_text'],\n\t[data-custom-class='body_text'] * {\n\t\tfont-size: 14px !important;\n\t\tfont-family: Arial !important;\n\t}\n\t\n\t[data-custom-class='link'],\n\t[data-custom-class='link'] * {\n\t\tcolor: #00CDCD !important;\n\t\tfont-size: 14px !important;\n\t\tfont-family: Arial !important;\n\t\tword-break: break-word !important;\n\t}\n\t" }} />
                 <div data-custom-class="body">
-                    <div><strong><span style={{ fontSize: '26px' }}><span data-custom-class="title">PRIVACY NOTICE</span></span></strong></div>
+                    <div><strong><span style={{ fontSize: '26px' }}><span data-custom-class="title">Privacy Policy</span></span></strong></div>
                     <div>
                         <br />
                     </div>
@@ -40,7 +40,7 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
                     </span>
                     </div>
                     <div style={{ lineHeight: '1.5' }}><span style={{ fontSize: '15px' }}><br /></span></div>
-                    <div style={{ lineHeight: '1.5' }}><span style={{ fontSize: '15px' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span data-custom-class="body_text">When you <span style={{ color: 'rgb(225, 225, 225)' }}><span data-custom-class="body_text"></span></span>visit our website
+                    <div style={{ lineHeight: '1.5' }}><span style={{ fontSize: '15px' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span data-custom-class="body_text">When you <span style={{ color: 'rgb(225, 225, 225)' }}><span data-custom-class="body_text"></span></span>visit our website&nbsp; 
                     <a href="http://www.mycourseindex.com" target="_blank" data-custom-class="link">http://www.mycourseindex.com</a> (the "<strong>Website</strong>"), <span style={{ color: 'rgb(225, 225, 225)' }}><span data-custom-class="body_text"></span></span> and more generally, use any of our services (the "<strong>Services</strong>", which include the </span><span style={{ color: 'rgb(225, 225, 225)' }}><span data-custom-class="body_text"><span style={{ color: 'rgb(225, 225, 225)' }}><span data-custom-class="body_text"><span data-custom-class="body_text" />Website<span style={{ color: 'rgb(225, 225, 225)' }}><span data-custom-class="body_text"></span></span>
                             
                         </span>
@@ -65,7 +65,7 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
                     </span>
                     </div>
                     <div style={{ lineHeight: '1.5' }}><span style={{ fontSize: '15px' }}><br /></span></div>
-                    <div style={{ lineHeight: '1.5' }}><span style={{ fontSize: '15px' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(0, 0, 0)' }}><strong><span data-custom-class="heading_1">TABLE OF CONTENTS</span></strong>
+                    <div style={{ lineHeight: '1.5' }}><span style={{ fontSize: '15px' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(255, 255, 255)' }}><strong><span data-custom-class="heading_1">TABLE OF CONTENTS</span></strong>
                     </span>
                     </span>
                     </span>
@@ -122,7 +122,7 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
                     <div style={{ lineHeight: '1.5' }}>
                         <br />
                     </div>
-                    <div id="infocollect" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(0, 0, 0)' }}><strong><span data-custom-class="heading_1">1. WHAT INFORMATION DO WE COLLECT?</span></strong><span data-custom-class="heading_1"><span data-custom-class="body_text" />
+                    <div id="infocollect" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(255, 255, 255)' }}><strong><span data-custom-class="heading_1">1. WHAT INFORMATION DO WE COLLECT?</span></strong><span data-custom-class="heading_1"><span data-custom-class="body_text" />
                     </span>
                     </span>
                     </span>
@@ -130,7 +130,7 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
                     </span>
                     </span>
                     </div>
-                    <div style={{ lineHeight: '1.5' }}><span data-custom-class="heading_2" style={{ color: 'rgb(0, 0, 0)' }}><span style={{ fontSize: '15px' }}><strong><u><br /></u></strong><strong>Personal information you disclose to us</strong></span></span>
+                    <div style={{ lineHeight: '1.5' }}><span data-custom-class="heading_2" style={{ color: 'rgb(255, 255, 255)' }}><span style={{ fontSize: '15px' }}><strong><u><br /></u></strong><strong>Personal information you disclose to us</strong></span></span>
                     </div>
                     <div>
                         <div>
@@ -179,7 +179,7 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
                     </span>
                     </span>
                     </div>
-                    <div style={{ lineHeight: '1.5' }}><span data-custom-class="heading_2" style={{ color: 'rgb(0, 0, 0)' }}><span style={{ fontSize: '15px' }}><strong><u><br /></u></strong><strong>Information automatically collected</strong></span></span>
+                    <div style={{ lineHeight: '1.5' }}><span data-custom-class="heading_2" style={{ color: 'rgb(255, 255, 255)' }}><span style={{ fontSize: '15px' }}><strong><u><br /></u></strong><strong>Information automatically collected</strong></span></span>
                     </div>
                     <div>
                         <div>
@@ -258,7 +258,7 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
                         <div style={{ lineHeight: '1.5' }}>
                             <br />
                         </div>
-                        <div id="infouse" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(0, 0, 0)' }}><strong><span data-custom-class="heading_1">2. HOW DO WE USE YOUR INFORMATION?</span></strong>
+                        <div id="infouse" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(255, 255, 255)' }}><strong><span data-custom-class="heading_1">2. HOW DO WE USE YOUR INFORMATION?</span></strong>
                         </span>
                         </span>
                         </span>
@@ -551,7 +551,7 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
                                 <div style={{ lineHeight: '1.5' }}>
                                     <br />
                                 </div>
-                                <div id="infoshare" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(0, 0, 0)' }}><strong><span data-custom-class="heading_1">3. WILL YOUR INFORMATION BE SHARED WITH ANYONE?</span></strong>
+                                <div id="infoshare" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(255, 255, 255)' }}><strong><span data-custom-class="heading_1">3. WILL YOUR INFORMATION BE SHARED WITH ANYONE?</span></strong>
                                 </span>
                                 </span>
                                 </span>
@@ -695,7 +695,7 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
                                                     <div style={{ lineHeight: '1.5' }}>
                                                         <br />
                                                     </div>
-                                                    <div id="inforetain" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(0, 0, 0)' }}><strong><span data-custom-class="heading_1">4. HOW LONG DO WE KEEP YOUR INFORMATION?</span></strong>
+                                                    <div id="inforetain" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(255, 255, 255)' }}><strong><span data-custom-class="heading_1">4. HOW LONG DO WE KEEP YOUR INFORMATION?</span></strong>
                                                     </span>
                                                     </span>
                                                     </span>
@@ -726,7 +726,7 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
                                                     <div style={{ lineHeight: '1.5' }}>
                                                         <br />
                                                     </div>
-                                                    <div id="infosafe" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(0, 0, 0)' }}><strong><span data-custom-class="heading_1">5. HOW DO WE KEEP YOUR INFORMATION SAFE?</span></strong>
+                                                    <div id="infosafe" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(255, 255, 255)' }}><strong><span data-custom-class="heading_1">5. HOW DO WE KEEP YOUR INFORMATION SAFE?</span></strong>
                                                     </span>
                                                     </span>
                                                     </span>
@@ -762,7 +762,7 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
                                                     <div style={{ lineHeight: '1.5' }}>
                                                         <br />
                                                     </div>
-                                                    <div id="infominors" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(0, 0, 0)' }}><strong><span data-custom-class="heading_1">6. DO WE COLLECT INFORMATION FROM MINORS?</span></strong>
+                                                    <div id="infominors" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(255, 255, 255)' }}><strong><span data-custom-class="heading_1">6. DO WE COLLECT INFORMATION FROM MINORS?</span></strong>
                                                     </span>
                                                     </span>
                                                     </span>
@@ -799,7 +799,7 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
                                                     <div style={{ lineHeight: '1.5' }}>
                                                         <br />
                                                     </div>
-                                                    <div id="privacyrights" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(0, 0, 0)' }}><strong><span data-custom-class="heading_1">7. WHAT ARE YOUR PRIVACY RIGHTS?</span></strong>
+                                                    <div id="privacyrights" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(255, 255, 255)' }}><strong><span data-custom-class="heading_1">7. WHAT ARE YOUR PRIVACY RIGHTS?</span></strong>
                                                     </span>
                                                     </span>
                                                     </span>
@@ -843,7 +843,7 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
                                                     <div style={{ lineHeight: '1.5' }}>
                                                         <br />
                                                     </div>
-                                                    <div id="DNT" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(0, 0, 0)' }}><strong><span data-custom-class="heading_1">8. CONTROLS FOR DO-NOT-TRACK FEATURES</span></strong>
+                                                    <div id="DNT" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(255, 255, 255)' }}><strong><span data-custom-class="heading_1">8. CONTROLS FOR DO-NOT-TRACK FEATURES</span></strong>
                                                     </span>
                                                     </span>
                                                     </span>
@@ -859,7 +859,7 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
                                                     <div style={{ lineHeight: '1.5' }}>
                                                         <br />
                                                     </div>
-                                                    <div id="caresidents" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(0, 0, 0)' }}><strong><span data-custom-class="heading_1">9. DO CALIFORNIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?</span></strong>
+                                                    <div id="caresidents" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(255, 255, 255)' }}><strong><span data-custom-class="heading_1">9. DO CALIFORNIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?</span></strong>
                                                     </span>
                                                     </span>
                                                     </span>
@@ -905,7 +905,7 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
                                                     <div style={{ lineHeight: '1.5' }}>
                                                         <br />
                                                     </div>
-                                                    <div id="policyupdates" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(0, 0, 0)' }}><strong><span data-custom-class="heading_1">10. DO WE MAKE UPDATES TO THIS NOTICE?</span></strong>
+                                                    <div id="policyupdates" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(255, 255, 255)' }}><strong><span data-custom-class="heading_1">10. DO WE MAKE UPDATES TO THIS NOTICE?</span></strong>
                                                     </span>
                                                     </span>
                                                     </span>
@@ -925,7 +925,7 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
                                                     <div style={{ lineHeight: '1.5' }}>
                                                         <br />
                                                     </div>
-                                                    <div id="contact" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(0, 0, 0)' }}><strong><span data-custom-class="heading_1">11. HOW CAN YOU CONTACT US ABOUT THIS NOTICE?</span></strong>
+                                                    <div id="contact" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(255, 255, 255)' }}><strong><span data-custom-class="heading_1">11. HOW CAN YOU CONTACT US ABOUT THIS NOTICE?</span></strong>
                                                     </span>
                                                     </span>
                                                     </span>
@@ -980,7 +980,7 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
                                                     <div style={{ lineHeight: '1.5' }}>
                                                         <br />
                                                     </div>
-                                                    <div id="request" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(0, 0, 0)' }}><strong><span data-custom-class="heading_1">12. HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?</span></strong>
+                                                    <div id="request" style={{ lineHeight: '1.5' }}><span style={{ color: 'rgb(255, 255, 255)' }}><span style={{ color: 'rgb(225, 225, 225)', fontSize: '15px' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span style={{ fontSize: '15px', color: 'rgb(225, 225, 225)' }}><span id="control" style={{ color: 'rgb(255, 255, 255)' }}><strong><span data-custom-class="heading_1">12. HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?</span></strong>
                                                     </span>
                                                     </span>
                                                     </span>
@@ -994,7 +994,7 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
                                                     </div>
                                                     <style dangerouslySetInnerHTML={{ __html: "\n\t\t\t\t\t\t\t\t\tul {\n\t\t\t\t\t\t\t\t\t\tlist-style-type: square;\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\tul > li > ul {\n\t\t\t\t\t\t\t\t\t\tlist-style-type: circle;\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\tul > li > ul > li > ul {\n\t\t\t\t\t\t\t\t\t\tlist-style-type: square;\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\tol li {\n\t\t\t\t\t\t\t\t\t\tfont-family: Arial;\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t" }} />
                                                 </div>
-                                                <div style={{ color: '#595959', fontSize: '14px', fontFamily: 'Arial', paddingTop: '16px' }}>This privacy policy was created using <a style={{ color: 'rgb(48, 48, 241) !important' }} href="https://termly.io/products/privacy-policy-generator/?ftseo">Termly’s Privacy Policy Generator</a>.</div>
+                                                <div style={{fontSize: '14px', fontFamily: 'Arial', paddingTop: '16px' }}>This privacy policy was created using <a style={{ color: 'rgb(48, 48, 241) !important' }} href="https://termly.io/products/privacy-policy-generator/?ftseo">Termly’s Privacy Policy Generator</a>.</div>
                                             </div>
                                             <p>Enter your HTML here</p>
                                         </div></div></div></div></div></div></div></div>
