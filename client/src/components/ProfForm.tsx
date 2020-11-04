@@ -49,9 +49,9 @@ export const ProfForm: React.StatelessComponent = (): JSX.Element => (
                     <label htmlFor="student-list-csv" className="form-label">Students list:</label>
                     <input type="file" className="form-input" name="student-list-csv" onChange={validateFileInput} accept=".csv" required/>
                 </div> */}
-                
+                <br />
                 <input type="checkbox" name="terms-and-conds" value="2" required/>
-                <label htmlFor="terms-and-conds"> I agree to the <a href="Terms" target="_blank"><u>terms and conditions</u></a> of MyCourseIndex</label>
+                <label htmlFor="terms-and-conds">&nbsp;I agree to the <a href="Terms" target="_blank"><u>Terms &amp; Conditions</u></a> and <a href="Policy" target="_blank"><u>Privacy Policy</u></a> of MyCourseIndex</label>
             </form>
             <button type="submit" form="class-signup-form" onClick={uploadForm}>Submit</button>
         </div>
