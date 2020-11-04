@@ -10,7 +10,7 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
             <h3 className="home-2">Search</h3>
         </Link>
         <div className="center">
-            <h2><strong>Policy</strong></h2>
+            <h2><strong>Privacy Policy</strong></h2>
         </div>
         
     </div>
