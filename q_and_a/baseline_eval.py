@@ -33,10 +33,18 @@ def passed_arguments():
 											type=str,
 											required=True,
 											help="Path to evaluation dataset")
+
+	parser.add_argument("--impossible_on",
+											type=int,
+											required=True,
+											help="0 if don't want to inlcude impossible questions, 1 otherwise")
+
 	args = parser.parse_args()
 	return args
 
-def process_json(data_path):
+
+# imp_toggle = true if want to include impossible
+def process_json(data_path, imp_toggle):
   question = []
   text = []
   answer = []
@@ -45,10 +53,17 @@ def process_json(data_path):
     data = json.load(f)["data"]
   
   for d in data:
-    question.append(d["question"])
-    text.append(d["context"])
-    answer.append(d["answer"])
-    is_impossible.append(d["is_impossible"])
+    if imp_toggle:
+      question.append(d["question"])
+      text.append(d["context"])
+      answer.append(d["answer"])
+      is_impossible.append(d["is_impossible"])
+    else:
+      if not d["is_impossible"]:
+        question.append(d["question"])
+        text.append(d["context"])
+        answer.append(d["answer"])
+        is_impossible.append(d["is_impossible"])
   
   return question, text, answer, is_impossible
 
@@ -161,7 +176,7 @@ def evaluate(preds, labels, model_id):
 
 
 
-def main(model_id, data_path):
+def main(model_id, data_path, imp_toggle):
   print('Starting baseline evaluation\n')
 
   if model_id == 0:
@@ -169,9 +184,13 @@ def main(model_id, data_path):
   elif model_id ==1:
     print("Picked distilbert")
 
+  question, text, labels, _ = process_json(data_path, imp_toggle)
 
+  if imp_toggle:
+    print("We are testing impossible questions")
+  else:
+    print("Not testing impossible")
 
-  question, text, labels, _ = process_json(data_path)
   input_text = process_data(question, text)
 
   print("Starting predictions")
@@ -190,4 +209,5 @@ if __name__ == '__main__':
   args = passed_arguments()
   model_id = args.model
   data_path = args.data_path
-  main(model_id, data_path)
+  imp_toggle = args.impossible_on
+  main(model_id, data_path, imp_toggle)
