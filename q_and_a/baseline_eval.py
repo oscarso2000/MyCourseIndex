@@ -49,6 +49,7 @@ def process_json(data_path, imp_toggle):
   text = []
   answer = []
   is_impossible = []
+  ids = []
   with open(data_path) as f:
     data = json.load(f)["data"]
   
@@ -58,14 +59,16 @@ def process_json(data_path, imp_toggle):
       text.append(d["context"])
       answer.append(d["answer"])
       is_impossible.append(d["is_impossible"])
+      ids.append(d["id"])
     else:
       if not d["is_impossible"]:
         question.append(d["question"])
         text.append(d["context"])
         answer.append(d["answer"])
         is_impossible.append(d["is_impossible"])
+        ids.append(d["id"])
   
-  return question, text, answer, is_impossible
+  return question, text, answer, is_impossible, ids
 
 
 #list of question, text
@@ -129,7 +132,7 @@ def predictions(model_id, input_text, print_some_outputs = True):
 
 #returns the precision, recall, and f1 score
 #preds and labels should be tokenized
-def evaluate(preds, labels, model_id):
+def evaluate(preds, labels, questions, ids, model_id):
 
   tokenizer, _ = model_pick(model_id)
 
@@ -166,6 +169,11 @@ def evaluate(preds, labels, model_id):
       recall += re
       #calculate f1
       f1 += 0 if (pr == 0 or re == 0) else (2*pr*re)/(pr+re)
+      if (pr == 0 or re == 0):
+
+        print("\nBad results example ",ids[i], ': ', questions[i])
+        print("Prediction: ", ' '.join(p))
+        print("Answer: ", ' '.join(l))
 
   #average over all samples
   precision = precision/n
@@ -184,7 +192,7 @@ def main(model_id, data_path, imp_toggle):
   elif model_id ==1:
     print("Picked distilbert")
 
-  question, text, labels, _ = process_json(data_path, imp_toggle)
+  question, text, labels, _, ids = process_json(data_path, imp_toggle)
 
   if imp_toggle:
     print("We are testing impossible questions")
@@ -197,10 +205,10 @@ def main(model_id, data_path, imp_toggle):
   preds = predictions(model_id, input_text)
 
   print("Evaluating predictions")
-  p, r, f1 = evaluate(preds, labels, model_id) 
+  p, r, f1 = evaluate(preds, labels, question, ids, model_id) 
 
   #print some stats
-  print('Evaluation Stats are: ')
+  print('\nEvaluation Stats are: ')
   print('\tPrecision: ', p)
   print('\tRecall: ', r)
   print('\tF1 score: ', f1)
