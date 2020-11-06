@@ -18,10 +18,6 @@ import argparse
 from collections import Counter
 
 
-#####Global variables
-
-# need the path to the eval data
-
 def passed_arguments():
 	parser = argparse.ArgumentParser(description="Script to evaluate model predictions.")
 	parser.add_argument("--model",
@@ -37,7 +33,7 @@ def passed_arguments():
 	parser.add_argument("--impossible_on",
 											type=int,
 											required=True,
-											help="0 if don't want to inlcude impossible questions, 1 otherwise")
+											help="0: no impossible questions\n1: impossible questions")
 
 	args = parser.parse_args()
 	return args
@@ -54,25 +50,15 @@ def process_json(data_path, imp_toggle):
     data = json.load(f)["data"]
   
   for d in data:
-    if imp_toggle:
+    if (not d["is_impossible"] or imp_toggle):
       question.append(d["question"])
       text.append(d["context"])
       answer.append(d["answer"])
       is_impossible.append(d["is_impossible"])
       ids.append(d["id"])
-    else:
-      if not d["is_impossible"]:
-        question.append(d["question"])
-        text.append(d["context"])
-        answer.append(d["answer"])
-        is_impossible.append(d["is_impossible"])
-        ids.append(d["id"])
-  
+
   return question, text, answer, is_impossible, ids
 
-
-#list of question, text
-#question, text = "What day is it today?", "My name is Mike and I live in Ithaca."
 def process_data(question, text):
   input_text = []
   for i in range(len(question)):
@@ -125,8 +111,6 @@ def predictions(model_id, input_text, print_some_outputs = True):
       all_tokens = tokenizer.convert_ids_to_tokens(input_ids)
       preds.append((all_tokens[torch.argmax(start_scores) : torch.argmax(end_scores)+1]))
 
-    #print('result: ', ' '.join(all_tokens[torch.argmax(start_scores) : torch.argmax(end_scores)+1]))
-
   return preds
 
 
@@ -171,7 +155,7 @@ def evaluate(preds, labels, questions, ids, model_id):
       f1 += 0 if (pr == 0 or re == 0) else (2*pr*re)/(pr+re)
       if (pr == 0 or re == 0):
 
-        print("\nBad results example ",ids[i], ': ', questions[i])
+        print("\nBad answer example ",ids[i], ': ', questions[i])
         print("Prediction: ", ' '.join(p))
         print("Answer: ", ' '.join(l))
 
@@ -195,9 +179,9 @@ def main(model_id, data_path, imp_toggle):
   question, text, labels, _, ids = process_json(data_path, imp_toggle)
 
   if imp_toggle:
-    print("We are testing impossible questions")
+    print("Testing impossible questions")
   else:
-    print("Not testing impossible")
+    print("Not testing impossible questions")
 
   input_text = process_data(question, text)
 
