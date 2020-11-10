@@ -96,5 +96,6 @@
   #prof-submit-button {
     float: unset;
     width: 100%;
+    margin-bottom: 150px;
   }
 }
