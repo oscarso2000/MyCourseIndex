@@ -85,6 +85,16 @@
 /* Media queries for small-size screens for form < 700px */
 @media only screen and (max-width: 700px) {
   .inputForm {
-    width: 50vw;
+    width: 70vw;
+  }
+
+  .form-field {
+    grid-template-columns: unset;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  #prof-submit-button {
+    float: unset;
+    width: 100%;
   }
 }
