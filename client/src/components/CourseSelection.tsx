@@ -5,6 +5,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Mediacard from './MultipleCoursesModal/container';
 import Mediacardnomodal from './Mediacardnomodal';
+import AddCourseCard from './addCourseCard';
 import { connect } from 'react-redux';
 
 // import { RouteComponentProps } from '@reach/router';
@@ -22,9 +23,7 @@ export const CourseSelection: React.StatelessComponent<ICSProps> = ({
     return (
         <div className="mainContainer">
             <div className="top-bar">
-                {/* TODO1 */}
-                {/* <Link to="/about" className="main-about-bar" style={{ textDecoration: "none" }}> */}
-                <Link to="/form" className="main-about-bar" style={{ textDecoration: "none" }}>
+                <Link to="/about" className="main-about-bar" style={{ textDecoration: "none" }}>
                     About
                 </Link>
             </div>
@@ -39,11 +38,15 @@ export const CourseSelection: React.StatelessComponent<ICSProps> = ({
                             const cardProps = {
                                 course: item
                             }
-                            if (item.protected) {
-                                return <div className={"mediacard"} key={i}><Mediacard {...cardProps} /> </div>
-                            }
-                            else {
-                                return <div className={"nomodalmediacard"} key={i}><Mediacardnomodal {...cardProps} /></div>
+                            if (item.add) {
+                                return <div className={"nomodalmediacard"} key={i}><AddCourseCard {...cardProps} /></div>
+                            } else {
+                                if (item.protected) {
+                                    return <div className={"mediacard"} key={i}><Mediacard {...cardProps} /> </div>
+                                }
+                                else {
+                                    return <div className={"nomodalmediacard"} key={i}><Mediacardnomodal {...cardProps} /></div>
+                                }
                             }
                         }
                         )

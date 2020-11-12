@@ -11,7 +11,7 @@ from flask import Flask, render_template, request, redirect, flash, url_for, sen
 #from db_setup import init_db, db_session
 from urllib.parse import unquote
 from piazza_api import Piazza
-from app.auth import user_jwt_required, get_name, get_claims
+from app.auth import user_jwt_required, get_name, get_claims, can_add_course
 start_import = time.time()
 end_import = time.time()
 
@@ -164,6 +164,10 @@ def search_results():
 
 @app.route("/addcourse", methods=["POST"])
 def add_prof_course():
+    access_token = request.get_json()["token"]
+    validated = can_add_course(access_token, app.config["APP_ID"])
+    if not validated:
+        return "Denied"
     input_request = request.get_json()
     # h = html2text.HTML2Text()
     # h.ignore_links = True
@@ -186,7 +190,20 @@ def get_user_courses():
             if app.config["COURSE_MAPPING"].get(claim, "") != "":
                 to_json.append(app.config["COURSE_MAPPING"].get(claim))
         to_json = sorted(to_json, key=lambda x: x["courseName"])
+        for d in to_json:
+            d["add"] = False
+        if "AddCourse" in claims["scope"]:
+            to_json.append({"courseName": "Add Course", "add": True, "protected": True})
+        
         return jsonify(to_json)
+
+
+@app.route("/isprof", methods=["POST"])
+def is_professor():
+    access_token = request.get_json()["token"]
+    claims = can_add_course(access_token, app.config["APP_ID"])
+    return claims
+
 
 
 @app.route("/folders", methods=["POST"])

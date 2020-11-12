@@ -5,6 +5,7 @@ import CourseSelection from './components/CourseSelection';
 import { RouteComponentProps } from '@reach/router';
 import Home from './containers/Home';
 import { Terms } from './components/Terms';
+import { Policy } from './components/Policy'
 import { About } from './components/About';
 import { Switch, Route } from 'react-router-dom';
 import { ProfForm } from './components/ProfForm'
@@ -77,6 +78,13 @@ const getCourses: (token: string | null) => Promise<Array<object>> = (token) => 
     )
 }
 
+const getProfessor: (token: string | null) => Promise<Array<object>> = (token) => {
+    return axios.post('/isprof', { 'token': token }).then(
+        (response) => {
+            return response.data
+        }
+    )
+}
 
 const App: React.FC = (props: any) => {
 
@@ -143,6 +151,7 @@ const App: React.FC = (props: any) => {
                         {/* TODO1: Need to check if prof for this one too just in case */}
                         <Route path="/form" component={ProfForm} />
                         <Route path="/terms" component={Terms} />
+                        <Route path='/policy'component={Policy} />
                     </Switch>
                 </div>
             )
