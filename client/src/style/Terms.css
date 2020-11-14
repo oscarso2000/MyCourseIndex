@@ -53,3 +53,20 @@
     width: 90vw;
   }
 }
+/* Media queries for small-size screens for form < 700px */
+@media only screen and (max-width: 700px) {
+  .inputForm {
+    width: 70vw;
+  }
+
+  .form-field {
+    grid-template-columns: unset;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  #prof-submit-button {
+    float: unset;
+    width: 100%;
+    margin-bottom: 150px;
+  }
+}
