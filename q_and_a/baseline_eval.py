@@ -67,14 +67,16 @@ def process_data(question, text):
   return input_text
 
 
-#returns the tokenizer and model associated with the model id
-# 0 = bert
-# 1 = distilbert
+'''
+returns the tokenizer and model associated with the model id
+ 0 = bert
+ 1 = distilbert
+'''
 def model_pick(id):
   if (id == 0):
     tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
     model = BertForQuestionAnswering.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
-  if (id == 1):
+  elif (id == 1):
     tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased-distilled-squad")
     model = AutoModelForQuestionAnswering.from_pretrained("distilbert-base-uncased-distilled-squad")
 
