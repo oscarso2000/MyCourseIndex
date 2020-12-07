@@ -1,5 +1,5 @@
 # MyCourseIndex
-MyCourseIndex is a project for CS/INFO 4300: Language and Information that acts as an essential search engine for Cornell students and their courses with the initial goal to improve the Piazza search user experience. This search gathers all information from Piazza posts to Textbook and Notes Resources and returns valid results for the student to utilize.  
+MyCourseIndex is a project for CS/INFO 4300: Language and Information that acts as an essential search engine for Cornell students and their courses with the initial goal to improve the Piazza search user experience. This search gathers all information from Piazza posts to Textbook and Notes Resources and returns valid results for the student to utilize. It is now being maintained by members of the Cornell Data Science Project Team. Currently, the MCI team is workng on a Q&A system for students and also created a new sign on page for Professors to enroll their courses into the system.
 
 [![Build Status](https://travis-ci.org/oscarso2000/MyCourseIndex.svg?branch=master)](https://travis-ci.org/oscarso2000/MyCourseIndex)
 
@@ -7,8 +7,8 @@ MyCourseIndex is a project for CS/INFO 4300: Language and Information that acts 
 Note: You must have a Cornell Email to utilize this website due to security reasons.
 
 * [Website Link: www.mycourseindex.com](https://www.mycourseindex.com)
-* [Prototype 2: v2.mycourseindex.com](https://v2.mycourseindex.com)
-* [Prototype 1: v1.mycourseindex.com](https://v1.mycourseindex.com)
+* [Prototype 2: v2.mycourseindex.com](https://v2.mycourseindex.com) {Deprecated}
+* [Prototype 1: v1.mycourseindex.com](https://v1.mycourseindex.com) {Deprecated}
 * [Documentation: docs.mycourseindex.com](https://docs.mycourseindex.com)
 
 ## Preview 
@@ -45,7 +45,8 @@ Note: You must have a Cornell Email to utilize this website due to security reas
 
 ### Accessing the Source Code
 
-```bash
+```
+bash
 git clone
 ```
 
@@ -91,3 +92,9 @@ and management of containerized microservices.
 1. [Souleiman Benhida (sb2342)](https://github.com/soule)
 1. [Sheetal Athrey (spa42)](https://github.com/sheetal-athrey)
 1. [Oscar So (ons4)](https://github.com/oscarso2000)
+1. [David Kim (jk2537)](https://github.com/TrueshotBarrage)
+1. [Jessie Lee (sl994)](https://github.com/shljessie)
+1. [Julia Ng (jen67)](https://github.com/ngjulia)
+1. [Katie Yang (ky289)](https://github.com/yangkt)
+1. [Elva Gao (yg357)](https://github.com/elvaaaa)
+1. [John O'Donnell (jro79)](https://github.com/jodonnell77)
