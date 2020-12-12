@@ -22,6 +22,7 @@ export interface IHomeProps {
     tags: string[];
     rv: boolean;
     selectedcourse?: string;
+    QA: string;
 }
 
 
@@ -37,6 +38,7 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
     tags,
     rv,
     selectedcourse,
+    QA,
 }: IHomeProps) => {
     let location = useLocation();
     let history = useHistory();
@@ -52,7 +54,7 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
     if (loadingStatus === true) {
         {/* 
         // @ts-ignore */}
-        return <ResultsView query={query} loadingStatus={loadingStatus} outline={outline} order={order} folders={folders} tags={tags} />;
+        return <ResultsView query={query} loadingStatus={loadingStatus} outline={outline} order={order} folders={folders} tags={tags} QA={QA}/>;
     } else if ((loadingStatus === false && !!results && query != undefined)) {
         if (rv === true) {
             return (
@@ -66,6 +68,7 @@ export const Home: React.StatelessComponent<IHomeProps> = ({
                     order={order}
                     folders={folders}
                     tags={tags}
+                    QA={QA}
                 />
             );
         } else {
@@ -96,7 +99,8 @@ const mapStateToProps = (state: IHomeProps): IHomeProps => {
         folders: state.folders,
         tags: state.tags,
         rv: state.rv,
-        selectedcourse: state.selectedcourse 
+        selectedcourse: state.selectedcourse,
+        QA: state.QA
     };
 };
 

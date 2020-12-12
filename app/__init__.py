@@ -11,6 +11,7 @@ from flask import Flask, render_template, request, redirect, flash, url_for, sen
 #from db_setup import init_db, db_session
 from urllib.parse import unquote
 from piazza_api import Piazza
+from q_and_a import interrogativeNLP, pipeline, class_context
 from app.auth import user_jwt_required, get_name, get_claims, can_add_course
 start_import = time.time()
 end_import = time.time()
@@ -68,6 +69,44 @@ def whoami():
     name = get_name(access_token, app.config["APP_ID"])
     return name
 
+@app.route('/qa', methods=["POST"])
+def qa_results():
+    access_token = request.get_json()["token"]
+    if user_jwt_required(access_token, app.config["APP_ID"]):
+        orig_query = unquote(request.get_json()["query"])
+        app.logger.info("User queried: {}".format(orig_query))
+        courseSelection = request.get_json()["course"]
+        app.logger.info("User course: {}".format(courseSelection))
+
+        query = concept_modify_query(orig_query)
+        app.logger.info("Modified Query: {}".format(query))
+        updated_query = get_all_tokens(query)
+        
+        filtered_query = ""
+        for char in query:
+            if((ord(char) >= 97 and ord(char) <= 122) or (ord(char) >= 65 and ord(char) <= 90) or ord(char)==63 or ord(char)==32):
+                filtered_query += char
+        
+        if "Question" in interrogativeNLP.intNLP(filtered_query):
+            predArr = []
+            scoreArr = []
+            for context in class_context.courseContextDocs[courseSelection]:   
+                #hardcode model_id to 0 -> regular pre-trained BERT
+                pred,score = pipeline.answer(0, context, filtered_query)
+                predArr.append(pred)
+                scoreArr.append(score)
+                
+            highestScoreIndex = scoreArr.index(max(scoreArr)) #return highest score
+            
+            if scoreArr[highestScoreIndex] > 0.7: #confidence score such that QA answer should be posted if any
+                # return class_context.courseContextDocs[courseSelection][highestScoreIndex]
+                return predArr[highestScoreIndex]
+            else:
+                return ""
+        else:
+            return ""
+    else:
+        return "Not Authorized"
 
 @app.route('/search', methods=["POST"])
 def search_results():

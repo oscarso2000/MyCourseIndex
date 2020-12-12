@@ -12,10 +12,11 @@ import torch
 from transformers import (
     BertTokenizer,
     BertForQuestionAnswering,
+    AutoTokenizer,
+    AutoModelForQuestionAnswering
 )
 
 def convert_pdf_to_string(file_path):
-
 	output_string = StringIO()
 	with open(file_path, 'rb') as in_file:
 	    parser = PDFParser(in_file)

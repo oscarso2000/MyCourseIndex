@@ -93,6 +93,14 @@ export const search = (history: any, reset?: any): void => {
                 dispatch({ type: "OUTLINE", payload: '' });
             });
         axios
+            .post(`/qa`, {
+                query: store.getState().query,
+                token: getToken(),
+                search: store.getState().search,
+                course: store.getState().selectedcourse,
+            })
+            .then((res: any) => dispatch({ type: "SET_QA", payload: res.data }));
+        axios
             .post(`/search`, {
                 query: store.getState().query,
                 token: getToken(),
@@ -116,6 +124,14 @@ export const search1 = (history: any, reset?: any): void => {
         dispatch({ type: "RV_STATUS", payload: true });
         dispatch({ type: "OUTLINE", payload: '' });
         axios
+            .post(`/qa`, {
+                query: store.getState().query,
+                token: getToken(),
+                search: store.getState().search,
+                course: store.getState().selectedcourse,
+            })
+            .then((res: any) => dispatch({ type: "SET_QA", payload: res.data }));
+        axios
             .post(`/search`, {
                 query: store.getState().query,
                 token: getToken(),
@@ -130,6 +146,7 @@ export const search1 = (history: any, reset?: any): void => {
             });
     });
 };
+
 
 export const setOrder = (e: any): void => {
     // console.log(e);

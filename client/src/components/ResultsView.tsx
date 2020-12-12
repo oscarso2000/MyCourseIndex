@@ -107,7 +107,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-export const ResultsView: React.StatelessComponent<any> = ({ results, outline, screenshots, query, loadingStatus, order, search, folders, tags }: any): JSX.Element => {
+export const ResultsView: React.StatelessComponent<any> = ({ results, outline, screenshots, query, loadingStatus, order, search, folders, tags, QA}: any): JSX.Element => {
     const mobile: string[] = ['Android', 'webOS', 'iPhone', 'iPad', 'iPod', 'BlackBerry'];
     const ASC = 'ascending';
     const DSC = 'descending';
@@ -302,7 +302,7 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
             <Outline outline={outline} />
             {loadingStatus === true
                 ? <div className={mobile.includes(navigator.platform) ? "" : "load-wrap"}><Loader /></div>
-                : <ResultsList results={results1} screenshots={screenshots} />
+                : <ResultsList results={results1} screenshots={screenshots} QA={QA}/>
             }
         </div>
     );

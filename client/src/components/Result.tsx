@@ -109,8 +109,8 @@ export const Result = ({ data, screenshots }: IResultProps) => (
             </div>
         </div>
     </div>
-
 );
+
 export const Result2 = ({ data, screenshots }: IResultProps) => (
     <div className="card">
         <a target="_blank" rel="noopener noreferrer" >

@@ -18,6 +18,7 @@ import { formPLReducer } from './formPLReducer';
 import { formCLReducer } from './formCLReducer';
 import { formCSVReducer } from './formCSVReducer';
 import { formEmailReducer } from './formEmailReducer';
+import {QAReducer} from './QAReducer';
 
 export interface IAction {
     type: string;
@@ -42,7 +43,8 @@ export const rootReducer = combineReducers({
     formPL: formPLReducer,
     formCL: formCLReducer,
     formCSV: formCSVReducer,
-    formEmail: formEmailReducer
+    formEmail: formEmailReducer,
+    QA: QAReducer
 })
 
 const middleware = applyMiddleware(thunk)
