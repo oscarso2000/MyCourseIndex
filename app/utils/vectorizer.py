@@ -39,7 +39,7 @@ class TqdmToLogger(io.StringIO):
         self.logger.log(self.level, self.buf)
 
 
-app.logger.debug("Begin Vectorizer")
+app.logger.critical("Begin Vectorizer")
 tqdm_out = TqdmToLogger(app.logger,level=logging.INFO)
 
 def create_reverse_index(lst):
@@ -54,10 +54,10 @@ key = app.config["AWS_ACCESS"]
 secret = app.config["AWS_SECRET"]
 
 # P03Data.json
-app.logger.debug("Things initialized")
+app.logger.critical("Things initialized")
 s3 = boto3.client('s3', aws_access_key_id=key, aws_secret_access_key=secret)
 s3.download_file('cs4300-data-models', 'P03Data_mod_concepts.json', 'P03Data.json')
-app.logger.debug("Data downloaded")
+app.logger.critical("Data downloaded")
 
 # S3 JSON Format:
 # { "CS4300": {"Piazza": {PostID: content, PostID2: content2}, "Textbook": {DocId: content, DocID2: content2} } }
@@ -72,7 +72,7 @@ tokenized_dict = {}
 foldersDictionary = {}
 svdDictionary = {}
 
-app.logger.debug("Pre For loop")
+app.logger.critical("Pre For loop")
 
 for course in tqdm(fromS3, file=tqdm_out, mininterval=30,desc="Course"):
     vec = TfidfVectorizer(tokenizer=tokenizer, lowercase=False)
@@ -103,8 +103,8 @@ for course in tqdm(fromS3, file=tqdm_out, mininterval=30,desc="Course"):
     docVecDictionary[course] = (vec, vecArr)
     courseDocDictionary[course] = np.array(rawDocs)
     courseRevsereIndexDictionary[course] = create_reverse_index(vec.get_feature_names())
-    app.logger.debug("All but SVD")
+    app.logger.critical("All but SVD")
     svdDictionary[course] = np.linalg.svd(vecArr.T) #svd on tfidf documents
-    app.logger.debug("SVD Complete")
+    app.logger.critical("SVD Complete")
 
-app.logger.debug("End Vectorizer")
+app.logger.critical("End Vectorizer")

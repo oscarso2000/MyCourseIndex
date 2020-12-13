@@ -27,7 +27,9 @@ multiset = "^2.1.1"
 quickumls = "^1.3.0"
 pdfminer = "^20191125"
 torch = "^1.7.1"
-transformers = "^4.0.1"
+transformers = "3"
+pip = "^20.3.1"
+install = "^1.3.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.3"

@@ -99,7 +99,8 @@ export const search = (history: any, reset?: any): void => {
                 search: store.getState().search,
                 course: store.getState().selectedcourse,
             })
-            .then((res: any) => dispatch({ type: "SET_QA", payload: res.data }));
+            .then((res: any) => dispatch({ type: "SET_QA", payload: res.data }))
+        .then( () => {
         axios
             .post(`/search`, {
                 query: store.getState().query,
@@ -113,6 +114,7 @@ export const search = (history: any, reset?: any): void => {
                 history.push("/browse?query=" + store.getState().query + "&course=" + store.getState().selectedcourse);
                 //screenGrab();
             });
+        });
     });
 };
 export const search1 = (history: any, reset?: any): void => {

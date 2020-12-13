@@ -7,15 +7,26 @@ from app.search.boolean_search import *
 from app.search.similarity import *
 import os
 import time
+import nltk
 from flask import Flask, render_template, request, redirect, flash, url_for, send_from_directory, jsonify
 #from db_setup import init_db, db_session
 from urllib.parse import unquote
 from piazza_api import Piazza
-from q_and_a import interrogativeNLP, pipeline, class_context
+from app.q_and_a import interrogativeNLP, pipeline, class_context
 from app.auth import user_jwt_required, get_name, get_claims, can_add_course
 start_import = time.time()
 end_import = time.time()
 
+import ssl
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
+    
+nltk.download('nps_chat')
+app.logger.critical('downloaded nps_chat')
 
 app = Flask(__name__, template_folder="../client/build",
             static_folder="../client/build/static")
@@ -32,7 +43,7 @@ gunicorn_logger = logging.getLogger('gunicorn.error')
 app.logger.handlers = gunicorn_logger.handlers
 app.logger.setLevel(gunicorn_logger.level)
 
-app.logger.debug("Total import runtime: {} seconds".format(
+app.logger.critical("Total import runtime: {} seconds".format(
     end_import - start_import))
 
 p = Piazza()
@@ -51,9 +62,9 @@ coursePiazzaDict = {
 
 @app.route("/auth", methods=["POST"])
 def auth():
-    # app.logger.debug("Starting Auth")
+    # app.logger.critical("Starting Auth")
     # access_token = request.get_json()["token"]
-    # # app.logger.debug("My Token is: {}".format(access_token))
+    # # app.logger.critical("My Token is: {}".format(access_token))
     # app.logger.critical("Should I have access? {}".format(user_jwt_required(access_token, app.config["APP_ID"])))
     # if user_jwt_required(access_token, app.config["APP_ID"]):
     #     return "OK"
@@ -65,7 +76,7 @@ def auth():
 @app.route("/whoami", methods=["POST"])
 def whoami():
     access_token = request.get_json()["token"]
-    # app.logger.debug("My Token is: {}".format(access_token))
+    # app.logger.critical("My Token is: {}".format(access_token))
     name = get_name(access_token, app.config["APP_ID"])
     return name
 
@@ -88,17 +99,21 @@ def qa_results():
                 filtered_query += char
         
         if "Question" in interrogativeNLP.intNLP(filtered_query):
+            app.logger.critical("Question")
             predArr = []
             scoreArr = []
             for context in class_context.courseContextDocs[courseSelection]:   
                 #hardcode model_id to 0 -> regular pre-trained BERT
                 pred,score = pipeline.answer(0, context, filtered_query)
+                app.logger.critical('pred: '+ str(pred) + " score: "+ str(score))
                 predArr.append(pred)
                 scoreArr.append(score)
+                app.logger.critical('context')
                 
+            app.logger.critical(scoreArr)
             highestScoreIndex = scoreArr.index(max(scoreArr)) #return highest score
             
-            if scoreArr[highestScoreIndex] > 0.7: #confidence score such that QA answer should be posted if any
+            if scoreArr[highestScoreIndex] > 7: #confidence score such that QA answer should be posted if any
                 # return class_context.courseContextDocs[courseSelection][highestScoreIndex]
                 return predArr[highestScoreIndex]
             else:

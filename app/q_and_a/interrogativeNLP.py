@@ -1,5 +1,8 @@
 import nltk
-nltk.download('nps_chat')
+from flask import Flask
+import logging
+app = Flask(__name__)
+
 posts = nltk.corpus.nps_chat.xml_posts()[:10000]
 
 def dialogue_act_features(post):

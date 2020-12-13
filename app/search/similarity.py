@@ -124,9 +124,9 @@ def LSI_SVD(query, courseVecDictionary, course, reverseIndexDictionary, svdDicti
     
     sim = []
     for i in range(docVectorizerArray.shape[0]):
-        # app.logger.debug("Shape of s: {}".format(np.diag(s[:k]).shape))
-        # app.logger.debug("Shape of v_t: {}".format(v_t[:k,i].shape))
-        # app.logger.debug("Shape of q_hat: {}".format(np.transpose(q_hat).shape))
+        # app.logger.critical("Shape of s: {}".format(np.diag(s[:k]).shape))
+        # app.logger.critical("Shape of v_t: {}".format(v_t[:k,i].shape))
+        # app.logger.critical("Shape of q_hat: {}".format(np.transpose(q_hat).shape))
         num = np.matmul(np.matmul(np.diag(s[:k]),v_t[:k,i]),np.transpose(q_hat))
         denom = np.linalg.norm(np.matmul(np.diag(s[:k]),v_t[:k,i]))*np.linalg.norm(q_hat)
         sim.append(num/denom)

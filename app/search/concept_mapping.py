@@ -23,11 +23,11 @@ app.logger.setLevel(gunicorn_logger.level)
 
 
 os.system("cp -r concept_matching/quickUCSLS concept_matching/quickUCSLS_{}".format(os.getpid()))
-app.logger.debug("PID: {}".format(os.getpid()))
+app.logger.critical("PID: {}".format(os.getpid()))
 
 concept_matcher = QuickUCSLS("./concept_matching/quickUCSLS_{}".format(os.getpid()), accepted_semtypes={"T{:03d}".format(i) for i in range(1,35)}, threshold=0.5, min_match_length=0)
-app.logger.debug("Matcher res: {}".format(concept_matcher.match("cos sim")))
-app.logger.debug("Matcher Ready")
+app.logger.critical("Matcher res: {}".format(concept_matcher.match("cos sim")))
+app.logger.critical("Matcher Ready")
 
 def get_preferred_terms():
     preferred_term = dict()
@@ -49,9 +49,9 @@ def concept_modify_query(query):
 
     for match in matches:
         ngram = match["ngram"]
-        app.logger.debug("ngram: {}".format(ngram))
+        app.logger.critical("ngram: {}".format(ngram))
         concept = match["cui"]
-        app.logger.debug("match: {}".format(match))
+        app.logger.critical("match: {}".format(match))
         term = preferred_term[concept]
         mod_query = mod_query.replace(ngram, term)
     return mod_query
@@ -64,7 +64,7 @@ def concept_modify_query_bool(query):
     phrases = []
     phrases.extend(pos); phrases.extend(neg); phrases.extend(mult)
     mod_query = query
-    app.logger.debug("Phrases {}".format(phrases))
+    app.logger.critical("Phrases {}".format(phrases))
     for word in phrases:
         matches = concept_matcher.match(word)
         matches = list(map(lambda x: x[0], matches))
@@ -74,20 +74,20 @@ def concept_modify_query_bool(query):
             term = preferred_term[concept]
             mod_query = mod_query.replace(ngram, term)
 
-    app.logger.debug("mod query: {}".format(repr(mod_query)))
+    app.logger.critical("mod query: {}".format(repr(mod_query)))
     clean_query = remove(mod_query)
-    app.logger.debug("clean query: {}".format(repr(clean_query)))
+    app.logger.critical("clean query: {}".format(repr(clean_query)))
 
     matches = concept_matcher.match(clean_query)
     matches = list(map(lambda x: x[0], matches))
-    app.logger.debug("Matches: {}".format(matches))
+    app.logger.critical("Matches: {}".format(matches))
     # mod_query = query
 
     for match in matches:
         ngram = match["ngram"]
-        app.logger.debug("ngram: {}".format(ngram))
+        app.logger.critical("ngram: {}".format(ngram))
         concept = match["cui"]
-        app.logger.debug("match: {}".format(match))
+        app.logger.critical("match: {}".format(match))
         term = preferred_term[concept]
         mod_query = mod_query.replace(ngram, term)
 
