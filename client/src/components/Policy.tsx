@@ -996,7 +996,7 @@ export const Policy: React.StatelessComponent = (): JSX.Element => (
                                                 </div>
                                                 <div style={{fontSize: '14px', fontFamily: 'Arial', paddingTop: '16px' }}>This privacy policy was created using <a style={{ color: 'rgb(48, 48, 241) !important' }} href="https://termly.io/products/privacy-policy-generator/?ftseo">Termly’s Privacy Policy Generator</a>.</div>
                                             </div>
-                                            <p>Enter your HTML here</p>
+                                            <p>www.mycourseindex.com ©2021</p>
                                         </div></div></div></div></div></div></div></div>
         </div>
 
