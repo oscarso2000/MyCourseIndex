@@ -13,7 +13,7 @@ import Jessie from '../images/Jessie_Lee.png';
 import John from '../images/John_O.jpg';
 import Elva from '../images/Elva_Gao.jpg';
 import Julia_A from '../images/Julia_A.jpg';
-import Melinda from '../images/Melinda_F.JPG';
+import Melinda from '../images/Melinda_F.jpg';
 import Ruchika from '../images/Ruchika_D.png';
 import Vaishnavi from '../images/Vaishnavi_G.jpeg';
 import Felix from '../images/Felix_H.jpg';
