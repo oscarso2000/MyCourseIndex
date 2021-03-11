@@ -161,3 +161,107 @@ def get_thread_content(thread_id, username=None, password=None):
     return result
 
 
+def simplify_thread_info(thread: dict) -> dict:
+    """Disseminates a thread into useful, easy-to-understand information.
+
+    Args:
+        thread (dict): JSON-styled dict representing a thread.
+    
+    Returns:
+        dict: Simplified thread with the useful info.
+    """
+
+    def recurse_on_post(f, post: dict, **kwargs) -> dict:
+        """
+        We define a simple helper function here, to recurse through the entire 
+        post "tree" structure and apply any post-changing functions to the post.
+        Very helpful for dealing with nested answers and comments of a thread.
+
+        Args:
+            f (dict -> dict): Function to be applied to the post.
+            post (dict): JSON-styled dict representing any general post.
+            **kwargs (Any): Named arguments to pass to the function f.
+
+        Returns:
+            post: The updated post after processing with f(post, **kwargs)
+        """
+        post = f(post, **kwargs)
+
+        if "answers" in post:
+            new_answers = []
+            for answer in post["answers"]:
+                new_answer = recurse_on_post(f, answer, **kwargs)
+                new_answers.append(new_answer)
+            post["answers"] = new_answers
+
+        if "comments" in post:
+            new_comments = []
+            for comment in post["comments"]:
+                new_comment = recurse_on_post(f, comment, **kwargs)
+                new_comments.append(new_comment)
+            post["comments"] = new_comments
+
+        return post
+
+    def simplify_post(post: dict, keys: set) -> dict:
+        """Slice a subset of the original post contents with the keys we want.
+
+        Args:
+            post (dict): JSON-styled dict representing any general post.
+            keys (set): A set of keys to include in the new post.
+
+        Returns:
+            dict: The new post with select keys.
+        """
+        return {x: post[x] for x in post if x in keys}
+
+    def map_ids_to_names(post: dict, users: list) -> dict:
+        """Exchange meaningless numbers with actual names of people.
+
+        Args:
+            post (dict): JSON-styled dict representing any general post.
+            users (list): JSON-styled list of user objects, each with a name.
+
+        Returns:
+            dict: The new post with user ids changed to names.
+        """
+        user_id = post["user_id"]
+        for user in users:
+            if user["id"] == user_id:
+                post["user_id"] = user["name"]
+                # Rename the key (and preserve dict order) for clarity
+                post = {"by" if k == "user_id" else k:v for k,v in post.items()}
+                break
+
+        return post
+    
+
+    def strip_html(post: dict) -> dict:
+        """Get rid of ugly HTML tags in our post content.
+
+        Args:
+            post (dict): JSON-styled dict of a post with content to filter.
+
+        Returns:
+            dict: The new post without any HTML in the content parameter.
+        """
+        from re import sub
+        new_content = sub('<[^<]+?>', '', post["content"])
+        post["content"] = new_content
+        return post
+
+    # Now our helpers simplify our job to a few lines!
+
+    # Set of keys to include in the new thread dict
+    useful_keys = {"user_id", "title", "content", "created_at", "answers", "comments"}
+
+    # Simplify the thread without the junk
+    new_thread = recurse_on_post(simplify_post, post=thread["thread"], keys=useful_keys)
+    
+    # Give users names
+    even_newer_thread = recurse_on_post(map_ids_to_names, post=new_thread, users=thread["users"])
+
+    # Bye bye HTML tags
+    the_newest_thread = recurse_on_post(strip_html, post=even_newer_thread)
+
+    return the_newest_thread
