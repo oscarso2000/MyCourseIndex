@@ -6,7 +6,7 @@ import requests as _requests
 import six as _six
 import wsse.client.requests.auth as _wsse_auth
 
-import exceptions
+import edstem_api.exceptions as exceptions
 
 API_BASE_URL = "https://us.edstem.org/api/"
 

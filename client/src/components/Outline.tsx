@@ -47,31 +47,58 @@ export const Outline: React.StatelessComponent<IOutlineProp> = ({ outline }: IOu
             </div>
         );
     } else { // Piazza
-        const q = outline.data.raw
-        post.push(<a target="_blank" rel="noopener noreferrer" href={outline.data.url}><h3>{"Piazza post: " + q.history[0].subject} 🔗</h3></a>);
+        const q = outline.data;
+        post.push(<a target="_blank" rel="noopener noreferrer" href={q.url}><h3>{"Piazza post: " + q.title} 🔗</h3></a>);
 
         post.push(<div dangerouslySetInnerHTML={{ __html: q.history[0].content }} />);
-
-        if (q.children) {
-            q.children.forEach(function (c: any) {
-                if (c.type === "i_answer") {
-                    post.push(<b>Instructor Answer <small>({ "thanks! x" +c.tag_endorse_arr.length })</small></b>);
-                    post.push(<div style={{ textIndent: 0 }} dangerouslySetInnerHTML={{ __html: c.history[0].content }} />);
-                } else if (c.type === "s_answer") {
-                    post.push(<b>Student Answer <small>({ "thanks! x" +c.tag_endorse_arr.length })</small> </b>);
-                    post.push(<div style={{ textIndent: 0 }} dangerouslySetInnerHTML={{ __html: c.history[0].content }} />);
-                } else { //followup
-                    post.push(<b>Followup <small>({ "helpful! x" +c.tag_good_arr.length })</small></b>)
-                    post.push(<div style={{ textIndent: 0 }} dangerouslySetInnerHTML={{ __html: c.subject }} />);
+        // Loop over answers
+        if (q.answers) {
+            q.answers.forEach(function (ans: any) {
+                if (ans.user_role === "admin" || ans.user_role === "staff") {
+                    post.push(<b>Instructor Answer</b>);
+                    post.push(<div style={{ textIndent: 0 }} dangerouslySetInnerHTML={{ __html: ans.content }} />);
+                } else if (ans.user_role === "student") {
+                    post.push(<b>Student Answer</b>);
+                    post.push(<div style={{ textIndent: 0 }} dangerouslySetInnerHTML={{ __html: ans.content }} />);
+                } else {
+                    console.error(
+                        "Undefined user role: Not an instructor \
+                        or student ? Then what is it huh ?? "
+                    );
+                    post.push(<b>Not a student or instructor Answer</b>);
+                    post.push(<div style={{ textIndent: 0 }} dangerouslySetInnerHTML={{ __html: ans.content }} />);
                 }
-                c.children.forEach(function (f: any) {
-                    post.push(<div className="inner"><i>Sub-followup <small>({ "helpful! x" +c.tag_good_arr.length })</small></i></div>)
-                    post.push(<div className="inner" dangerouslySetInnerHTML={{ __html: f.subject }} />);
+                // Comments to the answers, not to be confused with comments to the comment
+                ans.comments.forEach(function (comment: any) {
+                    post.push(<div className="inner"><i>Followup</i></div>);
+                    post.push(<div className="inner" dangerouslySetInnerHTML={{ __html: comment.content }} />);
                 });
             });
+        };
 
-
-        }
+        if (q.comments) {
+            q.comments.forEach(function c(comment: any) {
+                if (comment.user_role === "admin" || comment.user_role === "staff") {
+                    post.push(<b>Instructor Comment</b>);
+                    post.push(<div style={{ textIndent: 0 }} dangerouslySetInnerHTML={{ __html: comment.content }} />);
+                } else if (comment.user_role === "student") {
+                    post.push(<b>Student Comment</b>);
+                    post.push(<div style={{ textIndent: 0 }} dangerouslySetInnerHTML={{ __html: comment.content }} />);
+                } else {
+                    console.error(
+                        "Undefined user role: Not an instructor \
+                        or student ? Then what is it huh ?? "
+                    );
+                    post.push(<b>Not-a-student-or-instructor Comment</b>);
+                    post.push(<div style={{ textIndent: 0 }} dangerouslySetInnerHTML={{ __html: comment.content }} />);
+                }
+                // Comments to the comments - we only care about 2 levels for now
+                comment.comments.forEach(function (subcomment: any) {
+                    post.push(<div className="inner"><i>Sub-followup</i></div>);
+                    post.push(<div className="inner" dangerouslySetInnerHTML={{ __html: subcomment.content }} />);
+                });
+            });
+        };
         return (<div className="outline">{post}</div>)
 
 

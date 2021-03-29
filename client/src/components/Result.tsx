@@ -100,9 +100,9 @@ const truncateString = (str: string, num: number) => {
 export const Result = ({ data, screenshots }: IResultProps) => (
     <div className="card" onClick={() => outline(data)}>
         <div className="card-body">
-            <h4 className="title" >{data.type === "Resource" ? "Textbook: " + data.doc_name : "Piazza: " + data.raw.history[0].subject} </h4>
+            <h4 className="title" >{"" + data.doctype + ": " + data.title} </h4>
             <div className="">
-                <p className="description" dangerouslySetInnerHTML={{ __html: data.type === "Resource" ? truncateString(data.raw, 300) : truncateString(data.raw.history[0].content, 300) }} ></p>
+                <p className="description" dangerouslySetInnerHTML={{ __html: data.highlight }} ></p>
             </div>
             <div className="concepts">
                 <ChipsArray {...data.concepts} />

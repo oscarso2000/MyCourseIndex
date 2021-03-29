@@ -1,6 +1,5 @@
 """Authentication Module for the GraphQL Api"""
 
-from flask import request
 from functools import wraps
 import cryptography
 from cryptography.x509 import load_pem_x509_certificate
@@ -21,9 +20,10 @@ JWK_KEYS = res.json()
 
 
 SCOPES = {
-    "User": ["Q1MgNDMwMAo=", "SU5GTyAxOTk4Cg==", "View",],
-    "Developer": ["Q1MgNDMwMAo=", "SU5GTyAxOTk4Cg==", "View", "AddCourse",],
-    "Professor": ["Q1MgNDMwMAo=", "SU5GTyAxOTk4Cg==", "View", "AddCourse",],
+    "C1-SP2021": ["cs_4300_sp2021"],
+    "Developer": ["cs_4300_sp2020", "cs_4300_sp2021", "cs_4780_sp2021", "AddCourse",],
+    "C2-SP2021": ["cs_4780_sp2021"],
+    "C1-SP2020": ["cs_4300_sp2020"],
 }
 
 def make_scope_assignments(

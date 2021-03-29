@@ -1,10 +1,10 @@
 from app.search import concept_modify_query_bool as concept_modify_query
 import html2text
 import logging
-import app.utils.vectorizer as vecPy
+# import app.utils.vectorizer as vecPy
 from app.utils.signup_data import add_course
-from app.search.boolean_search import *
-from app.search.similarity import *
+# from app.search.boolean_search import *
+# from app.search.similarity import *
 import os
 import time
 from flask import Flask, render_template, request, redirect, flash, url_for, send_from_directory, jsonify
@@ -72,94 +72,110 @@ def whoami():
 @app.route('/search', methods=["POST"])
 def search_results():
     access_token = request.get_json()["token"]
-    if user_jwt_required(access_token, app.config["APP_ID"]):
-        orig_query = unquote(request.get_json()["query"])
-        app.logger.info("User queried: {}".format(orig_query))
-        courseSelection = request.get_json()["course"]
-        app.logger.info("User course: {}".format(courseSelection))
-        # results = cosineSim(orig_query, vecPy.docVecDictionary , courseSelection, vecPy.courseRevsereIndexDictionary)
+    orig_query = unquote(request.get_json()["query"])
 
-        # search selection: Default(both),Piazza only, Resource only
-        # [Default, Piazza, Resource]
-
-        searchSelection = request.get_json()["search"]
-        # searchSelection = "Default"
-
-        # Modify query based on concepts
-        query = concept_modify_query(orig_query)
-        app.logger.info("Modified Query: {}".format(query))
-
-        # if searchSelection == "Default":
-        # regular cosine similarity (start commenting out here)
-        updated_query = get_all_tokens(query)
-        cosine_results = cosineSim(
-            updated_query, vecPy.docVecDictionary, courseSelection, vecPy.courseRevsereIndexDictionary)
-        boolean_results = boolean(query, courseSelection)
-        svd_results = LSI_SVD(updated_query, vecPy.docVecDictionary, courseSelection,
-                              vecPy.courseRevsereIndexDictionary, vecPy.svdDictionary)
-
-        # finalresults = results #np.multiply(results,vecPy.sourceDictionary[courseSelection])
-        if (len(cosine_results) == 0 or len(svd_results) == 0):
-            return jsonify([])
-        finalresults = np.add(np.multiply(svd_results, boolean_results), np.multiply(
-            cosine_results, boolean_results))
-        results_filter = (finalresults > 0.1)
-        n = 50  # top x highest
-
-        if len(finalresults) == 0:
-            return jsonify([])
-
-        reverseList = (-finalresults).argsort()  # [:n]
-        reverseList_filter = results_filter[reverseList]
-
-        n = min(sum(reverseList_filter), n)
-
-        for item, score in zip(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter], finalresults[reverseList][reverseList_filter]):
-            item["score"] = score
-
-        if courseSelection == "CS 4300":
-            claims = get_claims(access_token, app.config["APP_ID"])
-            to_json = []
-            for claim in claims["scope"]:
-                if app.config["COURSE_MAPPING"].get(claim, "") != "":
-                    to_json.append(app.config["COURSE_MAPPING"].get(
-                        claim).get("courseName"))
-
-            if "CS 4300" in to_json:
-                pass
-            else:
-                return jsonify([])
-
-            h = html2text.HTML2Text()
-            h.ignore_links = True
-            parsed_piazza = h.handle(coursePiazzaDict["CS 4300"].get_post(
-                app.config["PIAZZA_CS4300_TOKEN_POST"])["history"][0]["content"])
-            split_piazza = parsed_piazza.split("\n")
-            piazza_token = split_piazza[0]
-            our_token = app.config["PIAZZA_CS4300_TOKEN"]
-            keep_piazza = (piazza_token == our_token)
-
-            # app.logger.info("Parsed Piazza: {}".format(repr(parsed_piazza)))
-            # app.logger.info("Split Piazza: {}".format(repr(split_piazza)))
-            # app.logger.info("Piazza Response: {}".format(repr(piazza_token)))
-            # app.logger.info("Our token is: {}".format(repr(our_token)))
-            # app.logger.info("Keeping Piazza? {}".format(keep_piazza))
-
-            if keep_piazza:
-                return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()[:n])
-
-            else:
-                modified_results = list(filter(
-                    lambda x: x["type"] != "Piazza", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
-                if len(modified_results) == 0:
-                    return jsonify([])
-                n = min(n, len(modified_results))
-                return jsonify(modified_results[:n])
-
-        return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()[:n])
-
-    else:
+    res = requests.get(
+        "https://f0xvfaluqe.execute-api.us-east-1.amazonaws.com/dev/mci-search",
+        json={
+            "token": access_token,
+            "query_body": query_body,
+        }
+    )
+    if res.status_code == 403:
         return "Not Authorized"
+    elif res.status_code != 200:
+        return "Failure"
+    else:
+        return res.json()
+    # if user_jwt_required(access_token, app.config["APP_ID"]):
+    #     pass
+        # orig_query = unquote(request.get_json()["query"])
+        # app.logger.info("User queried: {}".format(orig_query))
+        # courseSelection = request.get_json()["course"]
+        # app.logger.info("User course: {}".format(courseSelection))
+        # # results = cosineSim(orig_query, vecPy.docVecDictionary , courseSelection, vecPy.courseRevsereIndexDictionary)
+
+        # # search selection: Default(both),Piazza only, Resource only
+        # # [Default, Piazza, Resource]
+
+        # searchSelection = request.get_json()["search"]
+        # # searchSelection = "Default"
+
+        # # Modify query based on concepts
+        # query = concept_modify_query(orig_query)
+        # app.logger.info("Modified Query: {}".format(query))
+
+        # # if searchSelection == "Default":
+        # # regular cosine similarity (start commenting out here)
+        # updated_query = get_all_tokens(query)
+        # cosine_results = cosineSim(
+        #     updated_query, vecPy.docVecDictionary, courseSelection, vecPy.courseRevsereIndexDictionary)
+        # boolean_results = boolean(query, courseSelection)
+        # svd_results = LSI_SVD(updated_query, vecPy.docVecDictionary, courseSelection,
+        #                       vecPy.courseRevsereIndexDictionary, vecPy.svdDictionary)
+
+        # # finalresults = results #np.multiply(results,vecPy.sourceDictionary[courseSelection])
+        # if (len(cosine_results) == 0 or len(svd_results) == 0):
+        #     return jsonify([])
+        # finalresults = np.add(np.multiply(svd_results, boolean_results), np.multiply(
+        #     cosine_results, boolean_results))
+        # results_filter = (finalresults > 0.1)
+        # n = 50  # top x highest
+
+        # if len(finalresults) == 0:
+        #     return jsonify([])
+
+        # reverseList = (-finalresults).argsort()  # [:n]
+        # reverseList_filter = results_filter[reverseList]
+
+        # n = min(sum(reverseList_filter), n)
+
+        # for item, score in zip(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter], finalresults[reverseList][reverseList_filter]):
+        #     item["score"] = score
+
+        # if courseSelection == "CS 4300":
+        #     claims = get_claims(access_token, app.config["APP_ID"])
+        #     to_json = []
+        #     for claim in claims["scope"]:
+        #         if app.config["COURSE_MAPPING"].get(claim, "") != "":
+        #             to_json.append(app.config["COURSE_MAPPING"].get(
+        #                 claim).get("courseName"))
+
+        #     if "CS 4300" in to_json:
+        #         pass
+        #     else:
+        #         return jsonify([])
+
+        #     h = html2text.HTML2Text()
+        #     h.ignore_links = True
+        #     parsed_piazza = h.handle(coursePiazzaDict["CS 4300"].get_post(
+        #         app.config["PIAZZA_CS4300_TOKEN_POST"])["history"][0]["content"])
+        #     split_piazza = parsed_piazza.split("\n")
+        #     piazza_token = split_piazza[0]
+        #     our_token = app.config["PIAZZA_CS4300_TOKEN"]
+        #     keep_piazza = (piazza_token == our_token)
+
+        #     # app.logger.info("Parsed Piazza: {}".format(repr(parsed_piazza)))
+        #     # app.logger.info("Split Piazza: {}".format(repr(split_piazza)))
+        #     # app.logger.info("Piazza Response: {}".format(repr(piazza_token)))
+        #     # app.logger.info("Our token is: {}".format(repr(our_token)))
+        #     # app.logger.info("Keeping Piazza? {}".format(keep_piazza))
+
+        #     if keep_piazza:
+        #         return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()[:n])
+
+        #     else:
+        #         modified_results = list(filter(
+        #             lambda x: x["type"] != "Piazza", vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()))
+        #         if len(modified_results) == 0:
+        #             return jsonify([])
+        #         n = min(n, len(modified_results))
+        #         return jsonify(modified_results[:n])
+
+        # return jsonify(vecPy.courseDocDictionary[courseSelection][reverseList][reverseList_filter].tolist()[:n])
+
+    # else:
+    #     return "Not Authorized"
 
 
 @app.route("/addcourse", methods=["POST"])
@@ -208,10 +224,11 @@ def is_professor():
 
 @app.route("/folders", methods=["POST"])
 def getFolders():
-    courseSelection = request.get_json()["courseSelection"]  # "CS 4300"
-    # searchSelection = request.get_json()["courseSelection"]
-    app.logger.critical("{}".format(vecPy.foldersDictionary[courseSelection]))
-    return jsonify(vecPy.foldersDictionary[courseSelection])
+    return []
+    # courseSelection = request.get_json()["courseSelection"]  # "CS 4300"
+    # # searchSelection = request.get_json()["courseSelection"]
+    # app.logger.critical("{}".format(vecPy.foldersDictionary[courseSelection]))
+    # return jsonify(vecPy.foldersDictionary[courseSelection])
 
 
 @app.route("/tokeVerify", methods=["POST"])

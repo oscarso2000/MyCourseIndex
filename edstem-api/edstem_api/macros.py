@@ -1,6 +1,6 @@
 """"""
 
-import api
+import edstem_api.api as api
 
 
 def get_courses(username=None, password=None):
@@ -137,12 +137,25 @@ def users(course_id, username=None, password=None):
 def get_feed(course_id, limit=-1, sort="date", order="desc", username=None, password=None):
     """
     """
-    if limit > -1:
-        result = api.request(
-            endpoint=f"courses/{course_id}/threads?sort={sort}&order={order}",
-            username=username,
-            password=password,
-        )
+    feed_lim = 100
+    if limit == -1:
+        cur_len = feed_lim
+        res = {
+            "threads": [],
+            "users": [],
+        }
+        offset = 0
+        while cur_len == feed_lim:
+            result = api.request(
+                endpoint=f"courses/{course_id}/threads?limit={feed_lim}&offset={offset}&sort={sort}&order={order}",
+                username=username,
+                password=password,
+            )
+            offset += feed_lim
+            res["threads"].extend(result["threads"])
+            res["users"].extend(result["users"])
+            cur_len = len(result["threads"])
+        result = res
     else:
         result = api.request(
             endpoint=f"courses/{course_id}/threads?limit={limit}&sort={sort}&order={order}",
@@ -229,6 +242,7 @@ def simplify_thread_info(thread: dict) -> dict:
         for user in users:
             if user["id"] == user_id:
                 post["user_id"] = user["name"]
+                post["user_role"] = user["course_role"]
                 # Rename the key (and preserve dict order) for clarity
                 post = {"by" if k == "user_id" else k:v for k,v in post.items()}
                 break
