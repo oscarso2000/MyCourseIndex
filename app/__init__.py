@@ -1,17 +1,19 @@
-from app.search import concept_modify_query_bool as concept_modify_query
+# from app.search import concept_modify_query_bool as concept_modify_query
 import html2text
 import logging
 # import app.utils.vectorizer as vecPy
-from app.utils.signup_data import add_course
+# from app.utils.signup_data import add_course
 # from app.search.boolean_search import *
 # from app.search.similarity import *
 import os
 import time
+import json
 from flask import Flask, render_template, request, redirect, flash, url_for, send_from_directory, jsonify
 #from db_setup import init_db, db_session
 from urllib.parse import unquote
 from piazza_api import Piazza
 from app.auth import user_jwt_required, get_name, get_claims, can_add_course
+import requests
 start_import = time.time()
 end_import = time.time()
 
@@ -34,18 +36,18 @@ app.logger.setLevel(gunicorn_logger.level)
 app.logger.debug("Total import runtime: {} seconds".format(
     end_import - start_import))
 
-p = Piazza()
-p.user_login(email=app.config["PIAZZA_USER"],
-             password=app.config["PIAZZA_PASS"])
-coursePiazzaIDDict = {
-    "CS 4300": app.config["PIAZZA_CS4300_NID"],
-    "INFO 1998": app.config["PIAZZA_INFO1998_NID"]
-}
+# p = Piazza()
+# p.user_login(email=app.config["PIAZZA_USER"],
+#              password=app.config["PIAZZA_PASS"])
+# coursePiazzaIDDict = {
+#     "CS 4300": app.config["PIAZZA_CS4300_NID"],
+#     "INFO 1998": app.config["PIAZZA_INFO1998_NID"]
+# }
 
-coursePiazzaDict = {
-    "CS 4300": p.course(app.config["PIAZZA_CS4300_NID"]),
-    "INFO 1998": p.course(app.config["PIAZZA_INFO1998_NID"])
-}
+# coursePiazzaDict = {
+#     "CS 4300": p.course(app.config["PIAZZA_CS4300_NID"]),
+#     "INFO 1998": p.course(app.config["PIAZZA_INFO1998_NID"])
+# }
 
 
 @app.route("/auth", methods=["POST"])
@@ -72,21 +74,33 @@ def whoami():
 @app.route('/search', methods=["POST"])
 def search_results():
     access_token = request.get_json()["token"]
-    orig_query = unquote(request.get_json()["query"])
+    query = unquote(request.get_json()["query"])
+    course = request.get_json()["course"].lower()
+    course = course[:-4] + (course[-4:-2] + "20" + course[-2:])
+    course = course.replace(" ", "_")
 
-    res = requests.get(
+    res = requests.post(
         "https://f0xvfaluqe.execute-api.us-east-1.amazonaws.com/dev/mci-search",
         json={
-            "token": access_token,
-            "query_body": query_body,
+            "access_token": access_token,
+            "query": query,
+            "course": course,
         }
     )
+    
     if res.status_code == 403:
+        app.logger.debug(f"Status code is HTTP {res.status_code}")
+        app.logger.debug(f"Course is: {repr(course)}")
+        app.logger.debug(res.json())
         return "Not Authorized"
     elif res.status_code != 200:
+        app.logger.debug(f"Status code is HTTP {res.status_code}")
+        app.logger.debug(f"Course is: {repr(course)}")
+        app.logger.debug(res.json())
         return "Failure"
     else:
-        return res.json()
+        results = json.loads(res.json()["results"])["hits"]
+        return jsonify(results)
     # if user_jwt_required(access_token, app.config["APP_ID"]):
     #     pass
         # orig_query = unquote(request.get_json()["query"])
@@ -189,8 +203,8 @@ def add_prof_course():
     # h.ignore_links = True
     # TODO1: Validate Professor User Group
     # input_request.pop
-    add_course(email=input_request["formEmail"], course_name=input_request["formCN"],
-               piazza_link=input_request["formPL"], canvas_link=input_request["formCL"], csv=input_request["formCSV"])
+    # add_course(email=input_request["formEmail"], course_name=input_request["formCN"],
+            #    piazza_link=input_request["formPL"], canvas_link=input_request["formCL"], csv=input_request["formCSV"])
     return "OK"
 
 
@@ -224,7 +238,7 @@ def is_professor():
 
 @app.route("/folders", methods=["POST"])
 def getFolders():
-    return []
+    return jsonify([])
     # courseSelection = request.get_json()["courseSelection"]  # "CS 4300"
     # # searchSelection = request.get_json()["courseSelection"]
     # app.logger.critical("{}".format(vecPy.foldersDictionary[courseSelection]))
