@@ -21,6 +21,7 @@ import Divya from '../images/Divya_D.jpg';
 import Chelsea from '../images/Chelsea_X.jpeg';
 import Edward from '../images/Edward_G.jpg';
 import Tobi from '../images/Tobi_A.png';
+import Sam from '../images/Sam_F.jpg';
 
 
 import '../style/About.css';
@@ -130,6 +131,10 @@ export const About: React.StatelessComponent = (): JSX.Element => (
                 <div className="item">
                     <img src={Edward} />
                     <span className="caption"><a href="https://github.com/xegux">Edward Gu (elg227)</a></span>
+                </div>
+                <div className="item">
+                    <img src={Sam} />
+                    <span className="caption"><a href="https://github.com/samcfuchs">Sam Fuchs (scf73)</a></span>
                 </div>
             </div>
             <p></p>
