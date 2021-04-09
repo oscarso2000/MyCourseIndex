@@ -26,7 +26,8 @@ import requests
 ###GLOBAL VARIABLES
 SQUAD2_TRAIN_URL = "https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v2.0.json"
 CLS_EMBS_DATASET_INPUT = "cls_emb_input.npy"
-CLS_EMBS_DATASET_LABELS = "cls_emb_labels.npy"
+EMBS_DATASET_LABELS = "squad_emb_labels.npy"
+AVG_EMBS_DATASET_INPUT = "avg_emb_input.npy"
 TEST_EMB_DATASET_INPUT = "3110_emb_input.npy"
 TEST_EMB_DATASET_LABELS = "3110_emb_labels.npy"
 
@@ -36,6 +37,11 @@ def passed_arguments():
                         type=str,
                         required=True,
                         help="Path to evaluation dataset")
+    parser.add_argument("--emb_type",
+                        type=int,
+                        required=False,
+                        default=0,
+                        help="0 if using cls embedding \n1 if using avg of token embeddings")
 
     args = parser.parse_args()
     return args
@@ -113,7 +119,7 @@ def process_data(question, text, num_questions):
     return input_text
 
 
-def get_cls_from_input(input_text,  is_impossible):
+def get_cls_from_input(input_text,  is_impossible, emb_type = 0):
     """
     Function that returns CLS embeddings for each entry in input_text
     """
@@ -139,20 +145,28 @@ def get_cls_from_input(input_text,  is_impossible):
             attention_mask = np.where(padded != 0, 1, 0)
             input = torch.tensor([padded]).type(torch.LongTensor)
             attention_mask = torch.tensor([attention_mask])
-
             last_hidden_states = model(input, attention_mask = attention_mask)
-            features[i] = (last_hidden_states[0][:,0,:].numpy())
+
+            if (emb_type == 0): #cls token
+                features[i] = (last_hidden_states[0][:,0,:].numpy())
+
+            elif(emb_type == 1): #avg of work tokens
+                token_vecs = last_hidden_states[0][0]
+                features[i] = torch.mean(token_vecs, dim=0)
+
 
     return features, is_impossible
     
 
-def get_training_set(data_url = SQUAD2_TRAIN_URL):
+def get_training_set(data_url = SQUAD2_TRAIN_URL, emb_type = 0):
     """
     Returns the CLS tokens from passing the SQUAD 2.0 training set into BERT and labels
+    emb_type: 0 if using cls token emb 
+              1 if using avg token emb
     """
     cwd = os.getcwd()
-    csv_name_input = os.path.join(cwd,CLS_EMBS_DATASET_INPUT )
-    csv_name_labels = os.path.join(cwd,CLS_EMBS_DATASET_LABELS )
+    csv_name_input = os.path.join(cwd, CLS_EMBS_DATASET_INPUT ) if emb_type == 0 else os.path.join(cwd, AVG_EMBS_DATASET_INPUT)
+    csv_name_labels = os.path.join(cwd, EMBS_DATASET_LABELS )
 
     #processing squad 2.0 data
     question, text, answer, is_impossible, ids, num_questions = process_json(data_url)
@@ -169,7 +183,7 @@ def get_training_set(data_url = SQUAD2_TRAIN_URL):
         return inputs, labels, input_text, max_len
 
     else:
-        features, is_impossible = get_cls_from_input(input_text, is_impossible)
+        features, is_impossible = get_cls_from_input(input_text, is_impossible, emb_type)
         
         np.save(csv_name_input, features)
         np.save(csv_name_labels, is_impossible)
@@ -180,7 +194,7 @@ def get_training_set(data_url = SQUAD2_TRAIN_URL):
         return features, is_impossible, input_text, max_len
 
 
-def get_testing_set(data_path):
+def get_testing_set(data_path, emb_type=0):
     """Returns the CLS tokens embeddings from passing the CS3110 data set into BERT and labels.
     """
     cwd = os.getcwd()
@@ -213,7 +227,7 @@ def get_testing_set(data_path):
         return inputs, labels, input_text, max_len
         
     else:
-        inputs, labels = get_cls_from_input(input_text, is_impossible)
+        inputs, labels = get_cls_from_input(input_text, is_impossible, emb_type)
         np.save(csv_name_input, inputs)
         np.save(csv_name_labels, labels)
         max_len = labels[-1]
@@ -262,8 +276,6 @@ def logisticReg(inputs, labels, test_input, test_labels):
 def predictions(input_text, print_some_outputs = True):
     tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
     model = BertForQuestionAnswering.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
-    #tokenizer_bert = BertTokenizer.from_pretrained('bert-base-uncased')
-    #model_bert = BertModel.from_pretrained('bert-base-uncased')
     input_ids = []
     token_type_ids = []
     preds = []
@@ -351,18 +363,21 @@ def evaluate(preds, labels, questions, ids):
     return precision, recall, f1
 
 
-def main(data_path):
+def main(data_path, eb=0):
 
     print('Creating Testing Dataset')
-    testing_x, testing_y, input_3110, max_len_test = get_testing_set(data_path)
+    testing_x, testing_y, input_3110, max_len_test = get_testing_set(data_path, emb_type = eb)
     print("Creating Training Dataset")
-    training_x, training_y, input_squad, max_len_train = get_training_set()
+    training_x, training_y, input_squad, max_len_train = get_training_set(emb_type = eb)
     
+
+    imp_percent_test = np.sum(testing_y)/len(testing_y)
+    imp_percent_train = np.sum(training_y)/len(training_y)
+    print("% Impossible in train vs test: ", imp_percent_train, imp_percent_test )
+
     print("\nUsing Logistic Regression")
     lr_cls = logisticReg(training_x, training_y, testing_x, testing_y)
 
-    print("\nUsing Neural Network")
-    #TODO: add in Melinda's code
     
     print("\nStarting predictions")
     #preds = predictions(input_text)
@@ -379,4 +394,5 @@ def main(data_path):
 if __name__ == '__main__':
     args = passed_arguments()
     data_path = args.data_path
-    main(data_path)
+    emb_type = args.emb_type
+    main(data_path, emb_type)
