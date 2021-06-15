@@ -1,0 +1,83 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: mci-serverless-es
+# app and org for use with dashboard.serverless.com
+#app: your-app-name
+#org: your-org-name
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: python3.8
+  lambdaHashingVersion: 20201221
+  region: us-east-1
+  timeout: 29
+  stage: dev
+  apiGateway:
+    shouldStartNameWithService: true
+
+custom:
+  pythonRequirements:
+    dockerizePip: true
+    zip: true
+    slim: true
+    strip: false
+    noDeploy:
+      - docutils
+      - jmespath
+      - pip
+      - python-dateutil
+      - setuptools
+      - six
+      - tensorboard
+    useStaticCache: true
+    useDownloadCache: true
+    cacheLocation: "./cache"
+package:
+  individually: false
+  exclude:
+    - package.json
+    - package-log.json
+    - node_modules/**
+    - cache/**
+    - test/**
+    - __pycache__/**
+    - .pytest_cache/**
+    - model/pytorch_model.bin
+    - raw/**
+    - .vscode/**
+    - .ipynb_checkpoints/**
+
+functions:
+  mci_search:
+    handler: handler.search
+    memorySize: 1024
+    timeout: 29
+    events:
+      - http:
+          path: mci-search
+          method: post
+          cors: true
+    vpc:
+      securityGroupIds:
+        - sg-0190ea5ce345e8e5f
+      subnetIds:
+        - subnet-0485aa035a8db66c4
+        - subnet-04d15e762270bba45
+
+plugins:
+  - serverless-python-requirements
