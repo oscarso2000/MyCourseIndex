@@ -22,7 +22,7 @@ app = Flask(__name__, template_folder="../client/build",
             static_folder="../client/build/static")
 
 if os.environ.get("deployment", False):
-    app.config.from_pyfile('/etc/cs4300-volume-cfg/cs4300app.cfg')
+    app.config.from_pyfile('/etc/mci-volume-cfg/cs4300app.cfg')
 else:
     app.config.from_pyfile(os.path.join(
         os.path.join(os.getcwd(), "secrets"), "cs4300app.cfg"))
@@ -99,7 +99,46 @@ def search_results():
         app.logger.debug(res.json())
         return "Failure"
     else:
+        # Highlight selection
+        order_of_importance = [
+            ("content", "content.english"),
+            ("answers.content", "answers.content.english"),
+            ("answers.comments.content", "answers.comments.content.english"),
+            ("comments.content", "comments.content.english"),
+            ("comments.comments.content", "comments.comments.content.english"),
+        ]
         results = json.loads(res.json()["results"])["hits"]
+        for r in results:
+            display_text = ""
+            highlighted_regions = r.pop("highlight")
+            for keys in order_of_importance:
+                if keys[0] in highlighted_regions:
+                    sections = [
+                        x.replace("<em>", "<strong>").replace("</em>", "</strong>")
+                        for x in (highlighted_regions.pop(keys[0]))
+                    ]
+                    display_text += "...".join(sections)
+                else:
+                    if keys[1] in highlighted_regions:
+                        sections = [
+                            x.replace("<em>", "<strong>").replace("</em>", "</strong>")
+                            for x in (highlighted_regions.pop(keys[1]))
+                        ]
+                        display_text += "...".join(sections)
+                    else:
+                        pass
+
+                if len(display_text) >= 300:
+                    display_text = display_text[:300]
+                    break
+            if display_text == "":
+                r["highlight"] = r["content"][:300]
+            else:
+                r["highlight"] = display_text
+            r["concepts"] = []
+
+        # TODO: Pick the sections to highlight + send over
+        # results = json.loads(res.json()["results"])["hits"]
         return jsonify(results)
     # if user_jwt_required(access_token, app.config["APP_ID"]):
     #     pass

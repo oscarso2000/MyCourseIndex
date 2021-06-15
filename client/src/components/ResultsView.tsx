@@ -5,8 +5,8 @@ import * as React from 'react';
 import { Theme, ThemeProvider, WithStyles, createStyles, makeStyles, withStyles } from '@material-ui/core/styles';
 import { handleKey1, search1, setOrder, setQuery, setSearchSel, setTags } from '../actions';
 import {
-  useHistory,
-  useLocation
+    useHistory,
+    useLocation
 } from "react-router-dom";
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -112,9 +112,9 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
     const ASC = 'ascending';
     const DSC = 'descending';
 
-    let history= useHistory();
+    let history = useHistory();
     let location = useLocation();
-    let urlQuery= qs.parse(location.search)["?query"]
+    let urlQuery = qs.parse(location.search)["?query"]
 
     var results1 = results;
 
@@ -215,21 +215,21 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
     return (
         <div>
             <div className="top-bar">
-                <Link className="header" to="/" target="_self" style={{ textDecoration: "none"}}>
+                <Link className="header" to="/" target="_self" style={{ textDecoration: "none" }}>
                     <h3 className="heading-1">MyCourseIndex</h3>
                     <h3 className="heading-2">Courses</h3>
                 </Link>
                 <input
                     defaultValue={urlQuery as string}
-                    onKeyPress={e => handleKey1(e,history, 'reset')}
+                    onKeyPress={e => handleKey1(e, history, 'reset')}
                     onChange={e => setQuery(e)}
                 />
-                <img onClick={() => search1(history,'reset')} className="glass" alt="magnifying glass" src={glass} />
+                <img onClick={() => search1(history, 'reset')} className="glass" alt="magnifying glass" src={glass} />
                 <div className="filters">
                     <ThemeProvider theme={theme1}>
-                        <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+                        {/* <Button variant="contained" color="secondary" onClick={handleClickOpen}>
                             Filter By
-                        </Button>
+                        </Button> */}
                         <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
                             <DialogTitle id="customized-dialog-title" onClose={handleClose}>
                                 <Box fontWeight="fontWeightBold" fontSize={23}>
@@ -292,9 +292,9 @@ export const ResultsView: React.StatelessComponent<any> = ({ results, outline, s
                         </Dialog>
                     </ThemeProvider>
                 </div>
-                <div className="help-tip2">
+                {/* <div className="help-tip2">
                     <p><b>For Advanced Searches:</b><br />1) +’query’ for mandatory inclusion.<br />2) -’query’ for mandatory exclusion.<br />3) ‘query^n to emphasize n times. </p>
-                </div>
+                </div> */}
                 <Link to="/about" className="about-bar" style={{ textDecoration: "none" }}>
                     About
                 </Link>

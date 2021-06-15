@@ -260,6 +260,7 @@ def simplify_thread_info(thread: dict) -> dict:
             dict: The new post without any HTML in the content parameter.
         """
         from re import sub
+        post["content"] = post["content"].replace("<math>", "$$").replace("</math>", "$$")
         new_content = sub('<[^<]+?>', '', post["content"])
         post["content"] = new_content
         return post

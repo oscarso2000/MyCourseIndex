@@ -151,7 +151,7 @@ const App: React.FC = (props: any) => {
                         {/* TODO1: Need to check if prof for this one too just in case */}
                         <Route path="/form" component={ProfForm} />
                         <Route path="/terms" component={Terms} />
-                        <Route path='/policy'component={Policy} />
+                        <Route path='/policy' component={Policy} />
                     </Switch>
                 </div>
             )

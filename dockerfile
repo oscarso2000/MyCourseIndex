@@ -32,7 +32,7 @@ COPY concept_matching /app/concept_matching/
 RUN python concept_matching/install_quickdb.py
 
 # DEV ONLY
-COPY secrets /app/secrets
+# COPY secrets /app/secrets
 
 
 EXPOSE 5000
