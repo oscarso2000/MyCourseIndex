@@ -29,13 +29,14 @@ class BertBinaryClassifier(nn.Module):
     def __init__(self, dropout=0.1):
         super(BertBinaryClassifier, self).__init__()
         self.bert = BertModel.from_pretrained('bert-base-uncased')
-        self.linear = nn.Linear(768, 1)
+        self.l1 = nn.Linear(768, 512)
+        self.l2 = nn.Linear(512, 1)
         self.sigmoid = nn.Sigmoid()
         
     
     def forward(self, tokens, mask):
         _, pooled_output = self.bert(tokens)
-        linear_output = self.linear(pooled_output)
+        linear_output = self.l2(self.l1(pooled_output))
         proba = self.sigmoid(linear_output)
         return proba
 
