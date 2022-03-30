@@ -1,5 +1,6 @@
 import torch
-from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler, Dataset,SubsetRandomSampler
+import pandas as pd
+from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 from tqdm import tqdm, trange
 import pandas as pd
 import io
@@ -10,35 +11,8 @@ import random
 from transformers import (
     BertTokenizer,
     BertForQuestionAnswering,
-    BertModel,
-    #AutoTokenizer,
-    #AutoModelForQuestionAnswering
+    BertModel,    
 )
-import torch.nn as nn
-import torch.optim as optim
-import numpy as np
-from torchtext import data
-import pandas as pd
-import re
-import argparse
-from collections import Counter
-from sklearn.linear_model import LogisticRegression
-import requests
-
-class BertBinaryClassifier(nn.Module):
-    def __init__(self, dropout=0.1):
-        super(BertBinaryClassifier, self).__init__()
-        self.bert = BertModel.from_pretrained('bert-base-uncased')
-        self.l1 = nn.Linear(768, 512)
-        self.l2 = nn.Linear(512, 1)
-        self.sigmoid = nn.Sigmoid()
-        
-    
-    def forward(self, tokens, mask):
-        _, pooled_output = self.bert(tokens)
-        linear_output = self.l2(self.l1(pooled_output))
-        proba = self.sigmoid(linear_output)
-        return proba
 
 #helper returning the most frequent of a an array:
 def most_frequent(List): 
@@ -92,6 +66,7 @@ def process_json(data_path):
                 text.append(context)
                 num_questions.append(num)
     print("done")
+    
     return question, text, answer, is_impossible, ids, num_questions
 
 
@@ -104,7 +79,7 @@ def process_data(question, text, num_questions):
     return input_text
 
 
-def FC(percentage, EPOCHS, BATCH_SIZE):
+def get_CLS(percentage):
     question, text, answer, is_impossible, ids, num_questions = process_json("https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v2.0.json")
     input_text = process_data(question, text, num_questions)
     print("done")
@@ -113,7 +88,7 @@ def FC(percentage, EPOCHS, BATCH_SIZE):
     
     print(len(input_text))
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-    bert_clf = BertBinaryClassifier()
+    model = BertModel.from_pretrained('bert-base-uncased')
     print("working")
     input_ids = []
     max_len = 0
@@ -123,56 +98,36 @@ def FC(percentage, EPOCHS, BATCH_SIZE):
         if len(input_id) > max_len:
             max_len = len(input_id)
     
+    #append the maximum length of the sentence to the list of is_impossible
+    is_impossible.append(max_len)
+    is_impossible.to_csv("is_impossible.csv", encoding='utf-8', index=False)
+    
     padded = np.array([i + [0]*(max_len - len(i)) for i in input_ids])
     attention_mask = np.where(padded != 0, 1, 0)
     input_ids = torch.tensor(padded)
     print(input_ids.size)
     attention_mask = torch.tensor(attention_mask)
     print(attention_mask.size)
-
-    train_tokens_tensor = input_ids[:int(0.8*len(input_ids))]
-    train_y_tensor = torch.tensor(is_impossible[:int(0.8*len(input_ids))]).float().reshape(-1,1)
-    test_tokens_tensor = input_ids[int(0.8*len(input_ids)):]
-    test_y_tensor = torch.tensor(is_impossible[int(0.8*len(input_ids)):]).float().reshape(-1,1)
-
-    train_dataset = TensorDataset(train_tokens_tensor, train_y_tensor)
-    train_sampler = RandomSampler(train_dataset)
-    train_dataloader = DataLoader(train_dataset, sampler=train_sampler, batch_size=BATCH_SIZE)
-    test_dataset = TensorDataset(test_tokens_tensor, test_y_tensor)
-    test_sampler = SequentialSampler(test_dataset)
-    test_dataloader = DataLoader(test_dataset, sampler=test_sampler, batch_size=BATCH_SIZE)
-
-    optimizer = optim.Adam(bert_clf.parameters(), lr=3e-6)
-    loss_fn = nn.BCELoss()
+    with torch.no_grad():
+        last_hidden_states = model(input_ids, attention_mask = attention_mask)
+        print(last_hidden_states)
+        features = pd.DataFrame(last_hidden_states[0][:,0,:].numpy())
+        print(features)
+        features.to_csv("features.csv", encoding='utf-8', index=False)
+        
+    return features, is_impossible, max_len
     
-    bert_clf.train()
-    print('Training model...')
-    for epoch_num in range(EPOCHS):
-        for step_num, (token_ids, labels) in enumerate(train_dataloader):
-            probas = bert_clf(token_ids)
-            batch_loss = loss_fn(probas, labels)
-            bert_clf.zero_grad()
-            batch_loss.backward()
-            optimizer.step()
-            print("epoch_num = " + epoch_num + " step_num = " + step_num)
-    print('Training Completed')
-    torch.save(bert_clf.state_dict(), "model.pt")
+def logisticReg():
+    #features,is_impossible, max_len = get_CLS()
+    is_impossible = pd.read_csv('is_impossible.csv')
+    max_len = is_impossible[-1]
+    is_impossible = is_impossible[:-1]
+    features = pd.read_csv('features.csv')
+    
+    log_model = LogisticRegression()
+    log_model.fit(features,is_impossible)
+    print("finished")
+    return log_model, max_len
 
-    bert_clf.eval()
-    print('Evaluating model...')
-    correct = 0
-    for batch_index, (input_t, y) in enumerate(test_dataloader):
-        preds = bert_clf(input_t)
-        p = preds.reshape(-1).detach().numpy().round()
-        y1 = y.reshape(-1).detach().numpy()
-        for i in range(len(p)):
-            if p[i] == y1[i]:
-                correct = correct + 1                        
-        loss = loss_fn(preds, y)
-        print(f"Loss: {loss.detach()}")
-
-    print("Accuracy={}".format(correct/(0.2*len(input_ids))))
-
-
-if __name__ == '__main__':
-    FC(0.95, 5, 32)
+if __name__ == '__main__':    
+    get_CLS()
