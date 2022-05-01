@@ -8,7 +8,7 @@ from haystack.document_stores import ElasticsearchDocumentStore
 from pathlib import Path
 import json
 import re
-import convert_pdf_to_string, answer from pipeline
+from pipeline import convert_pdf_to_string, answer 
 import heapq
 
 
@@ -200,13 +200,13 @@ def get_evaluation(data_path, len_ans, len_retr, pipe):
   return p, r, f1
 
 if __name__ == '__main__':
-    document_store = FAISSDocumentStore(faiss_index_factory_str="Flat", sql_url= "sqlite:///haystack_test_faiss.db")
-    document_store = document_store.load(index_path="haystack_test_faiss", config_path="haystack_test_faiss_config")
-	  create_passages(doc_dir, document_store)
-    retriever, pipe = create_dpr(document_store)
+  document_store = FAISSDocumentStore(faiss_index_factory_str="Flat", sql_url= "sqlite:///haystack_test_faiss.db")
+  document_store = document_store.load(index_path="haystack_test_faiss", config_path="haystack_test_faiss_config")
+  create_passages(doc_dir, document_store)
+  retriever, pipe = create_dpr(document_store)
 
-    len_ans = 5
-    len_retr = 10
+  len_ans = 5
+  len_retr = 10
 
-    p, r, f1 = get_evaluation(data_path, len_ans, len_retr, pipe)
-    print(p, r, f1)
+  p, r, f1 = get_evaluation(data_path, len_ans, len_retr, pipe)
+  print(p, r, f1)

@@ -1,4 +1,5 @@
 Flask
-gunicorn
-futures
 farm-haystack
+farm-haystack[faiss]
+pdfminer
+futures
