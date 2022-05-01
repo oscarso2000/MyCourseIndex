@@ -11,8 +11,7 @@ import random
 from transformers import (
     BertTokenizer,
     BertForQuestionAnswering,
-    BertModel,
-    
+    BertModel
 )
 
 #helper returning the most frequent of a an array:
