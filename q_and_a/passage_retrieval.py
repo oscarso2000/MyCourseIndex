@@ -30,11 +30,11 @@ def create_dpr(document_store):
     embed_title=True,
     use_fast_tokenizers=True,
     )
-    document_store.update_embeddings(retriever)
-    document_store.save(index_path="haystack_test_faiss", config_path="haystack_test_faiss_config")
-    reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=True, progress_bar=False, top_k_per_candidate=2)
-    pipe = ExtractiveQAPipeline(reader, retriever)
-    return retriever, pipe
+    # document_store.update_embeddings(retriever)
+    # document_store.save(index_path="haystack_test_faiss", config_path="haystack_test_faiss_config")
+    # reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=True, progress_bar=False, top_k_per_candidate=2)
+   
+    return retriever
 
 '''
 ensemble retriever

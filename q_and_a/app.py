@@ -3,8 +3,9 @@ from haystack.document_stores import FAISSDocumentStore
 from haystack.pipelines import ExtractiveQAPipeline
 from passage_retrieval import create_dpr
 
-document_store = FAISSDocumentStore(sql_url= "sqlite:///haystack_test_faiss.db")
-document_store.load(index_path="haystack_test_faiss", config_path="haystack_test_faiss_config")
+# document_store = FAISSDocumentStore(sql_url= "sqlite:///haystack_test_faiss.db")
+# document_store.load(index_path="haystack_test_faiss", config_path="haystack_test_faiss_config")
+document_store = FAISSDocumentStore.load(index_path="my_faiss_index.faiss", config_path="my_faiss_index.json")
 retriever = create_dpr(document_store)
 reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=True, progress_bar=False, top_k_per_candidate=2)
 pipe = ExtractiveQAPipeline(reader, retriever)
@@ -27,7 +28,7 @@ def home():
 def set_embeded():
     """Return a friendly HTTP greeting."""
     # document_store.write_documents()
-    document_store.update_embeddings(retriever)
+    document_store.update_embeddings(retriever, update_existing_embeddings=False)
     return json.dumps({'status':'Susccess','message': 'Sucessfully embeded method updated in ElasticSearch Document', 'result': []})
 
 @app.route('/update_document', methods=['POST'])

@@ -1,0 +1,5 @@
+{
+  "faiss_index_factory_str": "Flat",
+  "embedding_dim": 768,
+  "faiss_config_path": "my_faiss_index.json"
+}
