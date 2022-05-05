@@ -2,7 +2,7 @@ from flask import Flask, request, render_template, make_response
 from haystack.document_stores import FAISSDocumentStore
 from haystack.nodes import PDFToTextConverter, PreProcessor, FARMReader, DensePassageRetriever
 from haystack.pipelines import ExtractiveQAPipeline
-from passage_retrieval import create_dpr, joinParagraph
+# from passage_retrieval import create_dpr, joinParagraph
 import pymysql
 import json
 import os
@@ -13,11 +13,32 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin_mci:mycourseindex
 app.config["input"] = "/data/input"
 app.config["host"] = "0.0.0.0"
 
-document_store = FAISSDocumentStore(sql_url= app.config['SQLALCHEMY_DATABASE_URI'], faiss_index_factory_str="Flat",return_embedding=True)
+def create_dpr(document_store):
+    retriever = DensePassageRetriever(
+    document_store=document_store,
+    query_embedding_model="facebook/dpr-question_encoder-single-nq-base",
+    passage_embedding_model="facebook/dpr-ctx_encoder-single-nq-base",
+    max_seq_len_query=64,
+    max_seq_len_passage=256,
+    batch_size=16,
+    use_gpu=True,
+    embed_title=True,
+    use_fast_tokenizers=True,
+    )
+    # document_store.update_embeddings(retriever)
+    # document_store.save(index_path="haystack_test_faiss", config_path="haystack_test_faiss_config")
+    # reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=True, progress_bar=False, top_k_per_candidate=2)
+   
+    return retriever
+
+def joinParagraph(str):
+    s = str.replace('\n', ' ').replace('*', '').replace('%temp%', 'e').replace('```{code-cell} ocaml', '').replace('\ ', '').replace('`', '')
+    return re.sub('\\\s',' ', s)
+# document_store = FAISSDocumentStore(sql_url= app.config['SQLALCHEMY_DATABASE_URI'],return_embedding=True)
 # document_store.load(index_path="haystack_test_faiss", config_path="haystack_test_faiss_config")
-# document_store = FAISSDocumentStore.load(index_path="my_faiss_index.faiss", config_path="my_faiss_index.json")
+document_store = FAISSDocumentStore.load(index_path="my_faiss_index.faiss", config_path="my_faiss_index.json")
 retriever = create_dpr(document_store)
-reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=True, progress_bar=False, top_k_per_candidate=2)
+reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=True, progress_bar=False)
 pipe = ExtractiveQAPipeline(reader, retriever)
 
 
