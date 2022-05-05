@@ -1,5 +1,6 @@
 Flask
 farm-haystack
 farm-haystack[faiss]
+PyMySQL
 pdfminer
 futures
