@@ -1,10 +1,45 @@
 from flask import Flask, request, render_template, make_response
-from haystack.document_stores import FAISSDocumentStore
+# from haystack.document_stores import FAISSDocumentStore
+from haystack.document_stores import ElasticsearchDocumentStore
+from haystack.document_stores.es_converter import elasticsearch_index_to_document_store
+from haystack.nodes import ElasticsearchRetriever, EmbeddingRetriever
 from haystack.pipelines import ExtractiveQAPipeline
 from passage_retrieval import create_dpr
 
-document_store = FAISSDocumentStore(sql_url= "sqlite:///haystack_test_faiss.db")
-document_store.load(index_path="haystack_test_faiss", config_path="haystack_test_faiss_config")
+# document_store = FAISSDocumentStore(sql_url= "sqlite:///haystack_test_faiss.db")
+# document_store.load(index_path="haystack_test_faiss", config_path="haystack_test_faiss_config")
+
+cluster_ip = "https://es.mci.mycourseindex.com" 
+# cluster_ip = "http://18.191.198.23:9200"
+
+document_store = ElasticsearchDocumentStore(
+    host = cluster_ip,
+    scheme="https",
+    api_key_id="mciesaccess",
+    api_key="$apr1$0jnrOVl.$jS2m8nwTlkXkoJHMNq2RQ/"
+)
+
+
+
+
+basic_auth = (
+    "$apr1$0jnrOVl.$jS2m8nwTlkXkoJHMNq2RQ/",
+    "mciesoscar",
+)
+
+# new_ds = elasticsearch_index_to_document_store(
+#     document_store=empty_document_store,
+#     original_content_field="content",
+#     original_index_name="document",
+#     original_name_field="title",
+#     preprocessor=preprocessor,
+#     port=cluster_ip,
+#     verify_certs=False,
+#     scheme="https",
+#     username="mciesaccess",
+#     password="$apr1$0jnrOVl.$jS2m8nwTlkXkoJHMNq2RQ/"
+# )
+
 retriever = create_dpr(document_store)
 reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=True, progress_bar=False, top_k_per_candidate=2)
 pipe = ExtractiveQAPipeline(reader, retriever)
