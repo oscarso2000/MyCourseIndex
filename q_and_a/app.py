@@ -36,18 +36,15 @@ def joinParagraph(str):
     return re.sub('\\\s',' ', s)
 # document_store = FAISSDocumentStore(sql_url= app.config['SQLALCHEMY_DATABASE_URI'],return_embedding=True)
 # document_store.load(index_path="haystack_test_faiss", config_path="haystack_test_faiss_config")
-document_store = FAISSDocumentStore.load(index_path="my_faiss_index.faiss", config_path="my_faiss_index.json")
-retriever = create_dpr(document_store)
-reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=True, progress_bar=False)
-pipe = ExtractiveQAPipeline(reader, retriever)
 
-
-
-@app.route("/query")
-def query(q):
-    prediction = pipe.run(query=q, params={"Retriever": {"top_k": 10}, "Reader": {"top_k": 5}})
-    ans = [prediction['answers'][i].answer for i in range(len_ans)]
-    return json.dumps({'status':'success','message': 'Process succesfully', 'result': answer})
+@app.route("/query",methods=['POST'])
+def query():
+    q=request.form['question']
+    len_ans=request.form['lenans']
+    prediction = pipe.run(query=q, params={"Retriever": {"top_k": 2}, "Reader": {"top_k": 1}})
+    # ans = [prediction['answers'][i].answer for i in range(len(prediction))]
+    # ans = prediction['answers'][0].answer
+    return json.dumps({'status':'success','message': 'Process succesfully', 'result': prediction})
 
 @app.route('/')
 def home():
@@ -60,7 +57,16 @@ def set_embed():
     """Return a friendly HTTP greeting."""
     # document_store.write_documents()
     document_store.update_embeddings(retriever, update_existing_embeddings=False)
-    return json.dumps({'status':'Susccess','message': 'Sucessfully embeded method updated in ElasticSearch Document', 'result': []})
+    document_store.save("new_faiss", "new_faiss_config")
+    return json.dumps({'status':'Susccess','message': 'Sucessfully embeded method updated in FAISS Document', 'result': document_store.get_embedding_count()})
+
+@app.route('/get_docs')
+def get_docs():
+    """Return a friendly HTTP greeting."""
+    # document_store.write_documents()
+    res=document_store.get_all_documents()
+    return json.dumps({'status':'Susccess','message': 'Sucessfully embeded method updated in FAISS Document', 'result': res)
+
 
 @app.route('/update_document', methods=['POST'])
 def update_document():
@@ -111,4 +117,8 @@ def update_document():
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
+    document_store = FAISSDocumentStore.load(index_path="my_faiss_index.faiss", config_path="my_faiss_index.json")
+    retriever = create_dpr(document_store)
+    reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=True, progress_bar=True)
+    pipe = ExtractiveQAPipeline(reader, retriever)
     app.run(host=app.config["host"], port=port, debug=True)
