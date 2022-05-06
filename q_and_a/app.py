@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, make_response
 from haystack.document_stores import FAISSDocumentStore
 from haystack.nodes import PDFToTextConverter, PreProcessor, FARMReader, DensePassageRetriever
 from haystack.pipelines import ExtractiveQAPipeline
+from pipeline import answer
 # from passage_retrieval import create_dpr, joinParagraph
 import pymysql
 import json
@@ -34,17 +35,32 @@ def create_dpr(document_store):
 def joinParagraph(str):
     s = str.replace('\n', ' ').replace('*', '').replace('%temp%', 'e').replace('```{code-cell} ocaml', '').replace('\ ', '').replace('`', '')
     return re.sub('\\\s',' ', s)
-# document_store = FAISSDocumentStore(sql_url= app.config['SQLALCHEMY_DATABASE_URI'],return_embedding=True)
-# document_store.load(index_path="haystack_test_faiss", config_path="haystack_test_faiss_config")
+
+@app.route("/query_pipe",methods=['POST'])
+def query_pipe():
+    q=request.form['question']
+    len_ans=int(request.form['lenans'])
+    len_retriever=int(request.form['lenretr'])
+    prediction = pipe.run(query=q, params={"Retriever": {"top_k": len_retriever}, "Reader": {"top_k": len_ans}})
+    doc_ids = [prediction['answers'][i]['document_id'] for i in range(len_ans)]
+    docs = document_store.get_documents_by_id(doc_ids)
+    docs = [x.context for d in docs]
+    ans = [prediction['answers'][i].answer for i in range(len_ans)]
+    return json.dumps({
+        'status':'success',
+        'message': 'Process succesfully', 
+        'result': ans,
+        'context': docs})
 
 @app.route("/query",methods=['POST'])
 def query():
     q=request.form['question']
-    len_ans=request.form['lenans']
-    prediction = pipe.run(query=q, params={"Retriever": {"top_k": 2}, "Reader": {"top_k": 1}})
-    # ans = [prediction['answers'][i].answer for i in range(len(prediction))]
-    # ans = prediction['answers'][0].answer
-    return json.dumps({'status':'success','message': 'Process succesfully', 'result': prediction})
+    len_ans=int(request.form['lenans'])
+    len_retriever=int(request.form['lenretr'])
+    context = retriever.retrieve(query=q, top_k=len_retriever)
+    # prediction = pipe.run(query=q, params={"Retriever": {"top_k": len_retriever}, "Reader": {"top_k": len_ans}})
+    ans = answer(1, context, q)
+    return json.dumps({'status':'success','message': 'Process succesfully', 'result': ans})
 
 @app.route('/')
 def home():
@@ -57,15 +73,15 @@ def set_embed():
     """Return a friendly HTTP greeting."""
     # document_store.write_documents()
     document_store.update_embeddings(retriever, update_existing_embeddings=False)
-    document_store.save("new_faiss", "new_faiss_config")
+    document_store.save("haystack_test_faiss", "haystack_test_faiss_config")
     return json.dumps({'status':'Susccess','message': 'Sucessfully embeded method updated in FAISS Document', 'result': document_store.get_embedding_count()})
 
 @app.route('/get_docs')
 def get_docs():
     """Return a friendly HTTP greeting."""
     # document_store.write_documents()
-    res=document_store.get_all_documents()
-    return json.dumps({'status':'Susccess','message': 'Sucessfully embeded method updated in FAISS Document', 'result': res)
+    res=document_store.get_all_documents()[0].content
+    return json.dumps({'status':'Susccess','message': 'Sucessfully embeded method updated in FAISS Document', 'result': res})
 
 
 @app.route('/update_document', methods=['POST'])
@@ -81,7 +97,6 @@ def update_document():
 
         # saving the file to the input directory
         doc.save(file_path)
-        #initialization of the Haystack Elasticsearch document storage
        
         # convert the pdf files into dictionary and update to ElasticSearch Document
         # dicts = convert_files_to_dicts(
@@ -117,8 +132,8 @@ def update_document():
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    document_store = FAISSDocumentStore.load(index_path="my_faiss_index.faiss", config_path="my_faiss_index.json")
+    document_store = FAISSDocumentStore.load(index_path="haystack_test_faiss", config_path="haystack_test_faiss_config")
     retriever = create_dpr(document_store)
-    reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=True, progress_bar=True)
+    reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=True, progress_bar=True, return_no_answer=True)
     pipe = ExtractiveQAPipeline(reader, retriever)
     app.run(host=app.config["host"], port=port, debug=True)
