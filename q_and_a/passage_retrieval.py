@@ -1,4 +1,4 @@
-from haystack.nodes import TextConverter, PDFToTextConverter, PreProcessor, FARMReader, TransformersReader, DensePassageRetriever
+from haystack.nodes import TextConverter, PDFToTextConverter, PreProcessor, FARMReader, DensePassageRetriever
 from haystack.document_stores import FAISSDocumentStore
 from haystack.pipelines import ExtractiveQAPipeline, JoinDocuments
 from haystack import Pipeline

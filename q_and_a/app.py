@@ -2,8 +2,8 @@ from flask import Flask, request, render_template, make_response
 from haystack.document_stores import FAISSDocumentStore
 from haystack.nodes import PDFToTextConverter, PreProcessor, FARMReader, DensePassageRetriever
 from haystack.pipelines import ExtractiveQAPipeline
+from haystack.schema import Document
 from pipeline import answer
-# from passage_retrieval import create_dpr, joinParagraph
 import pymysql
 import json
 import os
@@ -11,7 +11,8 @@ import os
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin_mci:mycourseindex-qa@database-qa.cp4ury9dboly.us-east-1.rds.amazonaws.com/qa_docstore'
-app.config["input"] = "/data/input"
+# app.config["input"] = "/usr/src/app/data/input"
+app.config["input"] = "./data/input"
 app.config["host"] = "0.0.0.0"
 
 def create_dpr(document_store):
@@ -42,9 +43,9 @@ def query_pipe():
     len_ans=int(request.form['lenans'])
     len_retriever=int(request.form['lenretr'])
     prediction = pipe.run(query=q, params={"Retriever": {"top_k": len_retriever}, "Reader": {"top_k": len_ans}})
-    doc_ids = [prediction['answers'][i]['document_id'] for i in range(len_ans)]
+    doc_ids = [prediction['answers'][i].document_id for i in range(len_ans)]
     docs = document_store.get_documents_by_id(doc_ids)
-    docs = [x.context for d in docs]
+    docs = [d.content for d in docs]
     ans = [prediction['answers'][i].answer for i in range(len_ans)]
     return json.dumps({
         'status':'success',
@@ -84,31 +85,22 @@ def get_docs():
     return json.dumps({'status':'Susccess','message': 'Sucessfully embeded method updated in FAISS Document', 'result': res})
 
 
-@app.route('/update_document', methods=['POST'])
+@app.route('/update_docstore_pdf', methods=['POST'])
 def update_document():
     """Return a the url of the index document."""
     if request.files:
-        # index is the target document where queries need to sent.
-        index = request.form['index']
+        prev = document_store.get_document_count()
         # uploaded document for target source
         doc = request.files["doc"]
-
         file_path = os.path.join(app.config["input"], doc.filename)
-
         # saving the file to the input directory
         doc.save(file_path)
-       
-        # convert the pdf files into dictionary and update to ElasticSearch Document
-        # dicts = convert_files_to_dicts(
-        #     app.config["input"],
-        #     clean_func=clean_wiki_text,
-        #     split_paragraphs=False)
-        
+        # convert the pdf files into dictionary and update to Document
         converter = PDFToTextConverter(remove_numeric_tables=True, valid_languages=["en"])
         # doc_pdf = converter.convert(file_path=Path(f"{doc_dir}/3110.pdf"), meta=None)[0]
         doc_pdf = converter.convert(file_path=filepath, meta=None)[0]
         doc_pdf.content = join_Paragraph(doc_pdf.content)
-        # doc_pdf = convert_pdf_to_string(file_path)
+        
         preprocessor = PreProcessor(
         clean_empty_lines=True,
         clean_whitespace=True,
@@ -119,19 +111,83 @@ def update_document():
         )
         docs_default = preprocessor.process(doc_pdf)
         
-        document_store.write_documents(dicts)
-        os.remove(file_path)
+        document_store.write_documents(docs_default)
+        now = document_store.get_document_count()
+        # os.remove(file_path)
         
         return json.dumps(
-            {'status':'Susccess','message':
-                'document available at http://'+ app.config["host"] +':'
-                + app.config['SQLALCHEMY_DATABASE_URI'] +'/' + index + '/_search',
-                'result': []})
+            {'status':'Susccess', 'result': {'file': doc.filename, 'prevcount': prev, "currcount": now}})
+    else:
+        return json.dumps({'status':'Failed','message': 'No file uploaded', 'result': []})
+
+@app.route('/update_docstore_json', methods=['POST'])
+def update_json():
+    # doc.seek(0)
+    # contents = doc.read()
+    prev = document_store.get_document_count()
+    filename = request.form['filename']
+    file_path = os.path.join(app.config["input"], filename)
+    with open(str(file_path), 'r') as j:
+        contents = json.load(j)
+    
+    contentlists=[]
+    for x in contents:
+        # print(x.keys())
+        ans = [i['content'] for i in x['_source']['answers']]
+        # x.clear()
+        # x['content'] = x['_source']['content'] + '.'.join(ans)
+        contentlists.append({'content': x['_source']['content'] + '.'.join(ans)})
+    
+    field_map = {"content": "content"}
+    contentlists = [Document.from_dict(d) for d in contentlists]
+
+    document_store.write_documents(contentlists)
+    os.remove(file_path)
+    now = document_store.get_document_count()
+
+    return json.dumps(
+            {'status':'Susccess', 'result': {'file': filename, 'prevcount': prev, "currcount": now}})
+    # else:
+    #     return json.dumps({'status':'Failed','message': 'No file uploaded', 'result': []})
+
+
+@app.route('/upload_document', methods=['POST'])
+def upload_document():
+    """Return a the url of the index document."""
+    if request.files:
+        # uploaded document for target source
+        prev = document_store.get_document_count()
+        doc = request.files["doc"]
+        file_path = os.path.join(app.config["input"], doc.filename)
+        # saving the file to the input directory
+        doc.save(file_path)
+        # with open(str(file_path), 'r') as j:
+        # doc.seek(0)
+        # contents = doc.read()
+        # for x in contents:
+        #     ans = [i['content'] for i in x['_source']['answers']]
+        #     x['content'] = x['_source']['content'] + '.'.join(ans)
+        # field_map = {"content": "content"}
+        # contentlists = [Document.from_dict(d) for d in content]
+
+        # document_store.write_documents(contentlists)
+        # # os.remove(file_path)
+        now = document_store.get_document_count()
+        
+        return json.dumps(
+            {'status':'Susccess', 'result': {'file': doc.filename, 'prevcount': prev, "currcount": now}})
     else:
         return json.dumps({'status':'Failed','message': 'No file uploaded', 'result': []})
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
+# document_store = ElasticsearchDocumentStore(
+#     host = cluster_ip,
+#     scheme="https",
+#     index='cs_4780_sp2021',
+#     username="mciesaccess",
+#     password="mcioscar"
+# )
     document_store = FAISSDocumentStore.load(index_path="haystack_test_faiss", config_path="haystack_test_faiss_config")
     retriever = create_dpr(document_store)
     reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=True, progress_bar=True, return_no_answer=True)
