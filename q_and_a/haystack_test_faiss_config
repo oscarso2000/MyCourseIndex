@@ -1,0 +1,1 @@
+{"sql_url": "mysql+pymysql://admin_mci:mycourseindex-qa@database-qa.cp4ury9dboly.us-east-1.rds.amazonaws.com/qa", "faiss_index_factory_str": "Flat", "return_embedding": true, "embedding_dim": 768, "faiss_config_path": "haystack_test_faiss_config"}

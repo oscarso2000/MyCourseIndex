@@ -39,7 +39,9 @@ def passed_arguments():
 	return args
 
 
-# imp_toggle = true if want to include impossible
+'''
+Function to process json file into question, context, answer, impossible toggle, and the id
+'''
 def process_json(data_path, imp_toggle):
   question = []
   text = []
@@ -67,22 +69,25 @@ def process_data(question, text):
   return input_text
 
 
-#returns the tokenizer and model associated with the model id
-# 0 = bert
-# 1 = distilbert
+'''
+Function that returns the tokenizer and model associated with the model id
+ 0 = bert
+ 1 = distilbert
+'''
 def model_pick(id):
   if (id == 0):
     tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
     model = BertForQuestionAnswering.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
-  if (id == 1):
+  elif (id == 1):
     tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased-distilled-squad")
     model = AutoModelForQuestionAnswering.from_pretrained("distilbert-base-uncased-distilled-squad")
 
   return tokenizer, model
 
 
-#pre-trained bert runs on evaluation sets
-#return list of tokens for each question id
+'''
+Function returns predictions of given model_id
+'''
 def predictions(model_id, input_text, print_some_outputs = True):
 
   tokenizer, model = model_pick(model_id)
@@ -114,8 +119,11 @@ def predictions(model_id, input_text, print_some_outputs = True):
   return preds
 
 
-#returns the precision, recall, and f1 score
-#preds and labels should be tokenized
+'''
+Function that returns metrics on the predicted values 
+Returns the precision, recall, and f1 score
+Note: preds and labels should be tokenized
+'''
 def evaluate(preds, labels, questions, ids, model_id):
 
   tokenizer, _ = model_pick(model_id)

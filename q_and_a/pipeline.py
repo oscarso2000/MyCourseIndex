@@ -57,8 +57,8 @@ def model_pick(id):
     tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
     model = BertForQuestionAnswering.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
   if (id == 1):
-    tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased-distilled-squad")
-    model = AutoModelForQuestionAnswering.from_pretrained("distilbert-base-uncased-distilled-squad")
+    tokenizer = AutoTokenizer.from_pretrained("deepset/roberta-base-squad2")
+    model = AutoModelForQuestionAnswering.from_pretrained("deepset/roberta-base-squad2")
 
   return tokenizer, model
 
