@@ -20,7 +20,7 @@
         "bootstrap": "^4.4.1",
         "chai": "^4.2.0",
         "compression": "^1.7.3",
-        "express": "^4.16.3",
+        "express": "^4.17.3",
         "focus-trap-react": "^6.0.0",
         "git": "^0.1.5",
         "jquery-match-height": "^0.7.2",
